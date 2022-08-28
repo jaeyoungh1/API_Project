@@ -36,10 +36,10 @@ router.post(
         }
 
         await setTokenCookie(res, user);
+        let result = user.toJSON()
+        result.token = ""
 
-        return res.json({
-            user
-        });
+        return res.json(result);
     }
 );
 

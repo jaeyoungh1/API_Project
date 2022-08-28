@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       });
       if (user && user.validatePassword(password)) {
+ 
         return await User.scope('currentUser').findByPk(user.id);
       }
     }
@@ -89,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     scopes: {
       currentUser: {
-        attributes: { exclude: ["hashedPassword"] }
+        attributes: { exclude: ["hashedPassword", "createdAt", "updatedAt"]}
       },
       loginUser: {
         attributes: {}
