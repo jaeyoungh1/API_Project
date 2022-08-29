@@ -4,16 +4,16 @@ const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const validateSignup = [
     check('firstName')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid first name.'),
+        .withMessage("First Name is required"),
     check('lastName')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid first name.'),
+        .withMessage("Last Name is required"),
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
@@ -37,16 +37,45 @@ const validateSignup = [
 router.post(
     '/',
     validateSignup,
-    async (req, res) => {
+    async (req, res, next) => {
         const { firstName, lastName, email, password, username } = req.body;
+
+        const existingEmail = await User.findAll({
+            where: {
+                email: email
+            }
+        })
+        const existingUsername = await User.findAll({
+            where: {
+                username
+            }
+        })
+
+        if (existingEmail) {
+            const err = new Error('User already exists')
+            err.status = 403
+            err.errors = { "email": "User with that email already exists" }
+            next(err)
+        } else if (existingUsername) {
+            const err = new Error('User already exists')
+            err.status = 403
+            err.errors = { "username": "User with that username already exists" }
+            next(err)
+        }
+
         const user = await User.signup({ firstName, lastName, email, username, password });
 
         await setTokenCookie(res, user);
 
-        return res.json({
-            user
-        });
+        let result = await user.toJSON()
+        result.token = ""
+
+        return res.json(
+            result
+        );
     }
 );
+
+
 
 module.exports = router;

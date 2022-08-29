@@ -10,11 +10,13 @@ const router = express.Router();
 const validateLogin = [
     check('credential')
         .exists({ checkFalsy: true })
+        .withMessage("Email or username is required")
+
         .notEmpty()
-        .withMessage('Please provide a valid email or username.'),
+        .withMessage("Email or username is required"),
     check('password')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a password.'),
+        .withMessage('Password is required'),
     handleValidationErrors
 ];
 
@@ -30,9 +32,17 @@ router.post(
         if (!user) {
             const err = new Error('Login failed');
             err.status = 401;
-            err.title = 'Login failed';
-            err.errors = ['The provided credentials were invalid.'];
-            return next(err);
+            // err.title = 'Login failed';
+            // err.errors = ["Invalid credentials"];
+            err.message = "Invalid credentials"
+            next(err);
+            res.status(401)
+            // return res.json({
+
+            //     "message": "Invalid credentials",
+            //     "statusCode": err.status
+
+            // })
         }
 
         await setTokenCookie(res, user);
@@ -59,11 +69,12 @@ router.get(
     (req, res) => {
         const { user } = req;
         if (user) {
-            return res.json({
-                user: user.toSafeObject()
-            });
+            return res.json(
+                user.toSafeObject()
+            );
         } else return res.json({});
     }
 );
+
 
 module.exports = router;

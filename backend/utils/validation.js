@@ -5,15 +5,24 @@ const { validationResult } = require('express-validator');
 const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
 
-    if (!validationErrors.isEmpty()) {
-        const errors = validationErrors
-            .array()
-            .map((error) => `${error.msg}`);
+    const errorFormatter = ({ msg, param }) => {
+        // https://express-validator.github.io/docs/validation-result-api.html#formatwithformatter
+        return `param: ${param}: ${msg}`
+    }
 
-        const err = Error('Bad request.');
+    if (!validationErrors.isEmpty()) {
+
+        const errors = validationErrors
+            // .array()
+            .formatWith(errorFormatter)
+            // .mapped()
+        // .map((error) => `${error.msg}`);
+        console.log("ERRORS ARE", errors)
+
+        const err = Error('Validation Error with login');
         err.errors = errors;
         err.status = 400;
-        err.title = 'Bad request.';
+        err.title = 'Bad request with login.';
         next(err);
     }
     next();
