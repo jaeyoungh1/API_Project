@@ -96,9 +96,30 @@ router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
             exclude: ['previewImage']
         },
     })
-
-
     return res.json(spots)
+})
+
+//create spot
+router.post('/', requireAuth, async (req, res, _net) => {
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    let {address, city, state, country, lat, lng, name, description, price} = req.body
+
+    const newSpot = await Spot.create({
+        ownerId: currentUserId,
+        address: address,
+        city: city,
+        state: state,
+        country: country,
+        lat: lat,
+        lng: lng,
+        name: name,
+        description: description,
+        price: price
+    })
+    return res.json(newSpot)
 })
 
 
