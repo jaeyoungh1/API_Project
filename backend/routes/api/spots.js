@@ -210,7 +210,7 @@ router.put('/:spotId/',
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId)
-    
+
     if (!spot) {
         res.status(404)
         return res.json({
@@ -241,6 +241,35 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     return res.json(result)
 })
 
+//get spot's reviews
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    const reviews = await spot.getReviews({
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'imgUrl']
+            }
+        ]
+    })
+    let Reviews = await reviews
+    return res.json({ Reviews })
+})
+
+
 //delete spot
 router.delete('/:spotId', requireAuth, async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
@@ -252,7 +281,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
             "message": "Spot couldn't be found",
             "statusCode": res.statusCode
         })
-    } 
+    }
     //unauthorized editor 
     const { user } = req;
     let currentUser = user.toSafeObject()
