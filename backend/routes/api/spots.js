@@ -169,6 +169,14 @@ router.put('/:spotId/',
         const spot = await Spot.findByPk(req.params.spotId, {
             attributes: { exclude: ['previewImage'] } // remove this later
         })
+        //unable to find spot error
+        if (!spot) {
+            res.status(404)
+            return res.json({
+                "message": "Spot couldn't be found",
+                "statusCode": res.statusCode
+            })
+        }
         //unauthorized editor 
         const { user } = req;
         let currentUser = user.toSafeObject()
@@ -179,14 +187,6 @@ router.put('/:spotId/',
             throw new Error('User is unauthorized to edit this spot')
         }
 
-        //unable to find spot error
-        if (!spot) {
-            res.status(404)
-            return res.json({
-                "message": "Spot couldn't be found",
-                "statusCode": res.statusCode
-            })
-        }
 
         let { address, city, state, country, lat, lng, name, description, price } = req.body
 
@@ -302,7 +302,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
             spotId: req.params.spotId
         }
     })
-    if (existingReview) {
+    if (existingReview.length>0) {
         res.status(403)
         return res.json({
             "message": "User already has a review for this spot",
