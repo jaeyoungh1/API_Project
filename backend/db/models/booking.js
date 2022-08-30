@@ -30,18 +30,18 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "cascade"
     },
     startDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      validate: {
-        isDate: true
-      }
+      type: DataTypes.DATEONLY,
+      allowNull: false
     },
     endDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
-        isDate: true,
-        isAfter: this.startDate
+        startDateAfterEndDate() {
+          if (this.startDate > (this.endDate)) {
+            throw new Error('endDate cannot be on or before startDate.')
+          }
+        }
       }
     }
   }, {

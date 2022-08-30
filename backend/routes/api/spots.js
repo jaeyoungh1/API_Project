@@ -356,6 +356,67 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     return res.json({ Bookings })
 })
 
+
+//create a new booking
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    if (currentUserId === spot.ownerId) {
+        res.status(400)
+        throw new Error('User may not book a spot that belongs to them-- are you money laundering?? 💸')
+    }
+
+    const { startDate, endDate } = req.body
+
+    const existingStartDate = await Booking.findAll({
+        where: {
+            startDate: startDate,
+            spotId: spot.id
+        }
+    })
+    const existingEndDate = await Booking.findAll({
+        where: {
+            endDate: endDate,
+            spotId: spot.id
+        }
+    })
+
+    //hmm messy error handling, change later
+    const errs = {}
+    if (existingStartDate.length > 0) errs.startDate = "Start date conflicts with an existing booking"
+    if (existingEndDate.length > 0) errs.endDate = "End date conflicts with an existing booking"
+
+    if (existingStartDate.length>0 || existingEndDate.length>0) {
+        res.status(403)
+        return res.json({
+            "message": "Sorry, this spot is already booked for the specified dates",
+            "statusCode": res.statusCode,
+            "errors": errs
+        })
+    }
+
+    console.log(startDate, endDate)
+    const newBooking = await Booking.create({
+        startDate: startDate,
+        endDate: endDate,
+        userId: currentUserId,
+        spotId: spot.id
+    })
+    return res.json(newBooking)
+})
+
 //delete spot
 router.delete('/:spotId', requireAuth, async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
