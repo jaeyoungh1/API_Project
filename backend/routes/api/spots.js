@@ -302,7 +302,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
             spotId: req.params.spotId
         }
     })
-    if (existingReview.length>0) {
+    if (existingReview.length > 0) {
         res.status(403)
         return res.json({
             "message": "User already has a review for this spot",
@@ -318,6 +318,42 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
     })
 
     return res.json(newReview)
+})
+
+//get spot's bookings
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    if (currentUserId == spot.ownerId) {
+        const bookings = await spot.getBookings({
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastname']
+                }
+            ]
+        })
+        let Bookings = await bookings
+        return res.json({ Bookings })
+    }
+
+    const bookings = await spot.getBookings({
+        attributes: ['spotId', 'startDate', 'endDate']
+    })
+    let Bookings = await bookings
+    return res.json({ Bookings })
 })
 
 //delete spot
