@@ -210,7 +210,14 @@ router.put('/:spotId/',
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId)
-
+    
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
     const { user } = req;
     let currentUser = user.toSafeObject()
     let currentUserId = currentUser.id
@@ -218,14 +225,6 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     if (currentUserId !== spot.ownerId) {
         res.status(400)
         throw new Error('User is unauthorized to add images to this spot')
-    }
-
-    if (!spot) {
-        res.status(404)
-        return res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": res.statusCode
-        })
     }
 
     const { url, preview } = req.body;
