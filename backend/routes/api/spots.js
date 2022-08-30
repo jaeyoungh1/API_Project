@@ -14,11 +14,6 @@ router.get('/', async (req, res, next) => {
 
         include: [
             {
-                model: SpotImage,
-                where: {preview: true},
-                attributes: ['imgUrl']
-            },
-            {
                 model: Review,
                 attributes: []
             }
@@ -47,10 +42,6 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
         where: { ownerId: currentUserId },
         include: [
             {
-                model: SpotImage,
-                attributes: ['imgUrl']
-            },
-            {
                 model: Review,
                 attributes: []
             }
@@ -69,18 +60,30 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
 
 //get all spots by id
 router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
+ //404 if ID not found ICK messy bc of eagerloading
+    let spot = await Spot.findByPk(req.params.spotId)
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
 
     const spots = await Spot.findByPk(req.params.spotId, {
         include: [
             {
                 model: SpotImage,
                 as: 'SpotImages',
-                attributes: ['id','imgUrl']
+                attributes: ['id', 'imgUrl', 'preview']
             },
             {
                 model: Review,
-                include: [{model: ReviewImage, attributes: ['id', 'imgUrl']}],
-                attributes: ['id']
+                attributes: []
+            },
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
             }
         ],
         attributes: {
@@ -89,9 +92,12 @@ router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
                     "avgStarRating" // remove avgrating
                 ]
-            ]
+            ],
+            exclude: ['previewImage']
         },
     })
+
+
     return res.json(spots)
 })
 
