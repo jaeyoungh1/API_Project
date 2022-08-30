@@ -167,7 +167,7 @@ router.put('/:spotId/',
     async (req, res, next) => {
 
         const spot = await Spot.findByPk(req.params.spotId, {
-            attributes: {exclude: ['previewImage']} // remove this later
+            attributes: { exclude: ['previewImage'] } // remove this later
         })
         //unauthorized editor 
         const { user } = req;
@@ -242,9 +242,17 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     return res.json(result)
 })
 
-router.delete('/:spotId', requireAuth, async (req,res) => {
+router.delete('/:spotId', requireAuth, async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
 
+    // no spot id error
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    } 
     //unauthorized editor 
     const { user } = req;
     let currentUser = user.toSafeObject()
@@ -253,14 +261,6 @@ router.delete('/:spotId', requireAuth, async (req,res) => {
     if (currentUserId !== spot.ownerId) {
         res.status(400)
         throw new Error('User is unauthorized to delete this spot')
-    }
-    //no spot id error
-    if (!spot) {
-        res.status(404)
-        return res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": res.statusCode
-        })
     }
 
     await spot.destroy()

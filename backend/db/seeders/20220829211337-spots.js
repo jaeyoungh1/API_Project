@@ -28,6 +28,20 @@ module.exports = {
         previewImage: "https://images.unsplash.com/photo-1631630259742-c0f0b17c6c10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
       },
       {
+        ownerId: 1,
+        address: "to delete address",
+        city: "San Francisco",
+        state: "California",
+        country: "United States of America",
+        lat: 39.8937,
+        lng: -125.9823647,
+        name: "to delete name",
+        description: "A tranquil contemplative nature retreat, in a magnificent setting surrounded by a creek, meadow and woodlands. You’ll love this place because of the light, the comfy beds and the location.",
+        price: 250,
+        avgRating: 4,
+        previewImage: "https://images.unsplash.com/photo-1631630259742-c0f0b17c6c10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+      },
+      {
         ownerId: 2,
         address: "2 DEF St",
         city: "Oakdale",

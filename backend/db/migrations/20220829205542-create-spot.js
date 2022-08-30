@@ -4,14 +4,13 @@ module.exports = {
     await queryInterface.createTable('Spots', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model: 'Users', key: 'id'},
+        references: { model: 'Users', key: 'id' },
         onDelete: "cascade"
       },
       address: {

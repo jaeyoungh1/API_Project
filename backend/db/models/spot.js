@@ -11,16 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Spot.hasMany(models.Booking, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId', onDelete: 'CASCADE', hooks:'true'
       }), //remove this?
         Spot.belongsTo(models.User, {
           foreignKey: "ownerId"
         }),
         Spot.hasMany(models.SpotImage, {
-          foreignKey: 'spotId'
+          foreignKey: 'spotId', onDelete: 'CASCADE', hooks:'true'
         }),
         Spot.hasMany(models.Review, {
-          foreignKey: 'spotId'
+          foreignKey: 'spotId', onDelete: 'CASCADE', hooks:'true'
         })
     }
   }
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {model: 'Users', key: 'id'},
+      references: { model: 'Users', key: 'id' },
       onDelete: 'cascade'
     },
     address: {
