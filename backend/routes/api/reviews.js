@@ -79,5 +79,76 @@ router.post('/:reviewId/images', requireAuth, restoreUser, async (req, res, next
     return res.json(result)
 })
 
+const validateReviewBody = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Review text is required'),
+    check('stars')
+        .isInt({ min: 1, max: 5 })
+        .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+]
+
+//update review
+router.put('/:reviewId', requireAuth, restoreUser, validateReviewBody, async (req, res, next) => {
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    const currentReview = await Review.findByPk(req.params.reviewId)
+
+    if (!currentReview) {
+        res.status(404)
+        return res.json({
+            "message": "Review couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    if (currentUserId !== currentReview.userId) {
+        res.status(400)
+        throw new Error('User is unauthorized to edit this review')
+    }
+
+    const { review, stars } = req.body
+
+    currentReview.set({
+        review: review,
+        stars: stars
+    })
+    await currentReview.save()
+
+    return res.json(currentReview)
+})
+
+//delete review
+router.delete('/:reviewId', requireAuth, restoreUser, async (req, res, next) => {
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    const currentReview = await Review.findByPk(req.params.reviewId)
+
+    if (!currentReview) {
+        res.status(404)
+        return res.json({
+            "message": "Review couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    if (currentUserId !== currentReview.userId) {
+        res.status(400)
+        throw new Error('User is unauthorized to delete this review')
+    }
+
+    await currentReview.destroy()
+
+    res.status(200)
+    return res.json({
+        "message": "Successfully deleted",
+        "statusCode": res.statusCode
+    })
+})
 
 module.exports = router;
