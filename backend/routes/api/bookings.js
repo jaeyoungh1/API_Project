@@ -25,7 +25,7 @@ router.get('/current', requireAuth, restoreUser, async (req,res,next) => {
     return res.json({ Bookings })
 })
 
-//update review
+//update booking
 router.put('/:bookingId', requireAuth, restoreUser,  async (req, res, next) => {
     const { user } = req;
     let currentUser = user.toSafeObject()
@@ -91,6 +91,48 @@ router.put('/:bookingId', requireAuth, restoreUser,  async (req, res, next) => {
     await currentBooking.save()
 
     return res.json(currentBooking)
+})
+
+//delete booking
+router.delete('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    const currentBooking = await Booking.findByPk(req.params.bookingId)
+
+    if (!currentBooking) {
+        res.status(404)
+        return res.json({
+            "message": "Booking couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    if (currentUserId !== currentBooking.userId) {
+        res.status(400)
+        throw new Error('User is unauthorized to delete this booking')
+    }
+
+    let today = new Date().toJSON().slice(0, 10);
+    let startDate = currentBooking.startDate
+    console.log(startDate)
+    console.log(startDate > today)
+    if (startDate > today) {
+        res.status(403)
+        return res.json({
+            "message": "Bookings that have been started can't be deleted",
+            "statusCode": res.statusCode
+        })
+    }
+
+    // await currentBooking.destroy()
+
+    res.status(200)
+    return res.json({
+        "message": "Successfully deleted",
+        "statusCode": res.statusCode
+    })
 })
 
 module.exports = router;

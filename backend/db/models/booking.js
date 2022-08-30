@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "cascade"
     },
     startDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
       allowNull: false
     },
     endDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         startDateAfterEndDate() {
