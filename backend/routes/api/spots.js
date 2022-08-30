@@ -165,38 +165,60 @@ router.put('/:spotId/',
     requireAuth,
     validateSpotBody,
     async (req, res, next) => {
-        
-    const spot = await Spot.findByPk(req.params.spotId)
-    //unable to find spot error
-    if (!spot) {
-        res.status(404)
-        return res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": res.statusCode
-        })
-    }
-    
-    let { address, city, state, country, lat, lng, name, description, price } = req.body
 
-    spot.set({
-        address: address,
-        city: city,
-        state: state,
-        country: country,
-        lat: lat,
-        lng: lng,
-        name: name,
-        description: description,
-        price: price
+        const spot = await Spot.findByPk(req.params.spotId, {
+            attributes: {exclude: ['previewImage']} // remove this later
+        })
+        //unauthorized editor 
+        const { user } = req;
+        let currentUser = user.toSafeObject()
+        let currentUserId = currentUser.id
+
+        if (currentUserId !== spot.ownerId) {
+            res.status(400)
+            throw new Error('User is unauthorized to edit this spot')
+        }
+
+        //unable to find spot error
+        if (!spot) {
+            res.status(404)
+            return res.json({
+                "message": "Spot couldn't be found",
+                "statusCode": res.statusCode
+            })
+        }
+
+        let { address, city, state, country, lat, lng, name, description, price } = req.body
+
+        spot.set({
+            address: address,
+            city: city,
+            state: state,
+            country: country,
+            lat: lat,
+            lng: lng,
+            name: name,
+            description: description,
+            price: price
+        })
+
+        await spot.save()
+        return res.json(spot)
     })
 
-    await spot.save()
-    return res.json(spot)
-})
-
 //add image to spot based on spotid
-router.post('/:spotId/images', async (req, res, next) => {
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+
     const spot = await Spot.findByPk(req.params.spotId)
+
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    if (currentUserId !== spot.ownerId) {
+        res.status(400)
+        throw new Error('User is unauthorized to add images to this spot')
+    }
 
     if (!spot) {
         res.status(404)
@@ -220,5 +242,34 @@ router.post('/:spotId/images', async (req, res, next) => {
     return res.json(result)
 })
 
+router.delete('/:spotId', requireAuth, async (req,res) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    //unauthorized editor 
+    const { user } = req;
+    let currentUser = user.toSafeObject()
+    let currentUserId = currentUser.id
+
+    if (currentUserId !== spot.ownerId) {
+        res.status(400)
+        throw new Error('User is unauthorized to delete this spot')
+    }
+    //no spot id error
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    await spot.destroy()
+
+    res.status(200)
+    return res.json({
+        "message": "Successfully deleted",
+        "statusCode": res.statusCode
+    })
+})
 
 module.exports = router;

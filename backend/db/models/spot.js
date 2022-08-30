@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, INTEGER
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
@@ -27,7 +27,9 @@ module.exports = (sequelize, DataTypes) => {
   Spot.init({
     ownerId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {model: 'Users', key: 'id'},
+      onDelete: 'cascade'
     },
     address: {
       type: DataTypes.STRING,
@@ -71,6 +73,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         min: 0
+      }
+    },
+    avgRating: {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: 0, max: 5
       }
     },
     previewImage: {
