@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Spot, Review, Booking, PreviewImage, ReviewImage, sequelize } = require('../../db/models');
+const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = require('../../db/models');
 
 
 //get all spots
@@ -14,7 +14,8 @@ router.get('/', async (req, res, next) => {
 
         include: [
             {
-                model: PreviewImage,
+                model: SpotImage,
+                where: {preview: true},
                 attributes: ['imgUrl']
             },
             {
@@ -46,7 +47,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
         where: { ownerId: currentUserId },
         include: [
             {
-                model: PreviewImage,
+                model: SpotImage,
                 attributes: ['imgUrl']
             },
             {
@@ -72,7 +73,7 @@ router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
     const spots = await Spot.findByPk(req.params.spotId, {
         include: [
             {
-                model: PreviewImage,
+                model: SpotImage,
                 as: 'SpotImages',
                 attributes: ['id','imgUrl']
             },
