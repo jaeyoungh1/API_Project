@@ -60,7 +60,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
 
 //get all spots by id
 router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
- //404 if ID not found ICK messy bc of eagerloading
+    //404 if ID not found ICK messy bc of eagerloading
     let spot = await Spot.findByPk(req.params.spotId)
     if (!spot) {
         res.status(404)
@@ -99,28 +99,66 @@ router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
     return res.json(spots)
 })
 
+const validateSpotBody = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .withMessage('Street address is required'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .withMessage('City is required'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .withMessage('State is required'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .withMessage('Country is required'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .isDecimal()
+        .withMessage('Latitude is not valid'),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .isDecimal()
+        .withMessage('Longitude is not valid'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 0, max: 50 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage('Description is required'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Price per day is required'),
+    handleValidationErrors
+];
+
+
 //create spot
-router.post('/', requireAuth, async (req, res, _net) => {
-    const { user } = req;
-    let currentUser = user.toSafeObject()
-    let currentUserId = currentUser.id
+router.post('/',
+    requireAuth,
+    validateSpotBody,
+    async (req, res, _net) => {
+        const { user } = req;
+        let currentUser = user.toSafeObject()
+        let currentUserId = currentUser.id
 
-    let {address, city, state, country, lat, lng, name, description, price} = req.body
+        let { address, city, state, country, lat, lng, name, description, price } = req.body
 
-    const newSpot = await Spot.create({
-        ownerId: currentUserId,
-        address: address,
-        city: city,
-        state: state,
-        country: country,
-        lat: lat,
-        lng: lng,
-        name: name,
-        description: description,
-        price: price
+        const newSpot = await Spot.create({
+            ownerId: currentUserId,
+            address: address,
+            city: city,
+            state: state,
+            country: country,
+            lat: lat,
+            lng: lng,
+            name: name,
+            description: description,
+            price: price
+        })
+        return res.json(newSpot)
     })
-    return res.json(newSpot)
-})
 
 
 module.exports = router;
