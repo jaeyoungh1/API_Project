@@ -12,21 +12,22 @@ const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = requi
 router.get('/', async (req, res, next) => {
     const spots = await Spot.findAll({
 
-        include: [
-            {
-                model: Review,
-                attributes: []
-            }
-        ],
-        attributes: {
-            include: [
-                [
-                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgRating" // change this to integers
-                ]
-            ]
-        },
+        // include: [
+        //     {
+        //         model: Review,
+        //         attributes: []
+        //     }
+        // ],
+        // attributes: {
+        //     include: [
+        //         [
+        //             sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+        //             "avgRating" // change this to integers
+        //         ]
+        //     ]
+        // },
     });
+    // const avgRating = await spots.
 
     return res.json({ Spots: spots })
 })
@@ -133,12 +134,11 @@ const validateSpotBody = [
     handleValidationErrors
 ];
 
-
 //create spot
 router.post('/',
     requireAuth,
     validateSpotBody,
-    async (req, res, _net) => {
+    async (req, res, _next) => {
         const { user } = req;
         let currentUser = user.toSafeObject()
         let currentUserId = currentUser.id
@@ -159,6 +159,66 @@ router.post('/',
         })
         return res.json(newSpot)
     })
+
+//edit spot based on spotid
+router.put('/:spotId/',
+    requireAuth,
+    validateSpotBody,
+    async (req, res, next) => {
+        
+    const spot = await Spot.findByPk(req.params.spotId)
+    //unable to find spot error
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+    
+    let { address, city, state, country, lat, lng, name, description, price } = req.body
+
+    spot.set({
+        address: address,
+        city: city,
+        state: state,
+        country: country,
+        lat: lat,
+        lng: lng,
+        name: name,
+        description: description,
+        price: price
+    })
+
+    await spot.save()
+    return res.json(spot)
+})
+
+//add image to spot based on spotid
+router.post('/:spotId/images', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": res.statusCode
+        })
+    }
+
+    const { url, preview } = req.body;
+
+    const newImg = await spot.createSpotImage({
+        imgUrl: url,
+        preview: preview
+    })
+
+    const result = await SpotImage.findByPk(newImg.id, {
+        attributes: { exclude: ['spotId', 'updatedAt', 'createdAt'] }
+    })
+
+    return res.json(result)
+})
 
 
 module.exports = router;
