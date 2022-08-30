@@ -81,13 +81,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         min: 0
       }
-    },
-    avgRating: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-      validate: {
-        min: 0, max: 5
-      }
     }
   }, {
     sequelize,
