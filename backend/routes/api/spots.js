@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
             include: [
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgStars" // change this to avgrating
+                    "avgRating" // change this to integers
                 ]
             ]
         },
