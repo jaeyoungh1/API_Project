@@ -12,22 +12,31 @@ const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = requi
 router.get('/', async (req, res, next) => {
     const spots = await Spot.findAll({
 
-        // include: [
-        //     {
-        //         model: Review,
-        //         attributes: []
-        //     }
-        // ],
-        // attributes: {
-        //     include: [
-        //         [
-        //             sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-        //             "avgRating" // change this to integers
-        //         ]
-        //     ]
-        // },
+        include: [
+            {
+                model: Review,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: [],
+                where: { preview: true }
+            }
+        ],
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                    "avgRating" // change this to avgrating
+                ],
+                [
+                    sequelize.col("SpotImages.imgUrl"),
+                    "previewImage"
+                ]
+            ]
+        },
+        group: ['Spot.id']
     });
-    // const avgRating = await spots.
 
     return res.json({ Spots: spots })
 })
@@ -45,21 +54,32 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             {
                 model: Review,
                 attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: [],
+                where: {preview: true}
             }
         ],
         attributes: {
             include: [
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgStars" // change this to avgrating
+                    "avgRating" // change this to avgrating
+                ],
+                [
+                    sequelize.col("SpotImages.imgUrl"),
+                    "previewImage" 
                 ]
             ]
         },
+        group: ['Spot.id']
     })
+    
     return res.json({ Spots: spots })
 })
 
-//get all spots by id
+//get spots details by id
 router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
     //404 if ID not found ICK messy bc of eagerloading
     let spot = await Spot.findByPk(req.params.spotId)
@@ -74,30 +94,46 @@ router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
     const spots = await Spot.findByPk(req.params.spotId, {
         include: [
             {
-                model: SpotImage,
-                as: 'SpotImages',
-                attributes: ['id', 'imgUrl', 'preview']
-            },
-            {
                 model: Review,
                 attributes: []
             },
-            {
-                model: User,
-                attributes: ['id', 'firstName', 'lastName']
-            }
         ],
         attributes: {
             include: [
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgStarRating" // remove avgrating
+                    "avgStarRating"
                 ]
             ],
             exclude: ['previewImage']
+        }
+    })
+
+    const images = await Spot.findByPk(req.params.spotId, {
+        include: {
+            model: SpotImage,
+            // as: 'SpotImages',
+            attributes: ['id', 'imgUrl', 'preview']
         },
     })
-    return res.json(spots)
+    const owner = await Spot.findByPk(req.params.spotId, {
+        include: {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+        },
+    })
+    const numReviews = await Review.count({
+        where: {spotId: spot.id}
+    })
+    console.log(numReviews)
+
+    const result = await spots.toJSON()
+    result.numReviews = numReviews
+    result.SpotImages = images.SpotImages
+    result.Owner = owner.User
+
+    // res.json(await images.SpotImages)
+    return res.json(result)
 })
 
 const validateSpotBody = [
@@ -398,7 +434,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     if (existingStartDate.length > 0) errs.startDate = "Start date conflicts with an existing booking"
     if (existingEndDate.length > 0) errs.endDate = "End date conflicts with an existing booking"
 
-    if (existingStartDate.length>0 || existingEndDate.length>0) {
+    if (existingStartDate.length > 0 || existingEndDate.length > 0) {
         res.status(403)
         return res.json({
             "message": "Sorry, this spot is already booked for the specified dates",
@@ -407,7 +443,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         })
     }
 
-    
+
     const newBooking = await Booking.create({
         startDate: startDate,
         endDate: endDate,
