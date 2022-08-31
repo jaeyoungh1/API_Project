@@ -7,7 +7,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = require('../../db/models');
 
-router.get('/current', requireAuth, restoreUser, async (req,res,next) => {
+router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     const { user } = req;
     let currentUser = user.toSafeObject()
     let currentUserId = currentUser.id
@@ -26,7 +26,7 @@ router.get('/current', requireAuth, restoreUser, async (req,res,next) => {
 })
 
 //update booking
-router.put('/:bookingId', requireAuth, restoreUser,  async (req, res, next) => {
+router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
     const { user } = req;
     let currentUser = user.toSafeObject()
     let currentUserId = currentUser.id
@@ -42,8 +42,13 @@ router.put('/:bookingId', requireAuth, restoreUser,  async (req, res, next) => {
     }
 
     if (currentUserId !== currentBooking.userId) {
-        res.status(400)
-        throw new Error('User is unauthorized to edit this booking')
+        res.status(403)
+        return res.json(
+            {
+                "message": "Forbidden",
+                "statusCode": 403
+            }
+        )
     }
 
     const { startDate, endDate } = req.body
@@ -110,8 +115,11 @@ router.delete('/:bookingId', requireAuth, restoreUser, async (req, res, next) =>
     }
 
     if (currentUserId !== currentBooking.userId) {
-        res.status(400)
-        throw new Error('User is unauthorized to delete this booking')
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })
     }
 
     let today = new Date().toJSON().slice(0, 10);

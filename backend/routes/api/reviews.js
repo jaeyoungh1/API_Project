@@ -51,9 +51,11 @@ router.post('/:reviewId/images', requireAuth, restoreUser, async (req, res, next
     }
 
     if (currentUserId !== review.userId) {
-        res.status(400)
-        throw new Error('User is unauthorized to edit this review')
-    }
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })    }
 
     let allImages = await ReviewImage.findAll({
         where: {reviewId: req.params.reviewId}
@@ -106,9 +108,11 @@ router.put('/:reviewId', requireAuth, restoreUser, validateReviewBody, async (re
     }
 
     if (currentUserId !== currentReview.userId) {
-        res.status(400)
-        throw new Error('User is unauthorized to edit this review')
-    }
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })    }
 
     const { review, stars } = req.body
 
@@ -138,9 +142,11 @@ router.delete('/:reviewId', requireAuth, restoreUser, async (req, res, next) => 
     }
 
     if (currentUserId !== currentReview.userId) {
-        res.status(400)
-        throw new Error('User is unauthorized to delete this review')
-    }
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })    }
 
     await currentReview.destroy()
 

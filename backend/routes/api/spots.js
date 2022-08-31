@@ -334,9 +334,11 @@ router.put('/:spotId/',
         let currentUserId = currentUser.id
 
         if (currentUserId !== spot.ownerId) {
-            res.status(400)
-            throw new Error('User is unauthorized to edit this spot')
-        }
+            res.status(403)
+            return res.json({
+                "message": "Forbidden",
+                "statusCode": 403
+            })        }
 
 
         let { address, city, state, country, lat, lng, name, description, price } = req.body
@@ -374,9 +376,11 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     let currentUserId = currentUser.id
 
     if (currentUserId !== spot.ownerId) {
-        res.status(400)
-        throw new Error('User is unauthorized to add images to this spot')
-    }
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })    }
 
     const { url, preview } = req.body;
 
@@ -525,9 +529,11 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     }
 
     if (currentUserId === spot.ownerId) {
-        res.status(400)
-        throw new Error('User may not book a spot that belongs to them-- are you money laundering?? 💸')
-    }
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })    }
 
     const { startDate, endDate } = req.body
 
@@ -587,9 +593,11 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     let currentUserId = currentUser.id
 
     if (currentUserId !== spot.ownerId) {
-        res.status(400)
-        throw new Error('User is unauthorized to delete this spot')
-    }
+        res.status(403)
+        return res.json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })    }
 
     await spot.destroy()
 
