@@ -1,3 +1,4 @@
+'use strict'; //delete later if needed
 const express = require('express')
 const router = express.Router();
 
@@ -8,37 +9,48 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
 const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = require('../../db/models');
 
 
+
 //get all spots
 router.get('/', async (req, res, next) => {
-    const spots = await Spot.findAll({
+    let pagination = {}
 
+    let {page, size} = req.query
+    page = parseInt(page)
+    size = parseInt(size)
+    pagination.limit = size;
+    pagination.offset = size * (page-1)
+
+    const spots = await Spot.findAll({
         include: [
             {
                 model: Review,
-                attributes: []
+                attributes: [],
             },
             {
                 model: SpotImage,
                 attributes: [],
                 where: { preview: true }
-            }
+            },
         ],
+        ...pagination,
+        subQuery:false,
         attributes: {
             include: [
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgRating" // change this to avgrating
+                    "avgRating" 
                 ],
-                [
-                    sequelize.col("SpotImages.imgUrl"),
-                    "previewImage"
-                ]
-            ]
+                // [
+                //     sequelize.col("SpotImages.imgUrl"),
+                //     "previewImage"
+                // ]
+            ],
         },
-        group: ['Spot.id']
+        group: ['Spot.id'],
     });
 
-    return res.json({ Spots: spots })
+
+    return res.json({ Spots: spots, page, size })
 })
 
 //get all spots from current user
