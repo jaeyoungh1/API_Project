@@ -382,7 +382,6 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         })    }
 
     const { url, preview } = req.body;
-    if(!preview) preview = false;
 
     const newImg = await spot.createSpotImage({
         url: url,
@@ -546,7 +545,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const existingEndDate = await Booking.findAll({
         where: {
             endDate: endDate,
-            spotId: spot.id
+            spotId: spot.id //may need to edit this so that it encompasses a range of dates
         }
     })
 

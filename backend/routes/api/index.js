@@ -29,7 +29,7 @@ router.use('/bookings', bookingsRouter);
 router.use('/review-images', reviewImagesRouter);
 
 router.use('/spot-images', spotImagesRouter);
-=======
+
 router.get('/test', requireAuth, (req,res) => {
   res.json({message: success})
 })
