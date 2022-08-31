@@ -122,7 +122,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         where.price = { [Op.lte]: maxLng }
     }
 
-    const testSpots = await Spot.findAll()
+    // const testSpots = await Spot.findAll()
 
     const spots = await Spot.findAll({
         include: [
@@ -150,7 +150,7 @@ router.get('/', validatePagination, async (req, res, next) => {
                 ]
             ],
         },
-        group: ["Spot.id"],
+        group: ["Spot.id", "SpotImage.url"],
         raw:true
     });
 
