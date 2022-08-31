@@ -138,6 +138,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         ...pagination,
         where,
         subQuery: false,
+        duplicating: false,
         attributes: {
             include: [
                 [
@@ -149,8 +150,8 @@ router.get('/', validatePagination, async (req, res, next) => {
                     "previewImage"
                 ]
             ],
+            group: ["Spot.id", "SpotImage.url"],
         },
-        group: ["Spot.id", "SpotImage.url"],
         raw:true
     });
 
