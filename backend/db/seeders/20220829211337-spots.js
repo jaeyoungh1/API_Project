@@ -14,6 +14,7 @@ module.exports = {
 
     await queryInterface.bulkInsert('Spots', [
       {
+        id: 1,
         ownerId: 1,
         address: "123 ABC St",
         city: "Beverly Hills",
@@ -28,6 +29,7 @@ module.exports = {
         // previewImage: "https://images.unsplash.com/photo-1631630259742-c0f0b17c6c10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
       },
       {
+        id: 2,
         ownerId: 1,
         address: "000 XYZ Ave",
         city: "Big Bear",
@@ -42,6 +44,7 @@ module.exports = {
         // previewImage: "https://images.unsplash.com/photo-1631630259742-c0f0b17c6c10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
       },
       {
+        id: 3,
         ownerId: 2,
         address: "456 DEF St",
         city: "Oakdale",
@@ -56,6 +59,7 @@ module.exports = {
         // previewImage: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80"
       },
       {
+        id: 4,
         ownerId: 3,
         address: "789 GHI Ln",
         city: "Felton",
