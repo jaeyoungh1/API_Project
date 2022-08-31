@@ -195,8 +195,8 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
 })
 
 //get spots details by id
-router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
-    //404 if ID not found ICK messy bc of eagerloading
+router.get('/:spotId',  async (req, res, next) => {
+    //404 if ID not found hmmm messy bc of eagerloading
     let spot = await Spot.findByPk(req.params.spotId)
     if (!spot) {
         res.status(404)

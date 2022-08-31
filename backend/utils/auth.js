@@ -53,14 +53,22 @@ const restoreUser = (req, res, next) => {
 
 //requires a session user to be authenticated before accessing a route
 // If there is no current user, return an error
-const requireAuth = function (req, _res, next) {
+const requireAuth = function (req, res, next) {
     if (req.user) return next();
 
-    const err = new Error('Unauthorized');
+    const err = new Error('Authentication required');
     err.title = 'Unauthorized';
     err.errors = ['Unauthorized'];
     err.status = 401;
-    return next(err);
+    res.status(401)
+    return res.json(
+        {
+            "message": "Authentication required",
+            "statusCode": res.statusCode
+        }
+    )
+    // return next(err);
 }
+
 
 module.exports = { setTokenCookie, restoreUser, requireAuth };
