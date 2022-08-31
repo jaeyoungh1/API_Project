@@ -26,7 +26,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             },
             {
                 model: ReviewImage,
-                attributes: ['id', 'imgUrl']
+                attributes: ['id', 'url']
             }
         ]
     })
@@ -71,12 +71,12 @@ router.post('/:reviewId/images', requireAuth, restoreUser, async (req, res, next
     const {url} = req.body
 
     const newImage = await review.createReviewImage({
-        imgUrl: url
+        url: url
     })
 
     const result = await ReviewImage.findOne({
         where: {id: newImage.id},
-        attributes: ['id', 'imgUrl']
+        attributes: ['id', 'url']
     })
     return res.json(result)
 })

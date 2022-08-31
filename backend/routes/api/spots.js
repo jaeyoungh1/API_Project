@@ -145,7 +145,7 @@ router.get('/', validatePagination, async (req, res, next) => {
                     "avgRating"
                 ],
                 [
-                    sequelize.col("SpotImages.imgUrl"),
+                    sequelize.col("SpotImages.url"),
                     "previewImage"
                 ]
             ],
@@ -183,7 +183,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
                     "avgRating" // change this to avgrating
                 ],
                 [
-                    sequelize.col("SpotImages.imgUrl"),
+                    sequelize.col("SpotImages.url"),
                     "previewImage"
                 ]
             ]
@@ -228,7 +228,7 @@ router.get('/:spotId',  async (req, res, next) => {
         include: {
             model: SpotImage,
             // as: 'SpotImages',
-            attributes: ['id', 'imgUrl', 'preview']
+            attributes: ['id', 'url', 'preview']
         },
     })
     const owner = await Spot.findByPk(req.params.spotId, {
@@ -240,7 +240,6 @@ router.get('/:spotId',  async (req, res, next) => {
     const numReviews = await Review.count({
         where: { spotId: spot.id }
     })
-    console.log(numReviews)
 
     const result = await spots.toJSON()
     result.numReviews = numReviews
@@ -383,9 +382,10 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         })    }
 
     const { url, preview } = req.body;
+    if(!preview) preview = false;
 
     const newImg = await spot.createSpotImage({
-        imgUrl: url,
+        url: url,
         preview: preview
     })
 
@@ -416,7 +416,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
             },
             {
                 model: ReviewImage,
-                attributes: ['id', 'imgUrl']
+                attributes: ['id', 'url']
             }
         ]
     })
@@ -571,7 +571,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         userId: currentUserId,
         spotId: spot.id
     })
-    console.log(newBooking.startDate)
     return res.json(newBooking)
 })
 
