@@ -2,23 +2,126 @@
 const express = require('express')
 const router = express.Router();
 
-const { check } = require('express-validator');
+const { check, param } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = require('../../db/models');
 
+const { Op } = require("sequelize")
 
+const validatePagination = [
+    check('page')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                val = parseInt(val)
+                if (Number.isInteger(val) && val >= 0 && val <= 10) return true
+            }
+        })
+        .withMessage("Page must be greater than or equal to 0"),
+    check('size')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                val = parseInt(val)
+                if (Number.isInteger(val) && val >= 0 && val <= 10) return true
+            }
+        })
+        .withMessage("Size must be greater than or equal to 0"),
+    check('minLat')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                if (!isNaN(val) && val.includes('.')) return true
+            }
+        })
+        .withMessage("Minimum latitude is invalid",),
+    check('maxLat')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                if (!isNaN(val) && val.includes('.')) return true
+            }
+        })
+        .withMessage("Maximum latitude is invalid",),
+    check('minLng')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                if (!isNaN(val) && val.includes('.')) return true
+            }
+        })
+        .withMessage("Minimum longitude is invalid"),
+    check('maxLng')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                if (!isNaN(val) && val.includes('.')) return true
+            }
+        })
+        .withMessage("Maximum longitude is invalid"),
+    check('minPrice')
+        .custom(val => {
+            if(!val) return true
+            if (val) {
+                if (val > 0) return true
+            }
+        })
+        .withMessage("Minimum price must be greater than or equal to 0"),
+    check('maxPrice')
+        .custom(val => {
+            if (!val) return true
+            if (val) {
+                if (val > 0) return true
+            }
+        })
+        .withMessage("Maximum price must be greater than or equal to 0"),
 
+    handleValidationErrors
+];
 //get all spots
-router.get('/', async (req, res, next) => {
+router.get('/', validatePagination, async (req, res, next) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
     let pagination = {}
+    let where = {}
 
-    let {page, size} = req.query
+    if (!page) page = 0;
+    if (!size) size = 20
+    if (!minPrice) minPrice = 0;
+    if (!maxPrice) maxPrice = 0;
+
     page = parseInt(page)
     size = parseInt(size)
     pagination.limit = size;
-    pagination.offset = size * (page-1)
+    pagination.offset = size * (page - 1)
+
+    minLat = parseInt(minLat)
+    maxLat = parseInt(maxLat)
+    minLng = parseInt(minLng)
+    maxLng = parseInt(maxLng)
+    minPrice = parseInt(minPrice)
+    maxPrice = parseInt(maxPrice)
+
+    if(minPrice) {
+        where.price = {[Op.gte]: minPrice}
+    }
+    if (minLat) {
+        where.lat = { [Op.gte]: minLat }
+    }
+    if (minLng) {
+        where.price = { [Op.gte]: minLng }
+    }
+    if (maxPrice) {
+        where.price = { [Op.lte]: maxPrice }
+    }
+    if (maxLat) {
+        where.lat = { [Op.lte]: maxLat }
+    }
+    if (maxLng) {
+        where.price = { [Op.lte]: maxLng }
+    }
+
 
     const spots = await Spot.findAll({
         include: [
@@ -33,17 +136,18 @@ router.get('/', async (req, res, next) => {
             },
         ],
         ...pagination,
-        subQuery:false,
+        where,
+        subQuery: false,
         attributes: {
             include: [
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgRating" 
+                    "avgRating"
                 ],
-                // [
-                //     sequelize.col("SpotImages.imgUrl"),
-                //     "previewImage"
-                // ]
+                [
+                    sequelize.col("SpotImages.imgUrl"),
+                    "previewImage"
+                ]
             ],
         },
         group: ['Spot.id'],
@@ -70,7 +174,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             {
                 model: SpotImage,
                 attributes: [],
-                where: {preview: true}
+                where: { preview: true }
             }
         ],
         attributes: {
@@ -81,13 +185,13 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
                 ],
                 [
                     sequelize.col("SpotImages.imgUrl"),
-                    "previewImage" 
+                    "previewImage"
                 ]
             ]
         },
         group: ['Spot.id']
     })
-    
+
     return res.json({ Spots: spots })
 })
 
@@ -135,7 +239,7 @@ router.get('/:spotId', requireAuth, restoreUser, async (req, res, next) => {
         },
     })
     const numReviews = await Review.count({
-        where: {spotId: spot.id}
+        where: { spotId: spot.id }
     })
     console.log(numReviews)
 
