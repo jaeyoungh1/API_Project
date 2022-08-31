@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {model: 'Reviews', key: 'id'}
       },
-      imgUrl: {
+      url: {
         type: Sequelize.STRING
       },
       createdAt: {

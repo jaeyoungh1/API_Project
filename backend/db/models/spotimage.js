@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       references: {model: 'Spots', key: 'id'},
       onDelete: 'cascade'
     },
-    imgUrl: {
+    url: {
       type: DataTypes.STRING,
     },
     preview: {
