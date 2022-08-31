@@ -11,20 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Spot.hasMany(models.Booking, {
-        foreignKey: 'spotId', onDelete: 'CASCADE', hooks:'true'
+        foreignKey: 'spotId', onDelete: 'CASCADE', hooks: 'true'
       }), //remove this?
         Spot.belongsTo(models.User, {
           foreignKey: "ownerId"
         }),
         Spot.hasMany(models.SpotImage, {
-          foreignKey: 'spotId', onDelete: 'CASCADE', hooks:'true'
+          foreignKey: 'spotId', onDelete: 'CASCADE', hooks: 'true'
         }),
         Spot.hasMany(models.Review, {
-          foreignKey: 'spotId', onDelete: 'CASCADE', hooks:'true'
+          foreignKey: 'spotId', onDelete: 'CASCADE', hooks: 'true'
         })
     }
   }
   Spot.init({
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
     ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -75,15 +80,15 @@ module.exports = (sequelize, DataTypes) => {
         min: 0
       }
     },
-    avgRating: {
-      type: DataTypes.INTEGER,
-      validate: {
-        min: 0, max: 5
-      }
-    },
-    previewImage: {
-      type: DataTypes.STRING
-    }
+    // avgRating: {
+    //   type: DataTypes.INTEGER,
+    //   validate: {
+    //     min: 0, max: 5
+    //   }
+    // },
+    // previewImage: {
+    //   type: DataTypes.STRING
+    // }
   }, {
     sequelize,
     modelName: 'Spot',

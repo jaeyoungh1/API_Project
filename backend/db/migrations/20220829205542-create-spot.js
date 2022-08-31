@@ -4,6 +4,7 @@ module.exports = {
     await queryInterface.createTable('Spots', {
       id: {
         allowNull: false,
+        autoincrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
@@ -48,12 +49,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      avgRating: {
-        type: Sequelize.INTEGER
-      },
-      previewImage: {
-        type: Sequelize.STRING
-      },
+      // avgRating: {
+      //   type: Sequelize.INTEGER
+      // },
+      // previewImage: {
+      //   type: Sequelize.STRING
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

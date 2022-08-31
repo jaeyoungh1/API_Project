@@ -63,7 +63,7 @@ const validatePagination = [
         .withMessage("Maximum longitude is invalid"),
     check('minPrice')
         .custom(val => {
-            if(!val) return true
+            if (!val) return true
             if (val) {
                 if (val > 0) return true
             }
@@ -103,8 +103,8 @@ router.get('/', validatePagination, async (req, res, next) => {
     minPrice = parseInt(minPrice)
     maxPrice = parseInt(maxPrice)
 
-    if(minPrice) {
-        where.price = {[Op.gte]: minPrice}
+    if (minPrice) {
+        where.price = { [Op.gte]: minPrice }
     }
     if (minLat) {
         where.lat = { [Op.gte]: minLat }
@@ -122,6 +122,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         where.price = { [Op.lte]: maxLng }
     }
 
+    const testSpots = await Spot.findAll()
 
     const spots = await Spot.findAll({
         include: [
@@ -131,8 +132,7 @@ router.get('/', validatePagination, async (req, res, next) => {
             },
             {
                 model: SpotImage,
-                attributes: [],
-                where: { preview: true }
+                attributes: []
             },
         ],
         ...pagination,
@@ -150,10 +150,11 @@ router.get('/', validatePagination, async (req, res, next) => {
                 ]
             ],
         },
-        group: ['Spot.id'],
+        group: ["Spot.id"],
+        raw:true
     });
 
-
+    // return res.json(testSpots)
     return res.json({ Spots: spots, page, size })
 })
 
@@ -162,7 +163,6 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
 
     const { user } = req;
     let currentUser = user.toSafeObject()
-    // console.log(currentUser.id)
     let currentUserId = currentUser.id
     const spots = await Spot.findAll({
         where: { ownerId: currentUserId },
@@ -173,8 +173,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             },
             {
                 model: SpotImage,
-                attributes: [],
-                where: { preview: true }
+                attributes: []
             }
         ],
         attributes: {
