@@ -239,9 +239,10 @@ router.get('/:spotId',  async (req, res, next) => {
     })
     let avgRating = await avgReview[0]
     let average = await avgRating.toJSON()
+    let averageNum = Number(average.avgStarRating).toFixed(2)
 
     const result = await spots.toJSON()
-    result.avgStarRating = average.avgStarRating.toFixed(2)
+    result.avgStarRating = averageNum
     result.numReviews = numReviews
     result.SpotImages = images.SpotImages
     result.Owner = owner.User
