@@ -145,7 +145,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         attributes: {
             include: [
                 [
-                    sequelize.fn("AVG", sequelize.cast(sequelize.col("Reviews.stars"))),
+                    sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 2),
                     "avgRating"
                 ],
                 [
@@ -158,6 +158,9 @@ router.get('/', validatePagination, async (req, res, next) => {
         raw:true
     });
 
+    // for (let i = 0; i < spots.length; i++) {
+    //     spots[i].
+    // }
 
 
     // return res.json(testSpots)
