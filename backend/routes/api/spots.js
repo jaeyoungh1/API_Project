@@ -95,6 +95,7 @@ router.get('/', validatePagination, async (req, res, next) => {
     size = parseInt(size)
     pagination.limit = size;
     pagination.offset = size * (page - 1)
+    if (pagination.offset < 0) pagination.offset = 0
 
     minLat = parseInt(minLat)
     maxLat = parseInt(maxLat)
