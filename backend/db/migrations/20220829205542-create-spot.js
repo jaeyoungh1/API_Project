@@ -3,9 +3,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Spots', {
       id: {
-        // autoincrement: true,
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
       },
       ownerId: {
         type: Sequelize.INTEGER,
