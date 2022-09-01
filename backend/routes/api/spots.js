@@ -128,6 +128,7 @@ router.get('/', validatePagination, async (req, res, next) => {
     const spots = await Spot.findAll({
         // required: true,
         // duplicating: false,
+        order: ['id'],
         include: [
             {
                 model: Review,
@@ -156,7 +157,6 @@ router.get('/', validatePagination, async (req, res, next) => {
             ],
         },
         group: ["Spot.id"],
-
         // group: ["Spot.id", "SpotImages.url"],
         raw: true
     });
