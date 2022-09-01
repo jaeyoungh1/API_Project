@@ -180,8 +180,6 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
                 attributes: []
             }
         ],
-        subQuery: false,
-        duplicating: false,
         attributes: {
             include: [
                 [
@@ -194,8 +192,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
                 ]
             ]
         },
-        group: ["Spot.id", "SpotImages.url"],
-        raw:true
+        group: ['Spot.id']
     })
 
     return res.json({ Spots: spots })
@@ -213,49 +210,40 @@ router.get('/:spotId',  async (req, res, next) => {
         })
     }
 
-    const spots = await Spot.findByPk(req.params.spotId, {
-        include: [
-            {
-                model: Review,
-                attributes: []
-            },
-        ],
-        subQuery: false,
-        // required:true,
-        duplicating: false,
-        attributes: {
-            include: [
-                [
-                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgStarRating"
-                ]
-            ],
-            // exclude: ['previewImage']
-        },
-        group: ["Spot.id"],
-        raw: true
+    const spots = await Spot.findByPk(req.params.spotId)
+
+    const avgReview = await Review.findAll({
+        where: {spotId: req.params.spotId},
+        attributes: [[
+            sequelize.fn("AVG", sequelize.col("stars")),
+            "avgStarRating"
+        ]]
     })
 
-    // const images = await Spot.findByPk(req.params.spotId, {
-    //     include: {
-    //         model: SpotImage,
-    //         attributes: ['id', 'url', 'preview']
-    //     }
-    // })
-    // const owner = await Spot.findByPk(req.params.spotId, {
-    //     include: {
-    //         model: User,
-    //         attributes: ['id', 'firstName', 'lastName']
-    //     },
-    // })
-    // const numReviews = await Review.count({
-    //     where: { spotId: spot.id }
-    // })
+    const images = await Spot.findByPk(req.params.spotId, {
+        include: {
+            model: SpotImage,
+            attributes: ['id', 'url', 'preview']
+        }
+    })
+
+    const owner = await Spot.findByPk(req.params.spotId, {
+        include: {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+        },
+    })
+    const numReviews = await Review.count({
+        where: { spotId: spot.id }
+    })
+    let avgRating = await avgReview[0]
+    let average = await avgRating.toJSON()
 
     const result = await spots.toJSON()
-    // result.numReviews = numReviews
-    // result.SpotImages = images.SpotImages
-    // result.Owner = owner.User
+    result.avgStarRating = average.avgStarRating
+    result.numReviews = numReviews
+    result.SpotImages = images.SpotImages
+    result.Owner = owner.User
 
     // res.json(await images.SpotImages)
     return res.json(result)
