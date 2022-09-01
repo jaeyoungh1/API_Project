@@ -221,7 +221,7 @@ router.get('/:spotId',  async (req, res, next) => {
             },
         ],
         subQuery: false,
-        required:true,
+        // required:true,
         duplicating: false,
         attributes: {
             include: [
@@ -232,7 +232,7 @@ router.get('/:spotId',  async (req, res, next) => {
             ],
             // exclude: ['previewImage']
         },
-        group: ["Spot.id", "Review.stars"],
+        group: ["Spot.id"],
         raw: true
     })
 
