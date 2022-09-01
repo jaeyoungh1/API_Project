@@ -236,26 +236,26 @@ router.get('/:spotId',  async (req, res, next) => {
         raw: true
     })
 
-    const images = await Spot.findByPk(req.params.spotId, {
-        include: {
-            model: SpotImage,
-            attributes: ['id', 'url', 'preview']
-        }
-    })
-    const owner = await Spot.findByPk(req.params.spotId, {
-        include: {
-            model: User,
-            attributes: ['id', 'firstName', 'lastName']
-        },
-    })
-    const numReviews = await Review.count({
-        where: { spotId: spot.id }
-    })
+    // const images = await Spot.findByPk(req.params.spotId, {
+    //     include: {
+    //         model: SpotImage,
+    //         attributes: ['id', 'url', 'preview']
+    //     }
+    // })
+    // const owner = await Spot.findByPk(req.params.spotId, {
+    //     include: {
+    //         model: User,
+    //         attributes: ['id', 'firstName', 'lastName']
+    //     },
+    // })
+    // const numReviews = await Review.count({
+    //     where: { spotId: spot.id }
+    // })
 
     const result = await spots.toJSON()
-    result.numReviews = numReviews
-    result.SpotImages = images.SpotImages
-    result.Owner = owner.User
+    // result.numReviews = numReviews
+    // result.SpotImages = images.SpotImages
+    // result.Owner = owner.User
 
     // res.json(await images.SpotImages)
     return res.json(result)
