@@ -133,10 +133,10 @@ router.get('/', validatePagination, async (req, res, next) => {
                 model: Review,
                 attributes: [],
             },
-            {
-                model: SpotImage,
-                attributes: []
-            },
+            // {
+            //     model: SpotImage,
+            //     attributes: []
+            // },
         ],
         ...pagination,
         where,
@@ -148,23 +148,48 @@ router.get('/', validatePagination, async (req, res, next) => {
                     sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 2),
                     "avgRating"
                 ],
-                [
-                    sequelize.col("SpotImages.url"),
-                    "previewImage"
-                ]
+                // [
+                //     sequelize.where(
+                //         sequelize.col("SpotImages.preview"), sequelize.col("SpotImages.url"), true),
+                //     "previewImage"
+                // ]
             ],
         },
-        group: ["Spot.id", "SpotImages.url"],
+        group: ["Spot.id"],
+
+        // group: ["Spot.id", "SpotImages.url"],
         raw: true
     });
 
-    // for (let i = 0; i < spots.length; i++) {
-    //     spots[i].
-    // }
+    let Spots = []
 
+    for (let i = 0; i < spots.length; i++) {
+        let previewImage = await SpotImage.findAll({
+            where: {
+                spotId: spots[i].id,
+                preview: true
+            },
+            attributes: ['url']
+        })
+        let url;
+        let previewImgObj = await previewImage[0]
+    
+        if (previewImgObj) {
+            let imgobj = await previewImgObj.toJSON()
+            url = imgobj.url
+        } else url = null
+        console.log(url)
+        let spotObj = await spots[i]
+        spotObj.previewImage = url
+        Spots.push(spotObj)
+    }
+    
+    let result = {}
+    result.Spots = Spots;
+    result.page = page;
+    result.size = size;
 
-    // return res.json(testSpots)
-    return res.json({ Spots: spots, page, size })
+    return res.json(result)
 })
 
 //get all spots from current user
