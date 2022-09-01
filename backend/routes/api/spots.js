@@ -230,9 +230,9 @@ router.get('/:spotId',  async (req, res, next) => {
                     "avgStarRating"
                 ]
             ],
-            exclude: ['previewImage']
+            // exclude: ['previewImage']
         },
-        group: ["Spot.id", "SpotImages.url"],
+        group: ["Spot.id", "Review.stars"],
         raw: true
     })
 
