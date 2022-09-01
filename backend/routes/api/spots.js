@@ -153,9 +153,9 @@ router.get('/', validatePagination, async (req, res, next) => {
                     "previewImage"
                 ]
             ],
-        },        
+        },
         group: ["Spot.id", "SpotImages.url"],
-        raw:true
+        raw: true
     });
 
     // for (let i = 0; i < spots.length; i++) {
@@ -198,14 +198,14 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             ]
         },
         group: ["Spot.id", "SpotImages.url"],
-        raw:true
+        raw: true
     })
 
     return res.json({ Spots: spots })
 })
 
 //get spots details by id
-router.get('/:spotId',  async (req, res, next) => {
+router.get('/:spotId', async (req, res, next) => {
     //404 if ID not found hmmm messy bc of eagerloading
     let spot = await Spot.findByPk(req.params.spotId)
     if (!spot) {
@@ -219,7 +219,7 @@ router.get('/:spotId',  async (req, res, next) => {
     const spots = await Spot.findByPk(req.params.spotId)
 
     const avgReview = await Review.findAll({
-        where: {spotId: req.params.spotId},
+        where: { spotId: req.params.spotId },
         attributes: [[
             sequelize.fn("AVG", sequelize.col("stars")),
             "avgStarRating"
@@ -343,7 +343,8 @@ router.put('/:spotId/',
             return res.json({
                 "message": "Forbidden",
                 "statusCode": 403
-            })        }
+            })
+        }
 
 
         let { address, city, state, country, lat, lng, name, description, price } = req.body
@@ -385,7 +386,8 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         return res.json({
             "message": "Forbidden",
             "statusCode": 403
-        })    }
+        })
+    }
 
     const { url, preview } = req.body;
 
@@ -538,36 +540,82 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         return res.json({
             "message": "Forbidden",
             "statusCode": 403
-        })    }
+        })
+    }
 
     const { startDate, endDate } = req.body
 
-    const existingStartDate = await Booking.findAll({
-        where: {
-            startDate: startDate,
-            spotId: spot.id
+    const bookings = await spot.getBookings()
+
+    let errors = {}
+
+    if (startDate > endDate) {
+        let err = new Error("Validation error")
+        err.status = 400
+        errors.endDate = "endDate cannot be on or before startDate"
+        err.errors = errors
+        return next(err)
+    }
+
+    for (let i = 0; i < bookings.length; i++) {
+        if ((startDate >= bookings[i].startDate && startDate <= bookings[i].endDate) ||
+            (endDate >= bookings[i].startDate && endDate <= bookings[i].endDate)) {
+            let err = new Error("Sorry, this spot is already booked for the specified dates")
+            err.status = 403
+            if ((startDate >= bookings[i].startDate && startDate <= bookings[i].endDate)) {
+
+                errors.startDate = "Start date conflicts with an existing booking"
+            }
+            if ((endDate >= bookings[i].startDate && endDate <= bookings[i].endDate)) {
+
+                errors.endDate = "End date conflicts with an existing booking"
+            }
+            err.errors = errors
+            return next(err)
+
         }
-    })
-    const existingEndDate = await Booking.findAll({
-        where: {
-            endDate: endDate,
-            spotId: spot.id //may need to edit this so that it encompasses a range of dates
-        }
-    })
+    }
+
+    // const { Op } = require("sequelize")
+
+    // console.log(new Date(startDate),new Date(endDate))
+
+    // const existingStartDate = await Booking.findAll({
+    //     where: {
+    //         startDate: {
+    //             [Op.gte]: new Date(startDate),
+    //             [Op.lte]: new Date(endDate), 
+    //         },
+    //         spotId: spot.id
+    //     }
+    // })
+
+    // console.log(existingStartDate)
+
+    // const existingEndDate = await Booking.findAll({
+    //     where: {
+    //         endDate: {
+    //             [Op.gte]: startDate,
+    //             [Op.lte]: endDate,
+    //         },
+    //         spotId: spot.id //may need to edit this so that it encompasses a range of dates
+    //     }
+    // })
+    // console.log(existingEndDate)
 
     //hmm messy error handling, change later
-    const errs = {}
-    if (existingStartDate.length > 0) errs.startDate = "Start date conflicts with an existing booking"
-    if (existingEndDate.length > 0) errs.endDate = "End date conflicts with an existing booking"
+    // const errs = {}
+    // if (existingStartDate.length > 0) errs.startDate = "Start date conflicts with an existing booking"
+    // if (existingEndDate.length > 0) errs.endDate = "End date conflicts with an existing booking"
 
-    if (existingStartDate.length > 0 || existingEndDate.length > 0) {
-        res.status(403)
-        return res.json({
-            "message": "Sorry, this spot is already booked for the specified dates",
-            "statusCode": res.statusCode,
-            "errors": errs
-        })
-    }
+    // if (existingStartDate.length > 0 || existingEndDate.length > 0) {
+    //     res.status(403)
+    //     return res.json({
+    //         "message": "Sorry, this spot is already booked for the specified dates",
+    //         "statusCode": res.statusCode,
+    //         "errors": errs
+    //     })
+    // }
 
 
     const newBooking = await Booking.create({
@@ -601,7 +649,8 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
         return res.json({
             "message": "Forbidden",
             "statusCode": 403
-        })    }
+        })
+    }
 
     await spot.destroy()
 

@@ -53,18 +53,30 @@ router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
 
     const { startDate, endDate } = req.body
 
-    const existingStartDate = await Booking.findAll({
-        where: {
-            startDate: startDate,
-            spotId: currentBooking.spotId
-        }
-    })
-    const existingEndDate = await Booking.findAll({
-        where: {
-            endDate: endDate,
-            spotId: currentBooking.spotId
-        }
-    })
+    // const { Op } = require("sequelize")
+
+    // let currentStartDate = await currentBooking.toJSON().startDate
+    // let currentEndDate = await currentBooking.toJSON().endDate
+
+    // const existingStartDate = await Booking.findAll({
+    //     where: {
+    //         startDate: {
+    //             [Op.gte]: new Date(currentStartDate), 
+    //             [Op.lte]: new Date(currentEndDate), 
+    //         },
+    //         spotId: currentBooking.spotId
+    //     }
+    // })
+    // const existingEndDate = await Booking.findAll({
+    //     where: {
+    //         endDate: {
+    //             [Op.gte]: new Date(currentStartDate),
+    //             [Op.lte]: new Date(currentEndDate),
+    //         },
+    //         spotId: currentBooking.spotId
+    //     }
+    // })
+    // console.log(existingEndDate)
 
     //hmm messy error handling, change later
     const errs = {}
@@ -81,11 +93,8 @@ router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
     }
 
     let today = new Date().toJSON().slice(0, 10);
-    let currentEndDate = await currentBooking.toJSON().endDate
+    // let currentEndDate = await currentBooking.toJSON().endDate
     
-
-    // console.log("IS THE END DATE BEFORE TODAY?", new Date(currentEndDate) < new Date(today))
-    // console.log(new Date(currentEndDate), new Date(today))
     if (new Date(currentEndDate) < new Date(today)) {
         res.status(403)
         return res.json({
