@@ -576,48 +576,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
     }
 
-    // const { Op } = require("sequelize")
-
-    // console.log(new Date(startDate),new Date(endDate))
-
-    // const existingStartDate = await Booking.findAll({
-    //     where: {
-    //         startDate: {
-    //             [Op.gte]: new Date(startDate),
-    //             [Op.lte]: new Date(endDate), 
-    //         },
-    //         spotId: spot.id
-    //     }
-    // })
-
-    // console.log(existingStartDate)
-
-    // const existingEndDate = await Booking.findAll({
-    //     where: {
-    //         endDate: {
-    //             [Op.gte]: startDate,
-    //             [Op.lte]: endDate,
-    //         },
-    //         spotId: spot.id //may need to edit this so that it encompasses a range of dates
-    //     }
-    // })
-    // console.log(existingEndDate)
-
-    //hmm messy error handling, change later
-    // const errs = {}
-    // if (existingStartDate.length > 0) errs.startDate = "Start date conflicts with an existing booking"
-    // if (existingEndDate.length > 0) errs.endDate = "End date conflicts with an existing booking"
-
-    // if (existingStartDate.length > 0 || existingEndDate.length > 0) {
-    //     res.status(403)
-    //     return res.json({
-    //         "message": "Sorry, this spot is already booked for the specified dates",
-    //         "statusCode": res.statusCode,
-    //         "errors": errs
-    //     })
-    // }
-
-
     const newBooking = await Booking.create({
         startDate: startDate,
         endDate: endDate,

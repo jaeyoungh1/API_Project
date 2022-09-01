@@ -52,50 +52,49 @@ router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
     }
 
     const { startDate, endDate } = req.body
+    let errors = {}
 
-    // const { Op } = require("sequelize")
+    if (startDate > endDate) {
+        let err = new Error("Validation error")
+        err.status = 400
+        errors.endDate = "endDate cannot be on or before startDate"
+        err.errors = errors
+        return next(err)
+    }
 
-    // let currentStartDate = await currentBooking.toJSON().startDate
-    // let currentEndDate = await currentBooking.toJSON().endDate
+    const { Op } = require("sequelize");
+    let bookings = await Booking.findAll({
+        where: {
+            userId: {
+                [Op.not]: currentUserId},
+            spotId: currentBooking.spotId
+        }
+    })
 
-    // const existingStartDate = await Booking.findAll({
-    //     where: {
-    //         startDate: {
-    //             [Op.gte]: new Date(currentStartDate), 
-    //             [Op.lte]: new Date(currentEndDate), 
-    //         },
-    //         spotId: currentBooking.spotId
-    //     }
-    // })
-    // const existingEndDate = await Booking.findAll({
-    //     where: {
-    //         endDate: {
-    //             [Op.gte]: new Date(currentStartDate),
-    //             [Op.lte]: new Date(currentEndDate),
-    //         },
-    //         spotId: currentBooking.spotId
-    //     }
-    // })
-    // console.log(existingEndDate)
+    for (let i = 0; i < bookings.length; i++) {
+        if ((startDate >= bookings[i].startDate && startDate <= bookings[i].endDate) ||
+            (endDate >= bookings[i].startDate && endDate <= bookings[i].endDate)) {
+            let err = new Error("Sorry, this spot is already booked for the specified dates")
+            err.status = 403
+            if ((startDate >= bookings[i].startDate && startDate <= bookings[i].endDate)) {
 
-    //hmm messy error handling, change later
-    const errs = {}
-    if (existingStartDate.length > 0) errs.startDate = "Start date conflicts with an existing booking"
-    if (existingEndDate.length > 0) errs.endDate = "End date conflicts with an existing booking"
+                errors.startDate = "Start date conflicts with an existing booking"
+            }
+            if ((endDate >= bookings[i].startDate && endDate <= bookings[i].endDate)) {
 
-    if (existingStartDate.length > 0 || existingEndDate.length > 0) {
-        res.status(403)
-        return res.json({
-            "message": "Sorry, this spot is already booked for the specified dates",
-            "statusCode": res.statusCode,
-            "errors": errs
-        })
+                errors.endDate = "End date conflicts with an existing booking"
+            }
+            err.errors = errors
+            return next(err)
+
+        }
     }
 
     let today = new Date().toJSON().slice(0, 10);
-    // let currentEndDate = await currentBooking.toJSON().endDate
-    
-    if (new Date(currentEndDate) < new Date(today)) {
+    let currentEndDate = await currentBooking.endDate
+    console.log(currentEndDate)
+
+    if (currentEndDate < today) {
         res.status(403)
         return res.json({
             "message": "Past bookings can't be modified",
@@ -103,13 +102,13 @@ router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
         })
     } else {
 
-        
+
         await currentBooking.set({
             startDate: startDate,
             endDate: endDate
         })
         await currentBooking.save()
-        
+
         return res.json(currentBooking)
     }
 })
