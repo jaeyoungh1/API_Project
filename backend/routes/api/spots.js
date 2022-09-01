@@ -228,7 +228,8 @@ router.get('/:spotId',  async (req, res, next) => {
             ],
             exclude: ['previewImage']
         },
-        group: ["Spot.id", "Review.stars"]
+        group: ["Spot.id", "Review.stars"],
+        raw: true
     })
 
     const images = await Spot.findByPk(req.params.spotId, {
@@ -236,8 +237,8 @@ router.get('/:spotId',  async (req, res, next) => {
             model: SpotImage,
             // as: 'SpotImages',
             attributes: ['id', 'url', 'preview']
-        },
-        group: ["Spot.id"]
+        }
+        // group: ["Spot.id"]
     })
     const owner = await Spot.findByPk(req.params.spotId, {
         include: {
