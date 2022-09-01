@@ -271,6 +271,7 @@ router.get('/:spotId', async (req, res, next) => {
     let avgRating = await avgReview[0]
     let average = await avgRating.toJSON()
     let averageNum = Number(average.avgStarRating).toFixed(2)
+    if (averageNum == "0.00") averageNum = null
 
     const result = await spots.toJSON()
     result.avgStarRating = averageNum
