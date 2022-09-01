@@ -156,8 +156,8 @@ router.get('/', validatePagination, async (req, res, next) => {
                 // ]
             ],
         },
-        // group: ["Spot.id"],
-        group: ["Spot.id", "SpotImages.url"],
+        group: ["Spot.id"],
+        // group: ["Spot.id", "SpotImages.url"],
         raw: true
     });
 
