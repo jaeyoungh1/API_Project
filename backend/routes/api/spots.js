@@ -145,7 +145,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         attributes: {
             include: [
                 [
-                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                    sequelize.fn("AVG", sequelize.cast(sequelize.col("Reviews.stars"))),
                     "avgRating"
                 ],
                 [
@@ -157,6 +157,8 @@ router.get('/', validatePagination, async (req, res, next) => {
         group: ["Spot.id", "SpotImages.url"],
         raw:true
     });
+
+
 
     // return res.json(testSpots)
     return res.json({ Spots: spots, page, size })
