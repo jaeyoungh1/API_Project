@@ -81,21 +81,28 @@ router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
     }
 
     let today = new Date().toJSON().slice(0, 10);
-    if (endDate < today) {
+    let currentEndDate = await currentBooking.toJSON().endDate
+    
+
+    // console.log("IS THE END DATE BEFORE TODAY?", new Date(currentEndDate) < new Date(today))
+    // console.log(new Date(currentEndDate), new Date(today))
+    if (new Date(currentEndDate) < new Date(today)) {
         res.status(403)
         return res.json({
             "message": "Past bookings can't be modified",
             "statusCode": res.statusCode
         })
+    } else {
+
+        
+        await currentBooking.set({
+            startDate: startDate,
+            endDate: endDate
+        })
+        await currentBooking.save()
+        
+        return res.json(currentBooking)
     }
-
-    await currentBooking.set({
-        startDate: startDate,
-        endDate: endDate
-    })
-    await currentBooking.save()
-
-    return res.json(currentBooking)
 })
 
 //delete booking
