@@ -43,7 +43,6 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
        
         let bookingObj = await bookings[i]
         let bookingJSON = await bookingObj.toJSON()
-        // console.log("BOOKINGJSON", bookingJSON)
         bookingJSON.Spot.previewImage = url
         Bookings.push(bookingJSON)
     }

@@ -518,7 +518,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewBody, async (req, res
     return res.json(newReview)
 })
 
-//get spot's bookings
+//get spot's bookings by id
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const { user } = req;
     let currentUser = user.toSafeObject()
@@ -536,14 +536,33 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
     if (currentUserId == spot.ownerId) {
         const bookings = await spot.getBookings({
-            include: [
-                {
-                    model: User,
-                    attributes: ['id', 'firstName', 'lastname']
-                }
-            ]
+            order: [['id']],
+            // include: [
+            //     {
+            //         model: User,
+            //         attributes: ['id', 'firstName', 'lastname']
+            //     }
+            // ],
+            // group: ["Spot.id"],
+            // raw: true;
         })
-        let Bookings = await bookings
+
+        let Bookings = []
+
+        for (let i = 0; i < bookings.length; i++) {
+            let user = await User.findByPk(bookings[i].userId,
+                {attributes: ['id', 'firstName', 'lastName']}
+            )
+            
+            let userObj = await user.toJSON()
+
+            let book = await bookings[i]
+
+            let bookObj = await book.toJSON()
+            bookObj.User = userObj
+            Bookings.push(bookObj)
+        }
+        
         return res.json({ Bookings })
     }
 
