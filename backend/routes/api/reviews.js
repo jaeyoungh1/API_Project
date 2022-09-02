@@ -30,7 +30,30 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             }
         ]
     })
-    let Reviews = await reviews
+    let Reviews = []
+
+    for (let i = 0; i < reviews.length; i++) {
+        let previewImage = await SpotImage.findAll({
+            where: {
+                spotId: reviews[i].spotId,
+                preview: true
+            },
+            attributes: ['url']
+        })
+        let url;
+        let previewImgObj = await previewImage[0]
+
+        if (previewImgObj) {
+            let imgobj = await previewImgObj.toJSON()
+            url = imgobj.url
+        } else url = null
+
+
+        let reviewObj = await reviews[i]
+        let reviewJSON = await reviewObj.toJSON()
+        reviewJSON.Spot.previewImage = url
+        Reviews.push(reviewJSON)
+    }
     return res.json({ Reviews })
 })
 
