@@ -123,21 +123,13 @@ router.get('/', validatePagination, async (req, res, next) => {
         where.price = { [Op.lte]: maxLng }
     }
 
-    // const testSpots = await Spot.findAll()
-
     const spots = await Spot.findAll({
-        // required: true,
-        // duplicating: false,
         order: [['id']],
         include: [
             {
                 model: Review,
                 attributes: [],
-            },
-            // {
-            //     model: SpotImage,
-            //     attributes: []
-            // },
+            }
         ],
         ...pagination,
         where,
@@ -148,12 +140,7 @@ router.get('/', validatePagination, async (req, res, next) => {
                 [
                     sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 2),
                     "avgRating"
-                ],
-                // [
-                    
-                //     sequelize.col("SpotImages.url"),
-                //     "previewImage"
-                // ]
+                ]
             ],
         },
         group: ["Spot.id"],
@@ -200,14 +187,11 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     let currentUser = user.toSafeObject()
     let currentUserId = currentUser.id
     const spots = await Spot.findAll({
+        order: [['id']],
         where: { ownerId: currentUserId },
         include: [
             {
                 model: Review,
-                attributes: []
-            },
-            {
-                model: SpotImage,
                 attributes: []
             }
         ],
@@ -216,16 +200,41 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
                 [
                     sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 2),
                     "avgRating"
-                ],
-                [
-                    sequelize.col("SpotImages.url"),
-                    "previewImage"
                 ]
             ]
         },
-        group: ["Spot.id", "SpotImages.url"],
+        group: ["Spot.id"],
         raw: true
     })
+
+    let Spots = []
+    
+    for (let i = 0; i < spots.length; i++) {
+        let previewImage = await SpotImage.findAll({
+            where: {
+                spotId: spots[i].id,
+                preview: true
+            },
+            attributes: ['url']
+        })
+        let url;
+        let previewImgObj = await previewImage[0]
+
+        if (previewImgObj) {
+            let imgobj = await previewImgObj.toJSON()
+            url = imgobj.url
+        } else url = null
+        console.log(url)
+        let spotObj = await spots[i]
+        spotObj.previewImage = url
+        Spots.push(spotObj)
+    }
+
+    let result = {}
+    result.Spots = Spots;
+
+    return res.json(result)
+    
 
     return res.json({ Spots: spots })
 })
