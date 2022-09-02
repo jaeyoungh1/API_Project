@@ -51,7 +51,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     return res.json({ Bookings })
 })
 
-//update booking
+//update booking                 
 router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
     const { user } = req;
     let currentUser = user.toSafeObject()

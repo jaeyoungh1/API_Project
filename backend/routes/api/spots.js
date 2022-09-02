@@ -86,7 +86,7 @@ router.get('/', validatePagination, async (req, res, next) => {
     let pagination = {}
     let where = {}
 
-    if (!page) page = 0;
+    if (!page) page = 1;
     if (!size) size = 20
     if (!minPrice) minPrice = 0;
     if (!maxPrice) maxPrice = 0;
