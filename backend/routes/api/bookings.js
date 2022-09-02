@@ -21,7 +21,34 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             }
         ]
     })
-    let Bookings = await bookings
+
+    let Bookings = []
+
+    for (let i = 0; i < bookings.length; i++) {
+        let previewImage = await SpotImage.findAll({
+            where: {
+                spotId: bookings[i].spotId,
+                preview: true
+            },
+            attributes: ['url']
+        })
+        let url;
+        let previewImgObj = await previewImage[0]
+        
+        if (previewImgObj) {
+            let imgobj = await previewImgObj.toJSON()
+            url = imgobj.url
+        } else url = null
+        
+       
+        let bookingObj = await bookings[i]
+        let bookingJSON = await bookingObj.toJSON()
+        // console.log("BOOKINGJSON", bookingJSON)
+        bookingJSON.Spot.previewImage = url
+        Bookings.push(bookingJSON)
+    }
+
+    
     return res.json({ Bookings })
 })
 

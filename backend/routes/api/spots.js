@@ -236,7 +236,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     return res.json(result)
     
 
-    return res.json({ Spots: spots })
+    // return res.json({ Spots: spots })
 })
 
 //get spots details by id
