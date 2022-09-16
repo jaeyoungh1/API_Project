@@ -1,10 +1,10 @@
 # Air BnB Clone
 
-##  Brief Description of Site
+## Database Schema Design
 
 ![alt text](/images/database_schema.png)
 
-## API Documentation of Site
+## API Documentation
 
 ## USER AUTHENTICATION/AUTHORIZATION
 
