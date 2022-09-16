@@ -1,0 +1,70 @@
+.session {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sessionlinks {
+    padding-right: 10px;
+}
+
+.sessionlinks span {
+    padding: 20px;
+}
+
+ul {
+    list-style: none
+}
+
+
+.dropdownwrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: -15px;
+    margin-right: 4px;
+}
+
+.dropdown {
+    border: solid rgb(198, 198, 198) 1px;
+    box-shadow: 0px 0px 5px #ababab99;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.profileusername {
+    margin-top: 15px;
+}
+
+.dropdown>li {
+    padding: 10px;
+    justify-self: left;
+    margin-right: 12px;
+    margin-left: -25px;
+    font-size: 12px;
+}
+
+.dropdown>li :hover {
+    background-color: white;
+    color: rgb(220, 28, 114);
+    border: 1px solid rgb(220, 28, 114);
+    margin-bottom: 0.5rem;
+}
+
+.logout {
+    width: 80px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.profilebuttonwrapper {
+    justify-self: right;
+}
+
+.profilebutton {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    justify-self: left;
+    background-color: rgb(171, 171, 171);
+}
