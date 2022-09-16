@@ -1,0 +1,10 @@
+input {
+    width: 100%;
+    border: 1px solid grey;
+    border-radius: 4px;
+    height: 40px;
+}
+form>div {
+    padding-bottom: 10px;
+    color: rgb(54, 50, 51)
+}
