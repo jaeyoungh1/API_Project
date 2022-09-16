@@ -13,11 +13,9 @@ const LoginFormPage = () => {
     const [errors, setErrors] = useState('')
 
     let currentUser = useSelector(state => state.session.user)
-    if (currentUser) {
-        return <Redirect to='/' />
-    }
+    if (currentUser) return (<Redirect to='/' />)
 
-    const onSubmit = async e => {
+    const onSubmit = e => {
         e.preventDefault()
         setErrors('')
         const user = {
@@ -39,14 +37,14 @@ const LoginFormPage = () => {
                     {errors && <li key={errors}>{errors}</li>}
                 </ul>
                 <div className='login credential'>
-                    <label htmlFor='login credential'>Username or Email</label>
+                    <label className='login' htmlFor='login credential'>Username or Email</label>
                     <input id='login credential' type='text'
                         value={credential}
                         onChange={e => setCredential(e.target.value)}
                         required />
                 </div>
                 <div className='login password'>
-                    <label htmlFor='login password'>Password</label>
+                    <label className='login' htmlFor='login password'>Password</label>
                     <input id='login password' type='text'
                         value={password}
                         onChange={e => setPassword(e.target.value)}
