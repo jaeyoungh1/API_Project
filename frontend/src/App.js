@@ -1,8 +1,9 @@
 import { Route, Switch } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { LoginFormPage } from './components/LoginFormPage'
+// import { LoginFormPage } from './components/LoginFormPage'
 import { SignUpPage } from './components/SignupFormPage';
+import { Navigation } from './components/Navigation';
 import * as sessionActions from './store/session'
 
 function App() {
@@ -15,14 +16,35 @@ function App() {
   console.log("isLoaded is: ", isLoaded)
 
   return (
-    <Switch>
-      <Route path="/login">
-        <LoginFormPage />
-      </Route>
-      <Route path="/signup">
-        <SignUpPage />
-      </Route>
-    </Switch>
+    <>
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && (
+        <Switch>
+          {/* <Route path="/login">
+            <LoginFormPage />
+          </Route> */}
+          <Route path="/signup">
+            <SignUpPage />
+          </Route>
+        </Switch>
+      )}
+    </>
   );
 }
+//   return (
+//     <>
+//       <Navigation isLoaded={isLoaded} />
+       
+//         <Switch>
+//           <Route path="/login">
+//             <LoginFormPage />
+//           </Route>
+//           <Route path="/signup">
+//             <SignUpPage />
+//           </Route>
+//         </Switch>
+      
+//     </>
+//   );
+// }
 export default App;

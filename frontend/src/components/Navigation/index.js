@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { ProfileButton } from "./ProfileButton"
+import LoginFormModal from '../LoginFormModal';
 
 import './Navigation.css'
 
@@ -16,7 +17,8 @@ export const Navigation = () => {
     } else {
         sessionLinks = (
             <>
-                <span><NavLink style={{'text-decoration':'none', 'color': '#45454599'}}to="/login">Log In</NavLink></span>
+            <LoginFormModal />
+                {/* <span><NavLink style={{'text-decoration':'none', 'color': '#45454599'}}to="/login">Log In</NavLink></span> */}
                 <span><NavLink style={{'text-decoration':'none', 'color': '#45454599'}}to="/signup">Sign Up</NavLink></span>
             </>
         );

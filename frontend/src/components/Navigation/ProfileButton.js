@@ -33,7 +33,7 @@ export const ProfileButton = ({ user }) => {
             <div className='dropdownwrapper'>
                 <div className='profilebuttonwrapper'>
                     <button onClick={openMenu} className='profilebutton'>
-                        <i class="fa-regular fa-user"></i>
+                        <i className="fa-regular fa-user"></i>
                     </button>
                 </div>
                 {showMenu && (

@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 
+
 import './LoginForm.css';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../store/session'
 
-const LoginFormPage = () => {
+const LoginForm = () => {
     const dispatch = useDispatch()
     const [credential, setCredential] = useState('')
     const [password, setPassword] = useState('')
@@ -31,29 +32,29 @@ const LoginFormPage = () => {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}> 
             {/* <div className='wrapper'> */}
-                <ul>
-                    {errors && <li key={errors}>{errors}</li>}
-                </ul>
-                <div className='login credential'>
-                    <label className='login' htmlFor='login credential'>Username or Email</label>
-                    <input id='login credential' type='text'
-                        value={credential}
-                        onChange={e => setCredential(e.target.value)}
-                        required />
-                </div>
-                <div className='login password'>
-                    <label className='login' htmlFor='login password'>Password</label>
-                    <input id='login password' type='text'
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required />
-                </div>
-                <button type='submit'>Login</button>
+            <ul>
+                {errors && <li key={errors}>{errors}</li>}
+            </ul>
+            <div className='login credential'>
+                <label className='login' htmlFor='login credential'>Username or Email</label>
+                <input id='login credential' type='text'
+                    value={credential}
+                    onChange={e => setCredential(e.target.value)}
+                    required />
+            </div>
+            <div className='login password'>
+                <label className='login' htmlFor='login password'>Password</label>
+                <input id='login password' type='text'
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required />
+            </div>
+            <button id='login-button' type='submit'>Login</button>
             {/* </div> */}
         </form>
     )
 }
 
-export { LoginFormPage }
+export default LoginForm 
