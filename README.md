@@ -15,7 +15,7 @@ HeirBnB is a website clone inspired by AirBnb, an online marketplace for homesta
 
 ## Languages and Technologies
 This project was developed with:
--J avaScript
+- JavaScript
 - CSS
 - SQLite3
 - Express
