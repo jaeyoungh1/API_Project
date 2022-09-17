@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 // import { LoginFormPage } from './components/LoginFormPage'
 import { SignUpPage } from './components/SignupFormPage';
 import { Navigation } from './components/Navigation';
+import { SpotsList } from './components/SpotsList';
+
 import * as sessionActions from './store/session'
+
 
 function App() {
   const dispatch = useDispatch();
@@ -15,32 +18,35 @@ function App() {
 
   console.log("isLoaded is: ", isLoaded)
 
-//   return (
-//     <>
-//       <Navigation isLoaded={isLoaded} />
-//       {isLoaded && (
-//         <Switch>
-//           {/* <Route path="/login">
-//             <LoginFormPage />
-//           </Route> */}
-//           <Route path="/signup">
-//             <SignUpPage />
-//           </Route>
-//         </Switch>
-//       )}
-//     </>
-//   );
-// }
+  //   return (
+  //     <>
+  //       <Navigation isLoaded={isLoaded} />
+  //       {isLoaded && (
+  //         <Switch>
+  //           {/* <Route path="/login">
+  //             <LoginFormPage />
+  //           </Route> */}
+  //           <Route path="/signup">
+  //             <SignUpPage />
+  //           </Route>
+  //         </Switch>
+  //       )}
+  //     </>
+  //   );
+  // }
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-       
-        <Switch>
-          <Route path="/signup">
-            <SignUpPage />
-          </Route>
-        </Switch>
-      
+
+      <Switch>
+        <Route exact path='/'>
+          <SpotsList />
+        </Route>
+        <Route path="/signup">
+          <SignUpPage />
+        </Route>
+      </Switch>
+
     </>
   );
 }
