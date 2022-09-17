@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllSpots } from '../../store/spots'
+import './SpotsList.css'
 
 export const SpotsList = () => {
     const dispatch = useDispatch()
@@ -15,9 +16,9 @@ export const SpotsList = () => {
     const spotsInfo = spots.map(spot => {
         return (
             <div className={`spot ${spot.id}`}>
-                <div id={`img-${spot.id}`}><img style={{ width: 300, height: 300, objectFit: 'cover' }} alt={spot.previewImage} src={spot.previewImage} /></div>
-                <div>{`${spot.city}, ${spot.state}`}<span id={`rating-${spot.id}`}>{`★ ${spot.avgRating}`}</span></div>
-                <div style={{fontWeight:'bold'}}>{`$${spot.price}`} <span style={{fontWeight:300}}>night</span></div>
+                <div className='spot-img-div'><img className='spot-img' alt={spot.previewImage} src={spot.previewImage} /></div>
+                <div className='spot-location-div'>{`${spot.city}, ${spot.state}`}<span style={{fontWeight:'300'}} id={`rating-${spot.id}`}>{ spot.avgRating !== null ? `★ ${spot.avgRating}`: `no reviews`}</span></div>
+                <div className='spot-price-div' style={{fontWeight:500}}>{`$${spot.price}`} <span style={{fontWeight:300}}>night</span></div>
             </div>
         )
     })
@@ -25,11 +26,7 @@ export const SpotsList = () => {
     if (!spots) return null
     return (
         <div id='spots-wrapper'>
-
-            <div>
                 {spotsInfo}
-            </div>
-
         </div>
     )
 }
