@@ -42,35 +42,52 @@ export const getAllSpots = () => async dispatch => {
     }
 }
 
-export const restoreUser = () => async dispatch => {
-    console.log('Restoring User')
-    const response = await csrfFetch('/api/session');
+export const createOneSpot = (spot) => async dispatch => {
 
-    const data = await response.json();
-    dispatch((data));
-    console.log('Restored User', data)
-    return response
+    try {
+        const response = await csrfFetch(`/api/spots`, {
+            method: 'POST',
+            body: JSON.stringify(spot)
+        });
 
-};
+        if (!response.ok) {
+            let error
+            let errorJSON;
+            error = await response.text();
+            // console.log('backend error', error)
+            try {
+                errorJSON = JSON.parse(error);
+            }
+            catch {
+                throw new Error(error);
+            }
+            throw new Error(`${errorJSON.error}`);
+        }
 
-export const signUp = (user) => async dispatch => {
-    const { firstName, lastName, username, email, password } = user
-    let res = await csrfFetch('/api/users', {
-        method: 'POST',
-        body: JSON.stringify({
-            firstName,
-            lastName,
-            username,
-            email,
-            password
-        })
-    })
-    let data = await res.json()
-    console.log('data', data)
-    dispatch((data))
-    return res
 
+        const data = await response.json();
+        dispatch(createASpot(data));
+        return data;
+    }
+    catch (error) {
+        let errorJSON = await error.json()
+        // console.log('response error', errorJSON)
+        throw errorJSON
+    }
 }
+
+export const updateOneSpot = data => async dispatch => {
+    const response = await fetch(`/api/spots/${data.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        const spot = await response.json();
+        dispatch(createASpot(spot));
+        return spot;
+    }
+};
 
 export const logout = () => async dispatch => {
     let res = await csrfFetch('api/session', {
@@ -82,14 +99,29 @@ export const logout = () => async dispatch => {
 }
 
 
-const initialState = { allSpots: { spotId:{} } }
+const initialState = { allSpots: { spotId: {} } }
 
 export default function spotsReducer(state = initialState, action) {
     let newState
     switch (action.type) {
         case LOAD_ALL_SPOTS:
-            newState = {...state, allSpots: {...action.spots}}
+            newState = { ...state, allSpots: { ...action.spots } }
             return newState
+        case CREATE_SPOT:
+            if (!state[action.spot.id]) {
+                const newState = {
+                    ...state,
+                    [action.spot.id]: action.spot
+                };
+                return newState;
+            }
+            return {
+                ...state,
+                [action.spot.id]: {
+                    ...state[action.spot.id],
+                    ...action.spot
+                }
+            };
         default:
             return state
     }

@@ -28,14 +28,16 @@ export const login = (user) => async dispatch => {
 }
 
 export const restoreUser = () => async dispatch => {
-    console.log('Restoring User')
-    const response = await csrfFetch('/api/session');
-
-    const data = await response.json();
-    dispatch(setUser(data));
-    console.log('Restored User', data)
-    return response
-
+    try {
+        const response = await csrfFetch('/api/session');
+        const data = await response.json();
+        // console.log('Restored User', data)
+        dispatch(setUser(data));
+        return response
+    }
+    catch (err) {
+        return
+    }
 };
 
 export const signUp = (user) => async dispatch => {
@@ -53,7 +55,7 @@ export const signUp = (user) => async dispatch => {
     let data = await res.json()
     console.log('data', data)
     dispatch(setUser(data))
-    return res 
+    return res
 
 }
 
