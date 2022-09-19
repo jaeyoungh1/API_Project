@@ -37,11 +37,11 @@ export const ProfileButton = ({ user }) => {
                     </button>
                 </div>
                 {showMenu && (
-                    <ul className='profile dropdown'>
+                    <ul id='profile-dropdown' className='profile dropdown'>
                         <li className='profileusername' key='username'>{user.username}</li>
                         <li className='profileemail' key='email'>{user.email}</li>
                         <li>
-                            <button onClick={logoutUser} className='logout'>Log Out</button>
+                            <div className='logout-div'><button onClick={logoutUser} className='logout'>Log Out</button></div>
                         </li>
                     </ul>
                 )}
