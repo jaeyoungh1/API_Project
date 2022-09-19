@@ -32,6 +32,7 @@ ul {
 .dropdown {
     border: solid rgb(198, 198, 198) 1px;
     box-shadow: 0px 0px 5px #ababab99;
+    background-color: white;
     border-radius: 5px;
     margin-right: 5px;
     margin-top: 10px;

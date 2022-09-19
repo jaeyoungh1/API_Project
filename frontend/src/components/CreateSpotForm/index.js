@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createOneSpot } from '../../store/spots'
 
@@ -19,8 +19,6 @@ export const CreateASpot = () => {
     const [errors, setErrors] = useState([])
 
     const onSubmit = async e => {
-        setLat(34.000)
-        setLng(66.000)
         e.preventDefault()
 
         const submission = {
@@ -28,28 +26,51 @@ export const CreateASpot = () => {
             city,
             state,
             country,
-            lat,
-            lng,
+            lat: 34.0, //include this in form? // what does the create spot look like?
+            lng: 66.0, //can leave it blank and make a default lat:0
             name,
             description,
             price
+            //add preview image, 2 fetches and a thunk
+            //input type password
+            // css text-overflow ...
+            // css object-fit: cover;
+            // mdn input fields 
         }
 
         let createdSpot;
         try {
             createdSpot = await dispatch(createOneSpot(submission))
-        } catch(err) {
-            if (err) setErrors([err])
+        } catch (err) {
+            if (err) {
+                let errMsgs = err.errors
+                let errMsgsArr = Object.values(errMsgs)
+                setErrors(errMsgsArr)
+            }
         }
 
         if (createdSpot) {
+            console.log('SPOT BEING CREATED')
             setErrors([])
-            history.pushState(`/spots/${createdSpot.id}`)
+            history.push(`/`)
         }
     }
-
     return (
+        <>
+        <div id='create-spot-name'>
+            Host Your Spot
+        </div>
         <div id='create-spot-wrapper'>
+            <div className='errors'>
+                {errors.length > 0 && (
+                    <ul key={errors}>
+                        {errors.map(error => (
+                            <li key={error}>{error}</li>
+                        ))}
+
+                    </ul>
+                )}
+            </div>
             <form onSubmit={onSubmit}>
                 <input
                     type='text'
@@ -96,5 +117,6 @@ export const CreateASpot = () => {
                 <button id='create-spot-button' type='submit'>Create New Spot</button>
             </form>
         </div>
+        </>
     )
 }
