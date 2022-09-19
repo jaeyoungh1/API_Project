@@ -6,6 +6,7 @@ import { SignUpPage } from './components/SignupFormPage';
 import { Navigation } from './components/Navigation';
 import { SpotsList } from './components/SpotsList';
 import { CreateASpot } from './components/CreateSpotForm';
+import { SpotShowcase } from './components/SpotShowcase';
 
 import * as sessionActions from './store/session'
 
@@ -26,6 +27,9 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <SpotsList />
+          </Route>
+          <Route path='/spots/:spotId'>
+            <SpotShowcase />
           </Route>
           <Route path="/signup">
             <SignUpPage />
