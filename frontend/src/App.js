@@ -30,6 +30,9 @@ function App() {
           <Route path="/signup">
             <SignUpPage />
           </Route>
+          <Route path='/new-spot'>
+            <CreateASpot />
+          </Route>
         </Switch>
       )}
     </>
