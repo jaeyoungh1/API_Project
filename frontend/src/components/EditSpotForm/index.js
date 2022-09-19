@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { createOneSpot } from '../../store/spots'
+import { updateOneSpot } from '../../store/spots'
 
 import './spotForm.css'
 
-export const CreateASpot = () => {
+export const EditASpot = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -36,7 +36,7 @@ export const CreateASpot = () => {
         }
         let createdSpot;
         try {
-            createdSpot = await dispatch(createOneSpot(submission))
+            createdSpot = await dispatch(updateOneSpot(submission))
         } catch (err) {
             if (err) {
                 let errMsgs = err.errors

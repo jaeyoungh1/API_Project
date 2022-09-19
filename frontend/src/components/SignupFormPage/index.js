@@ -69,13 +69,13 @@ export const SignUpPage = () => {
             </div>
             <div>
                 <label htmlFor='password' id='signup password'>Password</label>
-                <input id='signup password' type='text'
+                <input id='signup password' type='password'
                     value={password}
                     onChange={e => setPassword(e.target.value)} />
             </div>
             <div>
                 <label htmlFor='confirm password' id='signup confirm password'>Confirm Password</label>
-                <input id='signup confirm password' type='text'
+                <input id='signup confirm password' type='password'
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)} />
             </div>

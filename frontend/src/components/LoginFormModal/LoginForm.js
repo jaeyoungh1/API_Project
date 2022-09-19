@@ -46,7 +46,7 @@ const LoginForm = () => {
             </div>
             <div className='login password'>
                 <label className='login' htmlFor='login password'>Password</label>
-                <input id='login password' type='text'
+                <input id='login password' type='password'
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required />
