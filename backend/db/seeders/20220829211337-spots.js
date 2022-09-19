@@ -58,7 +58,7 @@ module.exports = {
         lat: 60.0834212,
         lng: -170.123074,
         name: "Whiskey Hollow, A High End Cabin in the Redwoods",
-        description: "Whiskey Hollow is a true get-away! Wake up to bird song through the skylights, lounge on the deck under the redwoods with a cup of coffee, luxuriate in the oversized bathtub with candles, and cozy up in front of the wood fireplace.",
+        description: "Whiskey Hollow is a true get-away! Wake up to bird song through the skylights, and lounge on the deck under the redwoods with a cup of coffee.",
         price: 3000,
       },
       {
