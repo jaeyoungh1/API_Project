@@ -70,7 +70,7 @@ module.exports = {
         lat: 38.5025,
         lng: 122.2654,
         name: "Luxury stay in Napa",
-        description: "It doesn’t get any better than this stately boutique hotel in the heart of Napa. 17 ensuite bedrooms, a full-time staff, and an expertly manicured estate are ready to cater to your every whim. A private chef will prepare your meals, which you’ll enjoy in the 20-seat formal dining area or 28-seat alfresco setting.",
+        description: "It doesn’t get any better than this stately boutique hotel in the heart of Napa. 17 ensuite bedrooms, a full-time staff, and an expertly manicured estate are ready to cater to your every whim.",
         price: 12000,
       },
       {
@@ -118,7 +118,7 @@ module.exports = {
         lat: 38.4404,
         lng: 122.7141,
         name: "Iconia: Historic Mansion",
-        description: "Experience the ideas and principles of Frank Lloyd Wright's modern architecture in this grand mansion overlooking the hills of Sonoma. With a lighted, scalloped roof, multicolored tile work, and a cascading pool fountain, entering “Iconia” is like stepping into the 1960’s.",
+        description: "Experience the ideas and principles of Frank Lloyd Wright's modern architecture in this grand mansion overlooking the hills of Sonoma.",
         price: 2110,
       },
       {
@@ -130,7 +130,7 @@ module.exports = {
         lat: 36.5863,
         lng: -121.9475,
         name: "Pebble Beach Guest House",
-        description: "Pebble Beach guest house located in the quiet Del Monte Forest, a golf destination and gated community. 650 sq.ft. 1 bedroom with queen bed, living room, gas fireplace, WiFi, TV, kitchenette, private deck with fire pit and hot tub",
+        description: "Pebble Beach guest house located in the quiet Del Monte Forest, a golf destination and gated community.",
         price: 3370,
       },
       {
@@ -202,7 +202,7 @@ module.exports = {
         lat: 34.1533,
         lng: 118.7617,
         name: "Stunning Spanish Villa",
-        description: "Privately nestled in the horse community of Old Agoura, this stunning 5,000 sq ft villa, on a ½ acre lot, overlooks lush oak hills, has its own vineyard, and is located only 7 miles from Malibu and local beaches, and 25 miles from Los Angeles. ",
+        description: "Privately nestled in the horse community of Old Agoura, this stunning 5,000 sq ft villa, on a ½ acre lot, overlooks lush oak hills, and has its own vineyard. ",
         price: 3895,
       },
     ])
