@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
+import './SpotShowcase.css'
 
 export const SpotShowcase = () => {
     const { spotId } = useParams()
@@ -40,7 +41,7 @@ export const SpotShowcase = () => {
                 <span>{spot.city}, {spot.state}, {spot.country}</span>
             </div>
             <div className="one-spot-pics">
-                <img alt={spot.name} src={prevImg} />
+                <img id='one-spot-preview' alt={spot.name} src={prevImg} />
                 {otherImg.length > 0 && otherImg.map(url => <img alt={spot.name} src={url} />)}
             </div>
 
