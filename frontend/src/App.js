@@ -6,6 +6,7 @@ import { SignUpPage } from './components/SignupFormPage';
 import { Navigation } from './components/Navigation';
 import { SpotsList } from './components/SpotsList';
 import { CreateASpot } from './components/CreateSpotForm';
+import { EditASpot } from './components/EditSpotForm';
 import { SpotShowcase } from './components/SpotShowcase';
 import { OwnerSpots } from './components/OwnerSpots';
 
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route path='/new-spot'>
             <CreateASpot />
+          </Route>
+          <Route path="/:spotId/edit-spot">
+            <EditASpot />
           </Route>
           <Route path='/my-spots'>
             <OwnerSpots />

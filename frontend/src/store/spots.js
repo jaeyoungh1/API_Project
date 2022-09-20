@@ -123,34 +123,41 @@ export const createOneSpot = (spot) => async dispatch => {
 
 }
 
-export const updateOneSpot = payload => async dispatch => {
+export const updateOneSpot =(spotId, spot) => async dispatch => {
+    let { address, city, state, country, lat, lng, name, description, price } = spot
+    let { url } = spot
     try {
-        const response = await fetch(`/api/spots/${payload.id}`, {
+        const response = await csrfFetch(`/api/spots/${spotId}`, {
             method: 'PUT',
-            body: JSON.stringify(payload)
-        });
+            body: JSON.stringify(
+                { address, city, state, country, lat, lng, name, description, price }
+            )        });
 
         if (!response.ok) {
             let error
-            let errorJSON;
             error = await response.text();
-            try {
-                errorJSON = JSON.parse(error);
-            }
-            catch {
-                throw new Error(error);
-            }
-            throw new Error(`${errorJSON.error}`);
+            console.log(error)
         }
 
 
         const data = await response.json();
-        dispatch(updateASpot(data));
+        dispatch(createASpot(data));
+        const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url, preview: true }
+            )
+        });
+        if (imgResponse.ok) {
+            let imgData = await imgResponse.json()
+            dispatch(addPrevImg(imgData))
+        }
         return data;
     }
     catch (error) {
+        console.log(error)
         let errorJSON = await error.json()
-        throw errorJSON //figure out why it won't show more than 16
+        throw errorJSON 
     }
 };
 

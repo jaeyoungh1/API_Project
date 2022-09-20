@@ -23,7 +23,7 @@ export const OwnerSpots = () => {
                         <div className='spot-price-div' style={{ fontWeight: 500 }}>{`$${spot.price}`} <span style={{ fontWeight: 300 }}>night</span></div>
                     </div>
                     <div className='owner-actions'>
-                        <NavLink to='/edit-spot'> <button className='owner-actions-button'>Edit</button> </NavLink>
+                        <NavLink to={`${spot.id}/edit-spot`}> <button className='owner-actions-button'>Edit</button> </NavLink>
                         <button className='owner-actions-button'>Delete</button>
                     </div>
                 </div>

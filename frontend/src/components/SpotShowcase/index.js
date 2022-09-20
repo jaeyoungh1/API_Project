@@ -28,9 +28,6 @@ export const SpotShowcase = () => {
         }
     }
 
-    // create one spot, get one spot, figuring out previmg for create one spot
-    // blocker: issue with adding new spot to state after hitting 20 spots
-
     if (!spotData) return null
 
     return (
