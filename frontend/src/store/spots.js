@@ -136,7 +136,7 @@ export default function spotsReducer(state = initialState, action) {
             return newState
         case LOAD_ONE_SPOT:
             newState = { ...state,
-                 singleSpot: { ...state.singleSpot, spotData: {...action.spot}} }
+                 singleSpot: { ...state.singleSpot, spotData: {...action.spot}, SpotImages: [...action.spot.SpotImages], Owner: {...action.spot.Owner}} }
             return newState
         case CREATE_SPOT:
             newState = {

@@ -7,7 +7,9 @@ export const SpotShowcase = () => {
     const { spotId } = useParams()
     const dispatch = useDispatch()
 
-    const spot = useSelector(state => state.spots.singleSpot.spotData)
+    const spotData = useSelector(state => state.spots.singleSpot)
+    const spot = spotData.spotData
+    const spotImgArr = spotData.SpotImages
 
     useEffect(() => {
         dispatch(getOneSpots(+spotId))
@@ -15,8 +17,8 @@ export const SpotShowcase = () => {
 
     let prevImg
     let otherImg = []
-    if (spot) {
-        for (let img of spot.SpotImages) {
+    if (spotImgArr) {
+        for (let img of spotImgArr) {
             if (img.preview === true)
                 prevImg = img.url
             else {
@@ -25,9 +27,9 @@ export const SpotShowcase = () => {
         }
     }
 
-    // console.log(otherImg)
+    console.log(otherImg)
 
-    if (!spot) return null
+    if (!spotData) return null
 
     return (
         <div className='one-spot-wrapper'>
@@ -37,14 +39,14 @@ export const SpotShowcase = () => {
                 <span>{spot.numReviews} reviews</span>
                 <span>{spot.city}, {spot.state}, {spot.country}</span>
             </div>
-            {/* <div className="one-spot-pics">
+            <div className="one-spot-pics">
                 <img alt={spot.name} src={prevImg} />
                 {otherImg.length > 0 && otherImg.map(url => <img alt={spot.name} src={url} />)}
-            </div> */}
+            </div>
 
             <div className='one-spot-details-calendar'>
                 <div className='details'>
-                    <h2>Entire home hosted by {spot.Owner.firstName}</h2>
+                    <h2>Entire home hosted by </h2>
                     {/* <div className='profilepic onespot'>
 
                     </div> */}
