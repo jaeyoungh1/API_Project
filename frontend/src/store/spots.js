@@ -123,7 +123,7 @@ export const createOneSpot = (spot) => async dispatch => {
 
 }
 
-export const updateOneSpot =(spotId, spot) => async dispatch => {
+export const updateOneSpot = (spotId, spot) => async dispatch => {
     let { address, city, state, country, lat, lng, name, description, price } = spot
     let { url } = spot
     try {
@@ -131,7 +131,8 @@ export const updateOneSpot =(spotId, spot) => async dispatch => {
             method: 'PUT',
             body: JSON.stringify(
                 { address, city, state, country, lat, lng, name, description, price }
-            )        });
+            )
+        });
 
         if (!response.ok) {
             let error
@@ -142,22 +143,24 @@ export const updateOneSpot =(spotId, spot) => async dispatch => {
 
         const data = await response.json();
         dispatch(createASpot(data));
-        const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url, preview: true }
-            )
-        });
-        if (imgResponse.ok) {
-            let imgData = await imgResponse.json()
-            dispatch(addPrevImg(imgData))
+        if (url.length > 0) {
+            const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
+                method: 'POST',
+                body: JSON.stringify(
+                    { url, preview: true }
+                )
+            });
+            if (imgResponse.ok) {
+                let imgData = await imgResponse.json()
+                dispatch(addPrevImg(imgData))
+            }
         }
         return data;
     }
     catch (error) {
         console.log(error)
         let errorJSON = await error.json()
-        throw errorJSON 
+        throw errorJSON
     }
 };
 
@@ -168,9 +171,9 @@ export const deleteOneSpot = (spotId) => async dispatch => {
     if (res.ok) {
         let data = await res.json()
         console.log('data shape', data)
-        dispatch(deleteASpot(data))
+    dispatch(deleteASpot(spotId))
     }
-} 
+}
 
 const initialState = { allSpots: { spotId: {} }, singleSpot: { spotData: {}, SpotImages: [], Owner: {} } }
 
@@ -209,7 +212,16 @@ export default function spotsReducer(state = initialState, action) {
                 }
             };
         case REMOVE_SPOT:
-            newState = {...state}
+            let newAllSpots = {}
+            let stateArr = Object.values(state.allSpots)
+            console.log(stateArr)
+            stateArr.forEach(obj => {
+                console.log(obj.id)
+                return newAllSpots[obj.id] = obj
+                
+            })
+            newState = {...state, allSpots: newAllSpots}
+            console.log('newState', newState)
             delete newState.allSpots[action.spotId]
             return newState
         default:
