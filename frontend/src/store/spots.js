@@ -67,6 +67,15 @@ export const getOneSpots = (spotId) => async dispatch => {
     }
 }
 
+export const getOwnerSpots = () => async dispatch => {
+    let res = await csrfFetch(`api/spots/current`)
+    if (res.ok) {
+        let data = await res.json()
+        dispatch(loadAllSpots(data.Spots))
+        return data
+    }
+}
+
 export const createOneSpot = (spot) => async dispatch => {
     let { address, city, state, country, lat, lng, name, description, price } = spot
     let { url } = spot
@@ -145,7 +154,16 @@ export const updateOneSpot = payload => async dispatch => {
     }
 };
 
-
+export const deleteOneSpot = (spotId) => async dispatch => {
+    let res = await csrfFetch(`api/spots/${spotId}`, {
+        method: 'DELETE'
+    })
+    if (res.ok) {
+        let data = await res.json()
+        console.log('data shape', data)
+        dispatch(deleteASpot(data))
+    }
+} 
 
 const initialState = { allSpots: { spotId: {} }, singleSpot: { spotData: {}, SpotImages: [], Owner: {} } }
 
@@ -183,7 +201,10 @@ export default function spotsReducer(state = initialState, action) {
                     ...action.spot
                 }
             };
-
+        case REMOVE_SPOT:
+            newState = {...state}
+            delete newState.allSpots[action.spotId]
+            return newState
         default:
             return state
     }
