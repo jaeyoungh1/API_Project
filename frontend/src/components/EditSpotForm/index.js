@@ -15,7 +15,7 @@ export const EditASpot = () => {
     const currSpotImg = currSpotData.SpotImages
 
     let currSpotId = currSpot.id
-
+        
     let prevImg
     if (currSpotImg) {
         for (let img of currSpotImg) {
@@ -24,24 +24,33 @@ export const EditASpot = () => {
         }
     }
 
-    const [address, setAddress] = useState(currSpot.address)
-    const [city, setCity] = useState(currSpot.city)
+    const [address, setAddress] = useState('')
+    const [city, setCity] = useState('')
     const [state, setState] = useState(currSpot.state)
     const [country, setCountry] = useState(currSpot.country)
     const [lat, setLat] = useState('')
     const [lng, setLng] = useState('')
-    const [name, setName] = useState(currSpot.name)
-    const [description, setDescription] = useState(currSpot.description)
-    const [price, setPrice] = useState(currSpot.price)
-    const [url, setUrl] = useState(prevImg)
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
+    const [price, setPrice] = useState('')
+    const [url, setUrl] = useState('')
     const [errors, setErrors] = useState([])
-
 
     useEffect(() => {
         dispatch(getOneSpots(spotId))
+    }, [dispatch])
+
+    useEffect(() => {
         setAddress(currSpot.address)
         setCity(currSpot.city)
-    }, [dispatch])
+        setCountry(currSpot.country)
+        setName(currSpot.name)
+        setDescription(currSpot.description)
+        setPrice(currSpot.price)
+        setUrl(prevImg)
+    }, [spotId, currSpot])
+
+    console.log(address)
 
     const onSubmit = async e => {
         e.preventDefault()
