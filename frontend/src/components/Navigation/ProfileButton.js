@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { logout } from '../../store/session'
 
 export const ProfileButton = ({ user }) => {
@@ -37,13 +38,34 @@ export const ProfileButton = ({ user }) => {
                     </button>
                 </div>
                 {showMenu && (
-                    <ul id='profile-dropdown' className='profile dropdown'>
-                        <li className='profileusername' key='username'>{user.username}</li>
-                        <li className='profileemail' key='email'>{user.email}</li>
-                        <li>
+
+                    <div id='profile-dropdown' className='profile dropdown'>
+                        <ul>
+
+                            <li className='profileusername' key='username'>{user.username}</li>
+
+                            <li className='profileemail' key='email'>{user.email}</li>
+                        </ul>
+                        <hr />
+                        <span></span>
+                        <div className='myspots-wrapper'>
+                            <Link className='myspots-link' style={{ textDecoration: "none" }} to='/my-spots'>
+                                <div className='myspots' key='myspots'>
+                                    My Spots
+                                </div>
+                            </Link>
+                        </div>
+                        <div className='myspots-wrapper'>
+                            <Link className='myspots-link' style={{ textDecoration: "none" }} to='/new-spot'>
+
+                                <div className='newspot' key='newspot'>Host Your Spot
+                                </div>
+                            </Link>
+                        </div>
+                        <div>
                             <div className='logout-div'><button onClick={logoutUser} className='logout'>Log Out</button></div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 )}
             </div>
         </>
