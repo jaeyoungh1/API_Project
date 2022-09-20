@@ -94,7 +94,7 @@ export const SpotShowcase = () => {
                     </div>
                 </div>
                 <div className='one-spot-reviews'>
-                    <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} reviews</h2>
+                    <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} review(s)</h2>
                 </div>
 
             </div>

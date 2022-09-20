@@ -5,6 +5,7 @@ const LOAD_ALL_SPOTS = 'spots/load_all_spots'
 const LOAD_ONE_SPOT = 'spots/load_one_spot'
 const UPDATE_SPOT = 'spots/update_spot'
 const REMOVE_SPOT = 'spots/remove_spot'
+const ADD_PREV_IMG = 'spots/spot/add_prv_img'
 
 export function loadAllSpots(spots) {
     return {
@@ -25,7 +26,12 @@ export function createASpot(spot) {
         spot
     }
 }
-
+export function addPrevImg(url) {
+    return {
+        type: ADD_PREV_IMG,
+        url
+    }
+}
 
 export function updateASpot(spot) {
     return {
@@ -62,10 +68,15 @@ export const getOneSpots = (spotId) => async dispatch => {
 }
 
 export const createOneSpot = (spot) => async dispatch => {
+    let { address, city, state, country, lat, lng, name, description, price } = spot
+    let { url } = spot
+
     try {
         const response = await csrfFetch(`/api/spots`, {
             method: 'POST',
-            body: JSON.stringify(spot)
+            body: JSON.stringify(
+                { address, city, state, country, lat, lng, name, description, price }
+            )
         });
 
         if (!response.ok) {
@@ -84,6 +95,16 @@ export const createOneSpot = (spot) => async dispatch => {
 
         const data = await response.json();
         dispatch(createASpot(data));
+        const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url, preview: true }
+            )
+        });
+        if (imgResponse.ok) {
+            let imgData = await imgResponse.json()
+            dispatch(addPrevImg(imgData))
+        }
         return data;
     }
     catch (error) {
@@ -126,7 +147,7 @@ export const updateOneSpot = payload => async dispatch => {
 
 
 
-const initialState = { allSpots: { spotId: {} }, singleSpot: { spotData: {}, SpotImages: [], Owner: {}} }
+const initialState = { allSpots: { spotId: {} }, singleSpot: { spotData: {}, SpotImages: [], Owner: {} } }
 
 export default function spotsReducer(state = initialState, action) {
     let newState
@@ -135,8 +156,10 @@ export default function spotsReducer(state = initialState, action) {
             newState = { ...state, allSpots: { ...action.spots } }
             return newState
         case LOAD_ONE_SPOT:
-            newState = { ...state,
-                 singleSpot: { ...state.singleSpot, spotData: {...action.spot}, SpotImages: [...action.spot.SpotImages], Owner: {...action.spot.Owner}} }
+            newState = {
+                ...state,
+                singleSpot: { ...state.singleSpot, spotData: { ...action.spot }, SpotImages: [...action.spot.SpotImages], Owner: { ...action.spot.Owner } }
+            }
             return newState
         case CREATE_SPOT:
             newState = {
@@ -144,7 +167,12 @@ export default function spotsReducer(state = initialState, action) {
                 allSpots: { ...state.allSpots, [action.spot.id]: action.spot }
             };
             return newState;
-
+        case ADD_PREV_IMG:
+            newState = {
+                ...state,
+                singleSpot: { ...state.singleSpot, spotData: {}, SpotImages: [action.url], Owner: {} }
+            }
+            return newState
         case UPDATE_SPOT:
             return {
                 ...state,
