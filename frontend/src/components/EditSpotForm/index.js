@@ -43,6 +43,7 @@ export const EditASpot = () => {
     useEffect(() => {
         setAddress(currSpot.address)
         setCity(currSpot.city)
+        setState(currSpot.state)
         setCountry(currSpot.country)
         setName(currSpot.name)
         setDescription(currSpot.description)
@@ -88,6 +89,7 @@ export const EditASpot = () => {
             setName('')
             setDescription('')
             setPrice('')
+            setUrl('')
 
             console.log('SPOT BEING EDITED', createdSpot)
             setErrors([])
@@ -210,7 +212,7 @@ export const EditASpot = () => {
                         </input>
                     </div>
                     <div id='create-spot-button-wrapper' n>
-                        <button id='create-spot-button' type='submit'>Update Your Spot</button>
+                        <button id='create-spot-button' type='submit'>Update My Spot</button>
                     </div>
                 </form>
             </div>
