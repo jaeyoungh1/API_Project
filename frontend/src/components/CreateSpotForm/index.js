@@ -18,6 +18,7 @@ export const CreateASpot = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
+    const [url, setUrl] = useState('')
     const [errors, setErrors] = useState([])
 
     const onSubmit = async e => {
@@ -33,6 +34,7 @@ export const CreateASpot = () => {
             name,
             description,
             price,
+            url
         }
         let createdSpot;
         try {
@@ -55,10 +57,11 @@ export const CreateASpot = () => {
             setName('')
             setDescription('')
             setPrice('')
+            setUrl('')
 
             console.log('SPOT BEING CREATED', createdSpot)
             setErrors([])
-            history.push(`/`)
+            history.push(`/spots/${createdSpot.id}`)
         }
     }
     return (
@@ -164,6 +167,15 @@ export const CreateASpot = () => {
                             min='1'
                             value={price}
                             onChange={e => setPrice(e.target.value)}>
+                        </input>
+                    </div>
+                    <label className='create-spot-input-title'>Preview Image URL</label>
+                    <div className='create-spot-input'>
+                        <input
+                            type='text'
+                            placeholder='https://...'
+                            value={url}
+                            onChange={e => setUrl(e.target.value)}>
                         </input>
                     </div>
                     <div id='create-spot-button-wrapper' n>

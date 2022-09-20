@@ -1,24 +1,47 @@
 import { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateOneSpot } from '../../store/spots'
+import { getOneSpots, updateOneSpot } from '../../store/spots'
 
-import './spotForm.css'
+import '../CreateSpotForm/spotForm.css'
 
 export const EditASpot = () => {
     const dispatch = useDispatch()
     const history = useHistory()
+    const {spotId} = useParams()
 
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [country, setCountry] = useState('')
+    const currSpotData = useSelector(state => state.spots.singleSpot)
+    const currSpot = currSpotData.spotData
+    const currSpotImg = currSpotData.SpotImages
+
+    let currSpotId = currSpot.id
+
+    let prevImg
+    if (currSpotImg) {
+        for (let img of currSpotImg) {
+            if (img.preview === true)
+                prevImg = img.url
+        }
+    }
+
+    const [address, setAddress] = useState(currSpot.address)
+    const [city, setCity] = useState(currSpot.city)
+    const [state, setState] = useState(currSpot.state)
+    const [country, setCountry] = useState(currSpot.country)
     const [lat, setLat] = useState('')
     const [lng, setLng] = useState('')
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
+    const [name, setName] = useState(currSpot.name)
+    const [description, setDescription] = useState(currSpot.description)
+    const [price, setPrice] = useState(currSpot.price)
+    const [url, setUrl] = useState(prevImg)
     const [errors, setErrors] = useState([])
+
+
+    useEffect(() => {
+        dispatch(getOneSpots(spotId))
+        setAddress(currSpot.address)
+        setCity(currSpot.city)
+    }, [dispatch])
 
     const onSubmit = async e => {
         e.preventDefault()
@@ -33,10 +56,11 @@ export const EditASpot = () => {
             name,
             description,
             price,
+            url
         }
         let createdSpot;
         try {
-            createdSpot = await dispatch(updateOneSpot(submission))
+            createdSpot = await dispatch(updateOneSpot(currSpotId, submission))
         } catch (err) {
             if (err) {
                 let errMsgs = err.errors
@@ -56,15 +80,16 @@ export const EditASpot = () => {
             setDescription('')
             setPrice('')
 
-            console.log('SPOT BEING CREATED', createdSpot)
+            console.log('SPOT BEING EDITED', createdSpot)
             setErrors([])
-            history.push(`/`)
+            history.push(`/my-spots`)
         }
     }
+
     return (
         <>
             <div id='create-spot-name'>
-                Host Your Spot
+                Edit {currSpot.name}
             </div>
             <div id='create-spot-wrapper'>
                 <div className='errors-wrapper'>
@@ -166,8 +191,17 @@ export const EditASpot = () => {
                             onChange={e => setPrice(e.target.value)}>
                         </input>
                     </div>
+                    <label className='create-spot-input-title'>Preview Image URL</label>
+                    <div className='create-spot-input'>
+                        <input
+                            type='text'
+                            placeholder='https://...'
+                            value={url}
+                            onChange={e => setUrl(e.target.value)}>
+                        </input>
+                    </div>
                     <div id='create-spot-button-wrapper' n>
-                        <button id='create-spot-button' type='submit'>Create New Spot</button>
+                        <button id='create-spot-button' type='submit'>Update Your Spot</button>
                     </div>
                 </form>
             </div>
