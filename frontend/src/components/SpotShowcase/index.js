@@ -1,7 +1,8 @@
 import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
+import { getAllSpotReviews } from "../../store/reviews"
 import './SpotShowcase.css'
 
 export const SpotShowcase = () => {
@@ -12,8 +13,17 @@ export const SpotShowcase = () => {
     const spot = spotData.spotData
     const spotImgArr = spotData.SpotImages
 
+    const reviewData = useSelector(state => state.reviews.spot)
+    console.log('reviewData', reviewData)
+    const reviewArr = Object.values(reviewData.ReviewData)
+    console.log(reviewArr)
+
     useEffect(() => {
         dispatch(getOneSpots(+spotId))
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(getAllSpotReviews(+spotId))
     }, [dispatch])
 
     let prevImg
@@ -28,7 +38,7 @@ export const SpotShowcase = () => {
         }
     }
 
-    if (!spotData) return null
+    if (!spotData || !reviewData) return null
 
     return (
         <div className='one-spot-wrapper'>
@@ -92,6 +102,27 @@ export const SpotShowcase = () => {
                 </div>
                 <div className='one-spot-reviews'>
                     <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} review(s)</h2>
+                    <div className='spot-reviews'>
+                        <div>
+                            <NavLink to='/create-review'>Review This Spot</NavLink>
+                        </div>
+                        {reviewArr.map(obj => {
+                            return (
+                                <div>
+                                    <h3>{reviewData.User[obj.id].firstName}</h3>
+                                    <p>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
+                                    <p>{obj.review}</p>
+                                    <div>
+                                        {reviewData.ReviewImages.map(obj => {
+                                            return (
+                                                <img alt='reviewphoto' src={obj.url}/>
+                                            )
+                                        })}
+                                        </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
 
             </div>
