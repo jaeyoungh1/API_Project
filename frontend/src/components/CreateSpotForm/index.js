@@ -172,6 +172,7 @@ export const CreateASpot = () => {
                     <label className='create-spot-input-title'>Preview Image URL</label>
                     <div className='create-spot-input'>
                         <input
+                            // required
                             type='text'
                             placeholder='https://...'
                             value={url}

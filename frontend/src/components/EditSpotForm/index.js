@@ -200,7 +200,7 @@ export const EditASpot = () => {
                             onChange={e => setPrice(e.target.value)}>
                         </input>
                     </div>
-                    <label className='create-spot-input-title'>Preview Image URL</label>
+                    {/* <label className='create-spot-input-title'>Preview Image URL</label> */}
                     {/* <div className='create-spot-input'>
                         <input
                             type='text'
