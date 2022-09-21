@@ -9,6 +9,7 @@ import { CreateASpot } from './components/CreateSpotForm';
 import { EditASpot } from './components/EditSpotForm';
 import { SpotShowcase } from './components/SpotShowcase';
 import { OwnerSpots } from './components/OwnerSpots';
+import { OwnerReviews } from './components/OwnerReviews';
 
 import * as sessionActions from './store/session'
 
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path='/my-spots'>
             <OwnerSpots />
+          </Route>
+          <Route path='/my-reviews'>
+            <OwnerReviews />
           </Route>
         </Switch>
       )}

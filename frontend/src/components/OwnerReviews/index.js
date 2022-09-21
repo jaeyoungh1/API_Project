@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { NavLink, useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOwnerReviews } from "../../store/reviews"
@@ -7,54 +7,52 @@ import { getAllSpots } from "../../store/spots"
 
 export const OwnerReviews = () => {
     const dispatch = useDispatch()
+    const [spotsLoaded, setSpotsLoaded] = useState(false)
 
     const reviewData = useSelector(state => state.reviews.user)
-    console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
-    const reviewImgArr = reviewData.ReviewImages
-    console.log(reviewArr)
 
     const spotData = useSelector(state => state.spots.allSpots)
 
-    console.log(spotData)
+    useEffect(() => {
+        if (Object.values(spotData).length > 1) setSpotsLoaded(true)
+    }, [spotData])
 
     useEffect(() => {
         dispatch(getOwnerReviews())
-    }, [dispatch])
-
-    useEffect(() => {
         dispatch(getAllSpots())
     }, [dispatch])
 
-    let prevImg
-    let otherImg = []
-    if (reviewImgArr) {
-        for (let img of reviewImgArr) {
-            if (img.preview === true)
-                prevImg = img.url
-            else {
-                otherImg.push(img.url)
-            }
-        }
+    let ownerReviews;
+    if (spotsLoaded) {
+        ownerReviews = reviewArr.map(review => {
+            return (<div>
+                <h3>Review for {spotData[review.spotId].name}</h3>{/* get spot name for this  */}
+                <p>
+                    {review.review}
+                </p>
+                <p>
+                    Written {new Date(review.createdAt).toString().slice(3, -42)}
+                </p>
+                <div>
+                    {review.ReviewImages.length > 0 && <p>My Photos for This Spot</p>}
+                    {review.ReviewImages.map(obj => {
+                        return (
+                            <div>
+                                <img alt={review.review} src={obj.url} />
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>)
+        })
     }
 
-    if (!reviewData) return null
-
-    let ownerReviews = reviewArr.map(review => {
-        <div>
-            <h3>Review for {reviewData.review.id}</h3>{/* get spot name for this  */}
-            <p>
-                {review.review}
-                {/* date */}
-            </p>
-            <div>
-                {prevImg}
-            </div>
-        </div>
-    })
     return (
-        <div>
-            {ownerReviews}
-        </div>
+        <>
+            <div>
+                {ownerReviews}
+            </div>
+        </>
     )
 }

@@ -1,8 +1,9 @@
 import { csrfFetch } from './csrf';
 
 const CREATE_REVIEW = 'reviews/create_review'
+const ADD_REVIEW_IMG = 'reviews/add_review_photo'
 const LOAD_SPOT_REVIEWS = 'reviews/load_spot_reviews'
-const LOAD_USER_REVIEWS = 'reviews/load_suser_reviews'
+const LOAD_USER_REVIEWS = 'reviews/load_user_reviews'
 const UPDATE_REVIEW = 'reviews/update_review'
 const REMOVE_REVIEW = 'reviews/remove_review'
 
@@ -10,6 +11,13 @@ export function loadAllReviews(reviews) {
     return {
         type: LOAD_SPOT_REVIEWS,
         reviews
+    }
+}
+
+export function addReviewImage(img) {
+    return {
+        type: ADD_REVIEW_IMG,
+        img
     }
 }
 
@@ -52,16 +60,6 @@ export const getAllSpotReviews = (spotId) => async dispatch => {
     }
 }
 
-// export const getOneReviews = (reviewId) => async dispatch => {
-//     let res = await csrfFetch(`/api/reviews/${reviewId}`)
-//     console.log('getonereviewdata', res)
-//     if (res.ok) {
-//         let data = await res.json()
-//         dispatch(loadAReview(data))
-//         return data
-//     }
-// }
-
 export const getOwnerReviews = () => async dispatch => {
     let res = await csrfFetch(`api/reviews/current`)
     if (res.ok) {
@@ -71,52 +69,52 @@ export const getOwnerReviews = () => async dispatch => {
     }
 }
 
-// export const createOneReview = (review) => async dispatch => {
-//     let { address, city, state, country, lat, lng, name, description, price } = review
-//     let { url } = review
+export const createOneReview = (review) => async dispatch => {
+    let { address, city, state, country, lat, lng, name, description, price } = review
+    let { url } = review
 
-//     try {
-//         const response = await csrfFetch(`/api/reviews`, {
-//             method: 'POST',
-//             body: JSON.stringify(
-//                 { address, city, state, country, lat, lng, name, description, price }
-//             )
-//         });
+    try {
+        const response = await csrfFetch(`/api/reviews`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { address, city, state, country, lat, lng, name, description, price }
+            )
+        });
 
-//         if (!response.ok) {
-//             let error
-//             let errorJSON;
-//             error = await response.text();
-//             try {
-//                 errorJSON = JSON.parse(error);
-//             }
-//             catch {
-//                 throw new Error(error);
-//             }
-//             throw new Error(`${errorJSON.error}`);
-//         }
+        if (!response.ok) {
+            let error
+            let errorJSON;
+            error = await response.text();
+            try {
+                errorJSON = JSON.parse(error);
+            }
+            catch {
+                throw new Error(error);
+            }
+            throw new Error(`${errorJSON.error}`);
+        }
 
 
-//         const data = await response.json();
-//         dispatch(createAReview(data));
-//         const imgResponse = await csrfFetch(`/api/reviews/${data.id}/images`, {
-//             method: 'POST',
-//             body: JSON.stringify(
-//                 { url, preview: true }
-//             )
-//         });
-//         if (imgResponse.ok) {
-//             let imgData = await imgResponse.json()
-//             dispatch(addPrevImg(imgData))
-//         }
-//         return data;
-//     }
-//     catch (error) {
-//         let errorJSON = await error.json()
-//         throw errorJSON //figure out why it won't show more than 16
-//     }
+        const data = await response.json();
+        dispatch(createAReview(data));
+        const imgResponse = await csrfFetch(`/api/reviews/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url, preview: true }
+            )
+        });
+        if (imgResponse.ok) {
+            let imgData = await imgResponse.json()
+            dispatch(addReviewImage(imgData))
+        }
+        return data;
+    }
+    catch (error) {
+        let errorJSON = await error.json()
+        throw errorJSON //figure out why it won't show more than 16
+    }
 
-// }
+}
 
 // export const updateOneReview = (reviewId, review) => async dispatch => {
 //     let { address, city, state, country, lat, lng, name, description, price } = review
@@ -192,9 +190,9 @@ export default function reviewsReducer(state = initialState, action) {
                 reviewData[review.id] = review;
                 userData[review.id] = review.User
                 spotData[review.id] = review.Spot
-                reviewImg = [...review.ReviewImages]
+                reviewImg = [...reviewImg, ...review.ReviewImages]
             })
-            newState = { ...state, spot: { ReviewData: { ...reviewData }, User: { ...userData }, ReviewImages: [...reviewImg], Spot: {...spotData} } }
+            newState = { ...state, user: { ReviewData: { ...reviewData }, User: { ...userData }, ReviewImages: [...reviewImg], Spot: {...spotData} } }
             return newState
         // case CREATE_REVIEW:
         //     newState = {
