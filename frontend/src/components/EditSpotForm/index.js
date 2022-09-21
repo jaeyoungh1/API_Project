@@ -51,8 +51,6 @@ export const EditASpot = () => {
         setUrl(prevImg)
     }, [spotId, currSpot])
 
-    console.log(address)
-
     const onSubmit = async e => {
         e.preventDefault()
 
@@ -203,14 +201,14 @@ export const EditASpot = () => {
                         </input>
                     </div>
                     <label className='create-spot-input-title'>Preview Image URL</label>
-                    <div className='create-spot-input'>
+                    {/* <div className='create-spot-input'>
                         <input
                             type='text'
                             placeholder='https://...'
                             value={url}
                             onChange={e => setUrl(e.target.value)}>
                         </input>
-                    </div>
+                    </div> */}
                     <div id='create-spot-button-wrapper' n>
                         <button id='create-spot-button' type='submit'>Update My Spot</button>
                     </div>

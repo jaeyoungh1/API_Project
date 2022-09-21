@@ -181,6 +181,7 @@ export default function spotsReducer(state = initialState, action) {
     let newState
     switch (action.type) {
         case LOAD_ALL_SPOTS:
+            
             newState = { ...state, allSpots: { ...action.spots } }
             return newState
         case LOAD_ONE_SPOT:
@@ -215,7 +216,7 @@ export default function spotsReducer(state = initialState, action) {
             let newAllSpots = {}
             let stateArr = Object.values(state.allSpots)
             console.log(stateArr)
-            stateArr.forEach(obj => {
+            stateArr.forEach(obj => { //figuring out how to load curr reviews
                 console.log(obj.id)
                 return newAllSpots[obj.id] = obj
                 
