@@ -11,6 +11,7 @@ import { SpotShowcase } from './components/SpotShowcase';
 import { OwnerSpots } from './components/OwnerSpots';
 import { OwnerReviews } from './components/OwnerReviews';
 import { EditAReview } from './components/EditReview';
+import { CreateAReview } from './components/CreateReviewForm';
 
 import * as sessionActions from './store/session'
 
@@ -52,6 +53,9 @@ function App() {
           </Route>
           <Route path="/:reviewId/edit-review">
             <EditAReview />
+          </Route>
+          <Route path="/:spotId/create-review">
+            <CreateAReview />
           </Route>
         </Switch>
       )}
