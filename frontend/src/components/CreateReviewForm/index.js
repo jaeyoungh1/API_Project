@@ -24,21 +24,28 @@ export const CreateAReview = () => {
 
         const submission = {
             review,
-            stars
+            stars,
+            url
         }
 
         console.log('submission', submission)
 
         let createdReview;
-        console.log('spotId', typeof spotId)
         try {
-            createdReview = await dispatch(createOneReview(spotId, submission))
+            createdReview = await dispatch(createOneReview(+spotId, submission))
             console.log('createdReview', createdReview)
         } catch (err) {
             if (err) {
-                let errMsgs = err.errors
-                let errMsgsArr = Object.values(errMsgs)
-                setErrors(errMsgsArr)
+                if (err.statusCode === 400) {
+                    console.log('err', err)
+                    let errMsgs = err.errors
+                    let errMsgsArr = Object.values(errMsgs)
+                    setErrors(errMsgsArr)
+                }
+                if (err.statusCode === 403) {
+                    
+                    setErrors(['You already have written a review for this spot! If you would like to edit your review please go to your reviews'])
+                }
             }
         }
 
@@ -87,6 +94,7 @@ export const CreateAReview = () => {
 
                         ★<input
                             type='number'
+                            min='0' max='5'
                             placeholder='4'
                             value={stars}
                             onChange={e => setStars(e.target.value)}>

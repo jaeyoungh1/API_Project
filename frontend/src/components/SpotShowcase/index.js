@@ -16,7 +16,7 @@ export const SpotShowcase = () => {
     const reviewData = useSelector(state => state.reviews.spot)
     console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
-    console.log(reviewArr)
+    console.log('reviewArr',reviewArr)
 
     useEffect(() => {
         dispatch(getOneSpots(+spotId))
@@ -104,7 +104,7 @@ export const SpotShowcase = () => {
                     <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} review(s)</h2>
                     <div className='spot-reviews'>
                         <div>
-                            <NavLink to='/create-review'>Review This Spot</NavLink>
+                            <NavLink to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
                         </div>
                         {reviewArr.map(obj => {
                             return (
@@ -113,11 +113,11 @@ export const SpotShowcase = () => {
                                     <p>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
                                     <p>{obj.review}</p>
                                     <div>
-                                        {reviewData.ReviewImages.map(obj => {
+                                        {obj.ReviewImages.map(obj => {
                                             return (
                                                 <img alt='reviewphoto' src={obj.url}/>
                                             )
-                                        })}
+                                        })} 
                                         </div>
                                 </div>
                             )

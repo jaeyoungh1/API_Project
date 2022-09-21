@@ -3,7 +3,6 @@ import { csrfFetch } from './csrf';
 const CREATE_REVIEW = 'reviews/create_review'
 const ADD_REVIEW_IMG = 'reviews/add_review_photo'
 const LOAD_SPOT_REVIEWS = 'reviews/load_spot_reviews'
-const LOAD_ONE_REVIEW = 'reviews/load_one-review'
 const LOAD_USER_REVIEWS = 'reviews/load_user_reviews'
 const UPDATE_REVIEW = 'reviews/update_review'
 const REMOVE_REVIEW = 'reviews/remove_review'
@@ -71,15 +70,15 @@ export const getOwnerReviews = () => async dispatch => {
     }
 }
 
-export const createOneReview = (review) => async dispatch => {
-    let { address, city, state, country, lat, lng, name, description, price } = review
-    let { url } = review
+export const createOneReview = (spotId, reviewData) => async dispatch => {
+    let { review, stars } = reviewData
+    let { url } = reviewData
 
     try {
-        const response = await csrfFetch(`/api/reviews`, {
+        const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
             method: 'POST',
             body: JSON.stringify(
-                { address, city, state, country, lat, lng, name, description, price }
+                { review, stars }
             )
         });
 
@@ -96,24 +95,27 @@ export const createOneReview = (review) => async dispatch => {
             throw new Error(`${errorJSON.error}`);
         }
 
-
         const data = await response.json();
         dispatch(createAReview(data));
-        const imgResponse = await csrfFetch(`/api/reviews/${data.id}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url, preview: true }
-            )
-        });
-        if (imgResponse.ok) {
-            let imgData = await imgResponse.json()
-            dispatch(addReviewImage(imgData))
+
+        if (url.length > 0) {
+
+            const imgResponse = await csrfFetch(`/api/reviews/${data.id}/images`, {
+                method: 'POST',
+                body: JSON.stringify(
+                    { url }
+                )
+            });
+            if (imgResponse.ok) {
+                let imgData = await imgResponse.json()
+                dispatch(addReviewImage(imgData.url))
+            }
         }
         return data;
     }
     catch (error) {
         let errorJSON = await error.json()
-        throw errorJSON //figure out why it won't show more than 16
+        throw errorJSON 
     }
 
 }
@@ -182,18 +184,23 @@ export default function reviewsReducer(state = initialState, action) {
             })
             newState = { ...state, user: { ReviewData: { ...reviewData }, User: { ...userData }, ReviewImages: [...reviewImg], Spot: { ...spotData } } }
             return newState
-        // case CREATE_REVIEW:
-        //     newState = {
-        //         ...state,
-        //         allReviews: { ...state.allReviews, [action.review.id]: action.review }
-        //     };
-        //     return newState;
-        // case ADD_PREV_IMG:
-        //     newState = {
-        //         ...state,
-        //         singleReview: { ...state.singleReview, reviewData: {}, ReviewImages: [action.url], Owner: {} }
-        //     }
-        //     return newState
+        case CREATE_REVIEW:
+            reviewData[action.review.id] = action.review;
+            userData[action.review.id] = action.review.userId
+            newState = {
+                ...state,
+                spot: {
+                    ReviewData: { ...reviewData }, User: { ...userData }, ReviewImages: [...reviewImg]
+                }
+            }
+            return newState;
+        case ADD_REVIEW_IMG:
+            newState = {
+                ...state,
+                spot: { ...state.spot, ReviewImages: [action.url], Owner: {} }
+            }
+            console.log('newState', newState)
+            return newState
         case UPDATE_REVIEW:
             return {
                 ...state,
@@ -217,7 +224,7 @@ export default function reviewsReducer(state = initialState, action) {
 
             })
 
-            newState = { ...state, user: { ...state.user, ReviewData: {...newAllReviews} }}
+            newState = { ...state, user: { ...state.user, ReviewData: { ...newAllReviews } } }
             console.log('newState', newState)
             delete newState.user.ReviewData[action.reviewId]
             return newState
