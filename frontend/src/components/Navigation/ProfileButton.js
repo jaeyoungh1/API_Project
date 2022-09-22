@@ -62,8 +62,15 @@ export const ProfileButton = ({ user }) => {
                                 </div>
                             </Link>
                         </div>
+                        <div className='myspots-wrapper'>
+                            <Link className='myspots-link' style={{ textDecoration: "none" }} to='/my-reviews'>
+
+                                <div className='newspot' key='myreviews'>My Reviews
+                                </div>
+                            </Link>
+                        </div>
                         <div>
-                            <div className='logout-div'><button onClick={logoutUser} className='logout'>Log Out</button></div>
+                            <div className='logout-div'><div onClick={logoutUser} className='logout'>Log Out</div></div>
                         </div>
                     </div>
                 )}

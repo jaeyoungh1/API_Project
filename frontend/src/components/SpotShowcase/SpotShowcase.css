@@ -1,19 +1,102 @@
 .one-spot-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-left: 120px;
+    margin-right: 120px;
+    /* align-items: center; */
 }
+hr {
+    width: 100%;
+    color: rgb(234, 52, 52);
+}
+
+.one-spot-wrapper > h1 {
+    font-weight: 400;
+    margin-top: 40px;
+    margin-bottom: 5px;
+}
+
+.one-spot-underheader > span {
+    font-size: 14px;
+    margin-right: 3px;
+    font-weight: 500;
+}
+.one-spot-underheader {
+    margin-bottom: 30px;
+}
+
 .one-spot-pics {
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    height: 300px;
+    display: flex;
+    justify-content: flex-start;
 }
-.one-spot-pics > img {
+
+.one-spot-pics-not-preview {
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: 400px;
+    margin-left: 5px;
+}
+.not-preview-image {
+    height: 400px;
+    width: 300px;
     object-fit: cover;
-    max-height: 300px;
+    border-radius: 10px;
+}
+
+.one-spot-pics > img {
+    border-radius: 10px;
+    object-fit: cover;
+    max-height: 400px;
 }
 #one-spot-preview {
     grid-column: 0 / 2;
     grid-row: 0 / 2
+}
+.one-spot-details-scroll {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 3px
+}
+.details {
+    margin-right: 10px;
+}
+.details > h3 {
+    font-weight: 500;
+    font-size: 28px;
+    margin-top: 50px;
+}
+.aircover {
+    width: 150px;
+    margin-left: -8px;
+}
+.details > p {
+    font-weight: 300;
+}
+
+.one-spot-checkout-floating-tab {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid rgb(178, 178, 178);
+    box-shadow: 0 0 10px rgb(187, 187, 187);
+    right: 75px;
+    top: 680px;
+    width: 20%;
+}
+.one-spot-checkout-floating-tab > div {
+    margin-bottom: 20px;
+}
+.one-spot-checkout-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px;
+    /* width: 90px; */
+}
+.checkin {
+    /* border: 1px blue solid; */
+    width: 100%;
 }

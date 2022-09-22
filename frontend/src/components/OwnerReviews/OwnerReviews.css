@@ -70,7 +70,7 @@ button :hover {
     display: flex;
 }
 
-#edit-review {
+.manage-reviews-button {
     background-color:rgb(220, 28, 114);
     border-radius: 4px;
     color: white;
@@ -78,17 +78,10 @@ button :hover {
     border: 1px solid rgb(220, 28, 114);
     margin-right: 4px;
 }
-/* .review-button-wrapper :hover {
+
+.review-button-wrapper :hover {
     background-color: white;
     color: rgb(220, 28, 114);
-    font-size: 12px;
-    border: 1px solid rgb(220, 28, 114);
-    margin-right: 4px;
-} */
-#delete-review {
-    background-color: rgb(220, 28, 114);
-    border-radius: 4px;
-    color: white;
     font-size: 12px;
     border: 1px solid rgb(220, 28, 114);
     margin-right: 4px;

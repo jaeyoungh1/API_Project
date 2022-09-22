@@ -12,6 +12,7 @@ import { OwnerSpots } from './components/OwnerSpots';
 import { OwnerReviews } from './components/OwnerReviews';
 import { EditAReview } from './components/EditReview';
 import { CreateAReview } from './components/CreateReviewForm';
+import { ManageReviewPhotos } from './components/ManageReviewPhotos';
 
 import * as sessionActions from './store/session'
 
@@ -24,7 +25,7 @@ function App() {
   }, [dispatch]);
 
   console.log("isLoaded is: ", isLoaded)
-
+//work on 404/error pages
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -56,6 +57,12 @@ function App() {
           </Route>
           <Route path="/:spotId/create-review">
             <CreateAReview />
+          </Route>
+          {/* <Route path="/:reviewId/review-photos">
+            <ManageReviewPhotos />
+          </Route> */}
+          <Route>
+            404! Not all that wander are lost, but you seem to be...
           </Route>
         </Switch>
       )}
