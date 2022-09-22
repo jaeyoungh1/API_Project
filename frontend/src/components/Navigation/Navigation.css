@@ -27,8 +27,38 @@ ul {
     margin-right: 4px;
 }
 
+.logo {
+    width: 150px;
+    margin-top: -20px;
+}
 
-.dropdown {
+.login-dropdown {
+    border: solid rgb(198, 198, 198) 1px;
+    box-shadow: 0px 0px 5px #ababab99;
+    background-color: white;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+    position: absolute;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 120px;
+    z-index: 9999;
+    top: 65px;
+}
+.login-wrapper :hover {
+    background-color: pink;
+}
+
+.headerbreak {
+    background-color: #dedede99;
+    width: 100%;
+    height: 1px;
+    margin-top: 30px;
+    margin-bottom: -40px;
+}
+
+#profile-dropdown {
     border: solid rgb(198, 198, 198) 1px;
     box-shadow: 0px 0px 5px #ababab99;
     background-color: white;
@@ -62,6 +92,13 @@ hr {
 
 }
 
+.menu-visible{
+    visibility:visible;
+    border: solid red 1px
+}
+.menu-not-visible {
+    visibility: hidden;
+}
 
 .myspots-wrapper {
     width: 100%;
@@ -108,11 +145,23 @@ hr {
 }
 
 .profilebutton {
-    width: 40px;
+    width: 70px;
     height: 40px;
     border-radius: 20px;
-    border: none;
+    border: 1px solid rgb(171, 171, 171);
     justify-self: left;
-    background-color: rgb(171, 171, 171);
-    color: white;
+    background-color: white;
+}
+#login-nav {
+    border: 1px blue solid;
+}
+
+.fa-user {
+    color: rgb(171, 171, 171);
+    margin-left: 5px;
+}
+
+.fa-bars {
+    color: rgb(171, 171, 171);
+    margin-right: 8px;
 }

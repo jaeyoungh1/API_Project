@@ -2,7 +2,7 @@ import { Route, Switch } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 // import { LoginFormPage } from './components/LoginFormPage'
-import { SignUpPage } from './components/SignupFormPage';
+// import { SignUpPage } from './components/SignupFormPage';
 import { Navigation } from './components/Navigation';
 import { SpotsList } from './components/SpotsList';
 import { CreateASpot } from './components/CreateSpotForm';
@@ -26,6 +26,8 @@ function App() {
 
   console.log("isLoaded is: ", isLoaded)
 //work on 404/error pages
+// blocker: continued issues with adding more than 4 new spots
+// today's steps: work on styling and hosts can add spot images, sign up modal
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -37,9 +39,9 @@ function App() {
           <Route path='/spots/:spotId'>
             <SpotShowcase />
           </Route>
-          <Route path="/signup">
+          {/* <Route path="/signup">
             <SignUpPage />
-          </Route>
+          </Route> */}
           <Route path='/new-spot'>
             <CreateASpot />
           </Route>
@@ -69,23 +71,5 @@ function App() {
     </>
   );
 }
-// return (
-//     <>
-//       <Navigation isLoaded={isLoaded} />
 
-//       <Switch>
-//         <Route exact path='/'>
-//           <SpotsList />
-//         </Route>
-//         <Route path="/signup">
-//           <SignUpPage />
-//         </Route>
-//         <Route path='/new-spot'>
-//           <CreateASpot />
-//         </Route>
-//       </Switch>
-
-//     </>
-//   );
-// }
 export default App;

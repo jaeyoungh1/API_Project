@@ -4,7 +4,24 @@ input {
     border-radius: 4px;
     height: 40px;
 }
-form>div {
+form > div {
     padding-bottom: 10px;
-    color: rgb(54, 50, 51)
+    color: rgb(220, 28, 114)
+}
+
+.signup-button-wrapper :hover {
+    background: white;
+    color: rgb(220, 28, 114);
+    border: 1px solid rgb(220, 28, 114)
+}
+
+.signup-button {
+    color: white;
+    background-color: rgb(220, 28, 114);
+    border: 1px solid rgb(220, 28, 114);
+    border-radius: 4px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 10px;
+    width: 101%;
 }

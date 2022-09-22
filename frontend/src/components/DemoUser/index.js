@@ -12,8 +12,8 @@ export const DemoUser = () => {
     }
 
     return (
-        <span id='demouserwrapper'>
-        <button id='demouser' onClick={loginDemo}>Login as Demo User</button>
+        <span className='.login-button-wrapper'>
+        <button className='login-button' onClick={loginDemo}>Login as Demo User</button>
         </span>
     )
 }
