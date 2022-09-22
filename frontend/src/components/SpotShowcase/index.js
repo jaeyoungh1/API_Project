@@ -43,7 +43,6 @@ export const SpotShowcase = () => {
 
     return (
         <div className='one-spot-wrapper'>
-            <hr></hr>
             <h1>{spot.name}</h1>
             <div className='one-spot-underheader'>
                 <span>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}</span>
@@ -60,27 +59,32 @@ export const SpotShowcase = () => {
             <div className='one-spot-details-scroll'>
                 <div className='details'>
                     <h3>Entire home hosted by {spotData.Owner.firstName}</h3>
-                    <hr></hr>
+                    <div className='descriptionbreak'></div>
                     <img className='aircover' alt='aircover' src={aircover} />
                     <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
+                    <div className='descriptionbreak'></div>
                     <p>{spot.description}</p>
                 </div>
                 <div className='one-spot-checkout-floating-tab'>
-                    <div className='one-spot-checkout header'>
-                        <span>${spot.price} night</span>
-                        <span>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}</span>
-                        <span>{spot.numReviews} reviews</span>
+                    <div className='one-spot-checkout-header'>
+                        <div><span className='one-spot-price'>${spot.price}</span> night</div>
+                        <div className='one-spot-review'>
+
+                            <span>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · </span>
+                            <span id='numreviews'>{spot.numReviews} review(s)</span>
+                        </div>
                     </div>
                     <div className='one-spot-checkout-dates'>
-                        <div className='checkin'>Check-In
+                        <div className='checkin'>CHECK-IN
                             <input type='date'></input>
                         </div>
-                        <div className='checkin'>Check-Out
+                        <div className='checkin'>CHECKOUT
                             <input type='date'></input>
                         </div>
                     </div>
-                    <div className='one-spot-checkout dates'>
-                        <div id='one-spot guests'>Guests
+                    <div className='one-spot-checkout-guests'>
+                        <div id='one-spot-guests'>
+                            <div>GUESTS</div>
                             <select>
                                 <option value='1'>1 guest</option>
                                 <option value='2'>2 guests</option>
@@ -103,22 +107,24 @@ export const SpotShowcase = () => {
                     </div>
                 </div>
             </div>
+            <div className='descriptionbreak'></div>
+
             <div className='one-spot-reviews'>
-                <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} review(s)</h2>
+                <h2>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · {spot.numReviews} review(s)</h2>
                 <div className='spot-reviews'>
-                    <div>
-                        <NavLink to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
+                    <div className='review-this-spot'>
+                        <NavLink style={{textDecoration:'none', color:'white'}} to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
                     </div>
                     {reviewArr.map(obj => {
                         return (
-                            <div>
+                            <div className='single-review'>
                                 <h3>{reviewData.User[obj.id].firstName}</h3>
-                                <p>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
+                                <p id='single-review-date' className='review-date'>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
                                 <p>{obj.review}</p>
-                                <div>
+                                <div >
                                     {obj.ReviewImages.map(obj => {
                                         return (
-                                            <img alt='reviewphoto' src={obj.url} />
+                                            <img className='single-review-image' alt='reviewphoto' src={obj.url} />
                                         )
                                     })}
                                 </div>

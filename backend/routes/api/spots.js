@@ -85,17 +85,19 @@ router.get('/', validatePagination, async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
     let pagination = {}
     let where = {}
-
+    
     if (!page) page = 1;
-    if (!size) size = 20
+    if (!size) size = 0
     if (!minPrice) minPrice = 0;
     if (!maxPrice) maxPrice = 0;
+    console.log('this is the console log for page', page)
+    console.log('this is the console log for size', size)
 
     page = parseInt(page)
     size = parseInt(size)
-    pagination.limit = size;
-    pagination.offset = size * (page - 1)
-    if (pagination.offset < 0) pagination.offset = 0
+    // pagination.limit = size;
+    // pagination.offset = size * (page - 1)
+    // if (pagination.offset < 0) pagination.offset = 0
 
     minLat = parseInt(minLat)
     maxLat = parseInt(maxLat)
@@ -173,8 +175,8 @@ router.get('/', validatePagination, async (req, res, next) => {
     
     let result = {}
     result.Spots = Spots;
-    result.page = page;
-    result.size = size;
+    // result.page = page 
+    // result.size = size 
 
     return res.json(result)
     // return res.json({Spots: spots, page, size})

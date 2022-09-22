@@ -5,13 +5,11 @@
     padding: 3px;
     padding-left: 9px;
     padding-right: 9px;
-    border: none;
+    border: 1px solid #ff0073;
     border-radius: 4px;
 }
 #demouserwrapper :hover {
     border: solid #ff0073 1px;
     background-color: white;
     color: #ff0073;
-    margin-right: -0.12rem;
-    margin-top: -0.1rem;
 }

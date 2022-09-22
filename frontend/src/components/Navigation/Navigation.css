@@ -27,6 +27,9 @@ ul {
     margin-right: 4px;
 }
 
+.logo {
+    width: 150px;
+}
 
 .dropdown {
     border: solid rgb(198, 198, 198) 1px;

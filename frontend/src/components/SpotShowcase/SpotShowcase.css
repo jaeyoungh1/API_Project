@@ -5,22 +5,24 @@
     margin-right: 120px;
     /* align-items: center; */
 }
+
 hr {
     width: 100%;
     color: rgb(234, 52, 52);
 }
 
-.one-spot-wrapper > h1 {
+.one-spot-wrapper>h1 {
     font-weight: 400;
     margin-top: 40px;
     margin-bottom: 5px;
 }
 
-.one-spot-underheader > span {
+.one-spot-underheader>span {
     font-size: 14px;
     margin-right: 3px;
     font-weight: 500;
 }
+
 .one-spot-underheader {
     margin-bottom: 30px;
 }
@@ -31,72 +33,175 @@ hr {
 }
 
 .one-spot-pics-not-preview {
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     height: 400px;
     margin-left: 5px;
 }
+
 .not-preview-image {
-    height: 400px;
-    width: 300px;
+    height: 500px;
+    width: 100%;
     object-fit: cover;
     border-radius: 10px;
 }
 
-.one-spot-pics > img {
+.one-spot-pics>img {
     border-radius: 10px;
     object-fit: cover;
-    max-height: 400px;
+    max-height: 500px;
+    width: 110%;
 }
+
 #one-spot-preview {
     grid-column: 0 / 2;
     grid-row: 0 / 2
 }
+
 .one-spot-details-scroll {
     display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 3px
+    grid-template-columns: 2fr 1fr;
+    gap: 50px
 }
+
 .details {
     margin-right: 10px;
 }
-.details > h3 {
+.descriptionbreak{
+    display: flex;
+    background-color: rgb(228, 228, 228);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 98%;
+    height: 1px;
+}
+.details>h3 {
     font-weight: 500;
     font-size: 28px;
     margin-top: 50px;
 }
+
 .aircover {
     width: 150px;
     margin-left: -8px;
 }
-.details > p {
+
+.details>p {
     font-weight: 300;
 }
 
 .one-spot-checkout-floating-tab {
-    position: absolute;
     background-color: white;
     border-radius: 10px;
     padding: 15px;
     padding-top: 20px;
-    padding-bottom: 20px;
-    border: 1px solid rgb(178, 178, 178);
-    box-shadow: 0 0 10px rgb(187, 187, 187);
-    right: 75px;
-    top: 680px;
-    width: 20%;
+    padding-bottom: 10px;
+    border: 1px solid rgb(213, 213, 213);
+    box-shadow: 0 0 6px rgb(224, 224, 224);
+    height: 200px;
+    margin-top: 50px;
+    width: 90%;
+    margin-left: 10px;
 }
-.one-spot-checkout-floating-tab > div {
+
+.one-spot-checkout-floating-tab>div {
     margin-bottom: 20px;
 }
+
+.one-spot-checkout-header{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+.one-spot-checkout-header > div {
+    font-weight: 300;
+ }
+
+.one-spot-price {
+    font-weight: 500;
+    font-size: 20px;
+}
+.one-spot-review > span {
+    font-weight: 500;
+    font-size: 14px;
+}
+#numreviews {
+    color: grey;
+}
+
 .one-spot-checkout-dates {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0px;
-    /* width: 90px; */
 }
+
 .checkin {
-    /* border: 1px blue solid; */
-    width: 100%;
+    width: 95%;
+    font-weight: 500;
+    font-size: 10px;
+    color: rgb(220, 28, 114);
+    ;
+}
+
+.one-spot-checkout-guests {
+    border: rgb(213, 213, 213) 1px solid;
+    border-radius: 7px;
+    margin-top: -10px;
+    width: 98%;
+}
+
+#one-spot-guests>div {
+    font-weight: 500;
+    font-size: 10px;
+    margin-top: 7px;
+    margin-left: 13px;
+}
+#one-spot-guests> select {
+    font-weight: 300;
+    font-size: 13px;
+    margin-bottom: 7px;
+    margin-left: 10px;
+    width: 94%;
+    border: none;
+}
+
+.one-spot-reviews {
+    display: flex;
+    flex-direction: column;
+}
+
+.one-spot-reviews > h2 {
+    font-weight: 600;
+    font-size: 20px;
+}
+.review-this-spot {
+    border: 1px solid rgb(220, 28, 114);;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+    background-color:rgb(220, 28, 114);
+}
+.single-review {
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+.single-review > h3 {
+    font-weight: 500;
+    margin-bottom: -7px;
+}
+.single-review>h3 {
+    font-weight: 500;
+    margin-bottom: -10px;
+}
+#single-review-date {
+    font-size: 15px;
+    font-style: normal;
+}
+.single-review-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 4px;
+    object-fit: cover;
 }
