@@ -1,12 +1,13 @@
 #demouser {
     background-color: #ff0073;
     color: white;
-    font-family: 'Noto Sans', sans-serif;
+    /* font-family: 'Noto Sans', sans-serif; */
     padding: 3px;
-    padding-left: 9px;
-    padding-right: 9px;
+    position: absolute;
+    left: 40px;
     border: 1px solid #ff0073;
     border-radius: 4px;
+    width: 40%;
 }
 #demouserwrapper :hover {
     border: solid #ff0073 1px;

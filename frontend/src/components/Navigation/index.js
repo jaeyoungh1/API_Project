@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { ProfileButton } from "./ProfileButton"
+import { LoginButton } from "./LoginButton";
 import LoginFormModal from '../LoginFormModal';
 import SignUpFormModal from "../SignupFormPage";
 import { DemoUser } from '../DemoUser'
@@ -20,11 +21,9 @@ export const Navigation = () => {
     } else {
         sessionLinks = (
             <>
-                <LoginFormModal />
-                {/* <span><NavLink style={{'text-decoration':'none', 'color': '#45454599'}}to="/login">Log In</NavLink></span> */}
-                <SignUpFormModal/>
-                {/* <span><NavLink style={{ 'textDecoration': 'none', 'color': '#45454599' }} to="/signup">Sign Up</NavLink></span> */}
-                <DemoUser />
+            <LoginButton/>
+                 {/* <LoginFormModal />
+                <SignUpFormModal/> */}
             </>
         );
     }
@@ -43,8 +42,9 @@ export const Navigation = () => {
                 </div>
             </li>
         </ul>
-        <div className='descriptionbreak'>
+        <div className='headerbreak'>
         </div>
+        
         </>
     );
 }

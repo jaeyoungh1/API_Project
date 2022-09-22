@@ -34,6 +34,7 @@ export const ProfileButton = ({ user }) => {
             <div className='dropdownwrapper'>
                 <div className='profilebuttonwrapper'>
                     <button onClick={openMenu} className='profilebutton'>
+                        <i className="fa-solid fa-bars"></i>
                         <i className="fa-regular fa-user"></i>
                     </button>
                 </div>
