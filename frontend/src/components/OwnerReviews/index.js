@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { NavLink} from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOwnerReviews } from "../../store/reviews"
 import { getAllSpots } from "../../store/spots"
@@ -13,15 +13,16 @@ export const OwnerReviews = () => {
     const reviewData = useSelector(state => state.reviews.user)
     const reviewArr = Object.values(reviewData.ReviewData)
 
-    const spotData = useSelector(state => state.spots.allSpots)
+    console.log('reviewData', Object.values(reviewData).length)
+    const spotData = reviewData.Spot
+    // console.log(spotData)
 
     useEffect(() => {
-        if (Object.values(spotData).length > 1) setSpotsLoaded(true)
+        if (Object.values(reviewData).length > 1) setSpotsLoaded(true)
     }, [spotData])
 
     useEffect(() => {
         dispatch(getOwnerReviews())
-        dispatch(getAllSpots())
     }, [dispatch])
 
     const deleteReview = async (reviewId) => {
@@ -34,7 +35,9 @@ export const OwnerReviews = () => {
         ownerReviews = reviewArr.map(review => {
             return (
                 <div className='single-review-div' key={review.id}>
-                    <h3>Review for <span className='review-spotname'>{spotData[review.spotId].name}</span></h3>{/* get spot name for this  */}
+                    <h3>Review for
+                        <NavLink style={{ textDecoration: 'none' }} to={`/spots/${spotData[review.id].id}`}><span className='review-spotname'> {spotData[review.id].name}</span></NavLink>
+                    </h3>{/* get spot name for this  */}
                     <p className='review-body'>
                         ★ {review.stars}   "{review.review}"
                     </p>
@@ -42,8 +45,8 @@ export const OwnerReviews = () => {
                         Written {new Date(review.createdAt).toString().slice(3, -42)}
                     </p>
                     <span className='review-span'>
-                        <NavLink to={`/${review.id}/edit-review`}><div className='review-button-wrapper'><button id='edit-review'>Edit Review</button></div></NavLink>
-                        <div className='review-button-wrapper'><button id='delete-review' onClick={() => deleteReview(review.id)} >Delete Review</button></div>
+                        <NavLink to={`/${review.id}/edit-review`}><div className='review-button-wrapper'><button className='manage-reviews-button'>Edit Review</button></div></NavLink>
+                        <div className='review-button-wrapper'><button className='manage-reviews-button' onClick={() => deleteReview(review.id)} >Delete Review</button></div>
                     </span>
 
                     <div>
@@ -57,9 +60,10 @@ export const OwnerReviews = () => {
                                 )
                             })}
                         </div>
-                                {review.ReviewImages.length > 0 && (<span>
-                                    <button>Manage Photos</button>
-                                </span>)}
+                        {/* {review.ReviewImages.length > 0 && (
+                            <NavLink to={`/${review.id}/review-photos`}><div className='review-button-wrapper'>
+                                <button className='manage-reviews-button'>Manage Photos</button></div></NavLink>
+                        )} */}
                     </div>
                 </div>)
         })

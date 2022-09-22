@@ -44,7 +44,7 @@ export const CreateAReview = () => {
                 }
                 if (err.statusCode === 403) {
                     
-                    setErrors(['You already have written a review for this spot! If you would like to edit your review please go to your reviews'])
+                    setErrors(['You already have written a review for this spot! Feel free to edit your existing review'])
                 }
             }
         }

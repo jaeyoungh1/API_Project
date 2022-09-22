@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
 import './SpotShowcase.css'
+import aircover from '../../images/aircover.png'
 
 export const SpotShowcase = () => {
     const { spotId } = useParams()
@@ -16,7 +17,7 @@ export const SpotShowcase = () => {
     const reviewData = useSelector(state => state.reviews.spot)
     console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
-    console.log('reviewArr',reviewArr)
+    console.log('reviewArr', reviewArr)
 
     useEffect(() => {
         dispatch(getOneSpots(+spotId))
@@ -42,38 +43,39 @@ export const SpotShowcase = () => {
 
     return (
         <div className='one-spot-wrapper'>
+            <hr></hr>
             <h1>{spot.name}</h1>
             <div className='one-spot-underheader'>
                 <span>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}</span>
-                <span>{spot.numReviews} reviews</span>
+                <span> · {spot.numReviews} reviews · </span>
                 <span>{spot.city}, {spot.state}, {spot.country}</span>
             </div>
             <div className="one-spot-pics">
                 <img id='one-spot-preview' alt={spot.name} src={prevImg} />
-                {otherImg.length > 0 && otherImg.map(url => <img alt={spot.name} src={url} />)}
+                <div className="one-spot-pics-not-preview">
+                    {otherImg.length > 0 && otherImg.map(url => <img className='not-preview-image' alt={spot.name} src={url} />)}
+                </div>
             </div>
 
             <div className='one-spot-details-scroll'>
                 <div className='details'>
-                    <h2>Entire home hosted by {spotData.Owner.firstName}</h2>
-                    {/* <div className='profilepic onespot'>
-
-                    </div> */}
-                    <h2>aircover</h2>
+                    <h3>Entire home hosted by {spotData.Owner.firstName}</h3>
+                    <hr></hr>
+                    <img className='aircover' alt='aircover' src={aircover} />
                     <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
                     <p>{spot.description}</p>
                 </div>
-                <div className='one-spot-checkout floating-tab'>
+                <div className='one-spot-checkout-floating-tab'>
                     <div className='one-spot-checkout header'>
                         <span>${spot.price} night</span>
                         <span>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}</span>
                         <span>{spot.numReviews} reviews</span>
                     </div>
-                    <div className='one-spot-checkout dates'>
-                        <div id='checkin date'>Check-In
+                    <div className='one-spot-checkout-dates'>
+                        <div className='checkin'>Check-In
                             <input type='date'></input>
                         </div>
-                        <div id='checkout date'>Check-Out
+                        <div className='checkin'>Check-Out
                             <input type='date'></input>
                         </div>
                     </div>
@@ -100,31 +102,30 @@ export const SpotShowcase = () => {
                         </div>
                     </div>
                 </div>
-                <div className='one-spot-reviews'>
-                    <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} review(s)</h2>
-                    <div className='spot-reviews'>
-                        <div>
-                            <NavLink to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
-                        </div>
-                        {reviewArr.map(obj => {
-                            return (
-                                <div>
-                                    <h3>{reviewData.User[obj.id].firstName}</h3>
-                                    <p>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
-                                    <p>{obj.review}</p>
-                                    <div>
-                                        {obj.ReviewImages.map(obj => {
-                                            return (
-                                                <img alt='reviewphoto' src={obj.url}/>
-                                            )
-                                        })} 
-                                        </div>
-                                </div>
-                            )
-                        })}
+            </div>
+            <div className='one-spot-reviews'>
+                <h2>{spot.avgStarRating === null ? `★ New` : `★${spot.avgStarRating}`}· {spot.numReviews} review(s)</h2>
+                <div className='spot-reviews'>
+                    <div>
+                        <NavLink to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
                     </div>
+                    {reviewArr.map(obj => {
+                        return (
+                            <div>
+                                <h3>{reviewData.User[obj.id].firstName}</h3>
+                                <p>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
+                                <p>{obj.review}</p>
+                                <div>
+                                    {obj.ReviewImages.map(obj => {
+                                        return (
+                                            <img alt='reviewphoto' src={obj.url} />
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
-
             </div>
 
         </div>
