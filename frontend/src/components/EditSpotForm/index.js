@@ -198,7 +198,7 @@ export const EditASpot = () => {
                             onChange={e => setPrice(e.target.value)}>
                         </input>
                     </div>
-                    {/* <label className='create-spot-input-title'>Preview Image URL</label>
+                    <label className='create-spot-input-title'>Preview Image URL</label>
                     <div className='create-spot-input'>
                         <input
                             type='text'
@@ -206,7 +206,7 @@ export const EditASpot = () => {
                             value={url}
                             onChange={e => setUrl(e.target.value)}>
                         </input>
-                    </div> */}
+                    </div>
                     <div id='create-spot-button-wrapper' n>
                         <button id='create-spot-button' type='submit'>Update My Spot</button>
                     </div>

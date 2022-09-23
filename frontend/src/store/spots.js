@@ -155,23 +155,31 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
 
         const data = await response.json();
         dispatch(updateASpot(data));
-        console.log('spot data', data)
+        // console.log('spot data', data)
         if (url.length > 0) {
             let spotRes = await csrfFetch(`/api/spots/${data.id}`)
             if (spotRes.ok) {
                 let spotData = await spotRes.json()
-                console.log('oneSpotData', spotData.SpotImages)
+                // console.log('oneSpotData', spotData.SpotImages)
+                let prevImg = spotData.SpotImages.find(obj => obj.preview === true)
+                let deleteImg = await csrfFetch(`/api/spot-images/${prevImg.id}`, {
+                    method:"DELETE"
+                })
+                if (deleteImg.ok) {
+                    console.log('newimg', url)
+                    let newImg = await csrfFetch(`/api/spots/${data.id}/images`, {
+                        method: 'POST',
+                        body: JSON.stringify(
+                            { url, preview: true }
+                        )
+                    })
+                    if (newImg.ok) {
+                        let imgData = await newImg.json()
+                        console.log('newimg', imgData)
+                        dispatch(addPrevImg(imgData))
+                    }
+                }
             }
-            // const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
-            //     method: 'POST',
-            //     body: JSON.stringify(
-            //         { url, preview: true }
-            //     )
-            // });
-            // if (imgResponse.ok) {
-            //     let imgData = await imgResponse.json()
-            //     dispatch(addPrevImg(imgData))
-            // }
         }
         return data;
     }
@@ -223,7 +231,8 @@ export default function spotsReducer(state = initialState, action) {
         case ADD_PREV_IMG:
             newState = {
                 ...state,
-                singleSpot: { ...state.singleSpot, spotData: {}, SpotImages: [action.url], Owner: {} }
+                singleSpot: { ...state.singleSpot, spotData: {}, SpotImages: [action.url], Owner: {} },
+                allSpots: {...state.allSpots, }
             }
             return newState
         case UPDATE_SPOT:
