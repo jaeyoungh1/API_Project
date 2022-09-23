@@ -7,10 +7,10 @@ HeirBnB is a website clone inspired by AirBnb, an online marketplace for homesta
 
 
 ## Wiki Links
-[API Documentation](https://github.com/jaeyoungh1/API_Project/wiki/API-Documentation)
-[Database Schema](https://github.com/jaeyoungh1/API_Project/wiki/Database-Schema)
-[Feature List](https://github.com/jaeyoungh1/API_Project/wiki/Feature-List)
-[Redux Store State Shape](https://github.com/jaeyoungh1/API_Project/wiki/Redux-Store-Shape)
+- [API Documentation](https://github.com/jaeyoungh1/API_Project/wiki/API-Documentation)
+- [Database Schema](https://github.com/jaeyoungh1/API_Project/wiki/Database-Schema)
+- [Feature List](https://github.com/jaeyoungh1/API_Project/wiki/Feature-List)
+- [Redux Store State Shape](https://github.com/jaeyoungh1/API_Project/wiki/Redux-Store-Shape)
 
 ## Languages and Technologies
 This project was developed with:
