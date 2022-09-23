@@ -13,6 +13,7 @@ import { OwnerReviews } from './components/OwnerReviews';
 import { EditAReview } from './components/EditReview';
 import { CreateAReview } from './components/CreateReviewForm';
 import { ManageReviewPhotos } from './components/ManageReviewPhotos';
+import { Whoops } from './components/404'
 
 import * as sessionActions from './store/session'
 
@@ -25,9 +26,9 @@ function App() {
   }, [dispatch]);
 
   console.log("isLoaded is: ", isLoaded)
-//work on 404/error pages
-// blocker: continued issues with adding more than 4 new spots
-// today's steps: work on styling and hosts can add spot images, sign up modal
+  //work on 404/error pages
+  // blocker: continued issues with adding more than 4 new spots
+  // today's steps: work on styling and hosts can add spot images, sign up modal
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -60,11 +61,8 @@ function App() {
           <Route path="/:spotId/create-review">
             <CreateAReview />
           </Route>
-          {/* <Route path="/:reviewId/review-photos">
-            <ManageReviewPhotos />
-          </Route> */}
           <Route>
-            404! Not all that wander are lost, but you seem to be...
+            <Whoops />
           </Route>
         </Switch>
       )}

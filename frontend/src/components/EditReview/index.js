@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOwnerReviews, updateOneReview } from '../../store/reviews'
 
@@ -9,6 +9,7 @@ export const EditAReview = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const { reviewId } = useParams()
+    const currentUser = useSelector(state => state.session.user)
 
     const currReviewData = useSelector(state => state.reviews.user)
     // const currSpotData = useSelector(state => state.reviews.user.Spot)
@@ -41,6 +42,9 @@ export const EditAReview = () => {
 
     }, [reviewId, currReview])
 
+    if (!currentUser) {
+        return <Redirect to='/' />
+    }
 
     const onSubmit = async e => {
         e.preventDefault()

@@ -37,7 +37,7 @@
     padding: 10px;
     width: 96%;
     border-radius: 4px;
-    border:rgb(255, 0, 115) solid 1px;
+    border:grey solid 1px;
 }
 
 #create-spot-button {
@@ -63,6 +63,15 @@
     color: rgb(255, 0, 115);
     border: 1px solid rgb(255, 0, 115)
 }
+
+.create-spot-textarea {
+    resize: none;
+    width: 95%;
+    height: 200px;
+    font-size: 14px;
+    text-indent: 7px;
+}
+
 
 .errors-wrapper {
     display: flex;

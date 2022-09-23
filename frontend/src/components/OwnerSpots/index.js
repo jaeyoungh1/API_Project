@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink , Redirect} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOwnerSpots, deleteOneSpot } from '../../store/spots'
 import './OwnerSpots.css'
@@ -8,6 +8,7 @@ export const OwnerSpots = () => {
     const dispatch = useDispatch()
 
     const spots = useSelector(state => Object.values(state.spots.allSpots))
+    const currentUser = useSelector(state => state.session.user)
 
     useEffect(() => {
         dispatch(getOwnerSpots())
@@ -37,7 +38,11 @@ export const OwnerSpots = () => {
         )
     })
 
-    console.log('spotsInfo', spotsInfo)
+    // console.log('spotsInfo', spotsInfo)
+
+    if (!currentUser) {
+        return <Redirect to='/' />
+    }
 
     if (!spots) return null
 

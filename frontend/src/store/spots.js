@@ -58,12 +58,17 @@ export const getAllSpots = () => async dispatch => {
 }
 
 export const getOneSpots = (spotId) => async dispatch => {
-    let res = await csrfFetch(`/api/spots/${spotId}`)
-    console.log('getonespotdata', res)
-    if (res.ok) {
-        let data = await res.json()
-        dispatch(loadASpot(data))
-        return data
+    try {
+        let res = await csrfFetch(`/api/spots/${spotId}`)
+        if (res.ok) {
+            let data = await res.json()
+            dispatch(loadASpot(data))
+            return data
+        }
+    } catch (err) {
+        let error = await err.json()
+        // console.log('error', error.message)
+        return error.message
     }
 }
 
@@ -171,7 +176,7 @@ export const deleteOneSpot = (spotId) => async dispatch => {
     if (res.ok) {
         let data = await res.json()
         console.log('data shape', data)
-    dispatch(deleteASpot(spotId))
+        dispatch(deleteASpot(spotId))
     }
 }
 
@@ -225,9 +230,9 @@ export default function spotsReducer(state = initialState, action) {
             stateArr.forEach(obj => { //figuring out how to load curr reviews
                 console.log(obj.id)
                 return newAllSpots[obj.id] = obj
-                
+
             })
-            newState = {...state, allSpots: newAllSpots}
+            newState = { ...state, allSpots: newAllSpots }
             console.log('newState', newState)
             delete newState.allSpots[action.spotId]
             return newState

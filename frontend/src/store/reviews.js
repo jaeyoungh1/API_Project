@@ -177,6 +177,7 @@ export default function reviewsReducer(state = initialState, action) {
             newState = { ...state, spot: { ReviewData: { ...reviewData }, User: { ...userData }, ReviewImages: [...reviewImg] } }
             return newState
         case LOAD_USER_REVIEWS:
+            // console.log('reviews', action.reviews)
             action.reviews.forEach(review => {
                 reviewData[review.id] = review;
                 userData[review.id] = review.User
@@ -200,21 +201,18 @@ export default function reviewsReducer(state = initialState, action) {
                 ...state,
                 spot: { ...state.spot, ReviewImages: [action.url], Owner: {} }
             }
-            console.log('newState', newState)
             return newState
         case UPDATE_REVIEW:
-            return {
+            reviewData[action.review.id] = action.review;
+            userData[action.review.id] = action.review.userId
+            newState = {
                 ...state,
                 spot: {
-                    ...state.spot,
-                    ReviewData: {
-                        [action.review.id]: {
-                            ...action.review
-                        },
-                        ...action.review
-                    }
+                    ReviewData: { ...reviewData }, User: { ...userData }, ReviewImages: [...reviewImg]
                 }
-            };
+            }
+            return newState;
+            
         case REMOVE_REVIEW:
             let newAllReviews = {}
             let stateArr = Object.values(state.user.ReviewData)

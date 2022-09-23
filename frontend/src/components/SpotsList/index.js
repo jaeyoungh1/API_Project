@@ -17,7 +17,7 @@ export const SpotsList = () => {
 
     const spotsInfo = spots.map(spot => {
         return (
-            <NavLink style={{textDecoration: 'none', color:'black'}} key={spot.id} to={`/spots/${spot.id}`}>
+            <NavLink style={{ textDecoration: 'none', color: 'black' }} key={spot.id} to={`/spots/${spot.id}`}>
                 <div className={`spot ${spot.id}`}  >
                     <div className='spot-img-div'><img className='spot-img' alt={spot.previewImage} src={spot.previewImage} /></div>
                     <div className='spot-location-div'>{`${spot.city}, ${spot.state}`}<span style={{ fontWeight: '300' }} id={`rating-${spot.id}`}>{spot.avgRating !== null ? `★ ${spot.avgRating}` : `★ New`}</span></div>
@@ -29,8 +29,14 @@ export const SpotsList = () => {
 
     if (!spots) return null
     return (
-        <div id='spots-wrapper'>
-            {spotsInfo}
-        </div>
+        <>
+            <div id='spots-wrapper'>
+                {spotsInfo}
+            </div>
+            <div className='footer'>
+                <div className='clone'>2022 HeirBnb · An Airbnb-clone homage to "The Good Place"</div>
+                <div className='name'>Created by <a href='https://github.com/jaeyoungh1'>Jae Hwang</a></div>
+            </div>
+        </>
     )
 }

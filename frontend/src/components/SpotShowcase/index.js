@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { NavLink, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { NavLink, useParams, Redirect } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
@@ -9,6 +9,7 @@ import aircover from '../../images/aircover.png'
 export const SpotShowcase = () => {
     const { spotId } = useParams()
     const dispatch = useDispatch()
+    const [errors, setErrors] = useState('')
 
     const currentUser = useSelector(state => state.session.user)
 
@@ -20,18 +21,22 @@ export const SpotShowcase = () => {
     // console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
-   
+    const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
+
+    
     let currentUserId 
     currentUser ? currentUserId = currentUser.id : currentUserId = undefined
     
-    console.log(spotUserId, currentUserId)
-    // console.log('reviewArr', reviewArr)
-
+    
     useEffect(() => {
-        dispatch(getOneSpots(+spotId))
+        dispatch(getOneSpots(+spotId)).then(res => setErrors(res))
         dispatch(getAllSpotReviews(+spotId))
+        
     }, [dispatch])
 
+    let areErrors = false;
+    errors === "Spot couldn't be found" ? areErrors = true : areErrors = false;
+    
 
     let prevImg
     let otherImg = []
@@ -45,7 +50,17 @@ export const SpotShowcase = () => {
         }
     }
 
+    let reviewExists;
+    if (currentUserId && reviewArr.length > 0) {
+        reviewExists = reviewArr.find(obj => obj.userId === currentUserId)
+    }
+        
+   
+
     if (!spotData || !reviewData) return null
+    if (areErrors) {
+        return <Redirect to='/whoops'/>
+    }
 
     return (
         <div className='one-spot-wrapper'>
@@ -64,7 +79,7 @@ export const SpotShowcase = () => {
 
             <div className='one-spot-details-scroll'>
                 <div className='details'>
-                    <h3>Entire home hosted by {spotData.Owner.firstName}</h3>
+                    <h3>Entire home hosted by {spotUserName}</h3>
                     <div className='descriptionbreak'></div>
                     <img className='aircover' alt='aircover' src={aircover} />
                     <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
@@ -118,7 +133,7 @@ export const SpotShowcase = () => {
             <div className='one-spot-reviews'>
                 <h2>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · {spot.numReviews} review(s)</h2>
                 <div className='spot-reviews'>
-                    {currentUser && currentUserId === spotUserId ?
+                    {currentUser && currentUserId !== spotUserId && !reviewExists ?
                         (<div className='review-this-spot'>
                             <NavLink style={{ textDecoration: 'none', color: 'white' }} to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
                         </div>) :
@@ -131,9 +146,10 @@ export const SpotShowcase = () => {
                                 <p id='single-review-date' className='review-date'>{new Date(obj.createdAt).toString().slice(3, -42)}</p>
                                 <p>{obj.review}</p>
                                 <div >
-                                    {obj.ReviewImages.map(obj => {
+                                    {obj.ReviewImages && obj.ReviewImages.map(obj => {
                                         return (
                                             <img className='single-review-image' alt='reviewphoto' src={obj.url} />
+                                        
                                         )
                                     })}
                                 </div>

@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     /* grid-template-rows: 1fr 1fr 1fr 1fr; */
-    margin-top: 80px;
+    margin-top: 40px;
     margin-left: 130px;
     margin-right: 130px;
     flex-wrap: wrap;
@@ -13,7 +13,8 @@
     justify-content: center;
 }
 .owner-spots-header > h1 {
-    color: rgb(220, 28, 114);
+    font-size: 30px;
+        font-weight: 500;
 }
 .owner-spot-divs {
     margin-bottom: 60px;

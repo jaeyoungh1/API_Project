@@ -14,9 +14,7 @@ export const OwnerReviews = () => {
     const reviewData = useSelector(state => state.reviews.user)
     const reviewArr = Object.values(reviewData.ReviewData)
 
-    console.log('reviewData', Object.values(reviewData).length)
     const spotData = reviewData.Spot
-    // console.log(spotData)
 
     useEffect(() => {
         if (Object.values(reviewData).length > 1) setSpotsLoaded(true)
@@ -64,10 +62,6 @@ export const OwnerReviews = () => {
                                 )
                             })}
                         </div>
-                        {/* {review.ReviewImages.length > 0 && (
-                            <NavLink to={`/${review.id}/review-photos`}><div className='review-button-wrapper'>
-                                <button className='manage-reviews-button'>Manage Photos</button></div></NavLink>
-                        )} */}
                     </div>
                 </div>)
         })
@@ -78,8 +72,11 @@ export const OwnerReviews = () => {
             <div className='review-header-wrapper'>
                 <h2 className='review-header'>My Reviews</h2>
             </div>
+            <div className='review-wrapper-wrapper'>
+
             <div className='review-wrapper'>
                 {ownerReviews}
+            </div>
             </div>
         </>
     )

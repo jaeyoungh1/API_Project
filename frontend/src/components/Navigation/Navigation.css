@@ -3,7 +3,7 @@
     justify-content: space-between;
     margin-top: 40px;
     margin-left: 80px;
-    margin-right: 80px;
+    margin-right: 100px;
 }
 
 .sessionlinks {
@@ -85,31 +85,24 @@ ul {
     margin-right: 5px;
     margin-top: 10px;
     position: absolute;
-    height: 215px;
+    height: 275px;
     width: 131px;
     z-index: 9999;
     top: 65px;
 }
 
-.profileusername {
+.profile-info-wrapper {
+    margin-top: 25px;
+    margin-bottom: -10px;
+}
+
+.profile-info {
     margin-top: 15px;
+    font-size:14px;
+    font-weight:300;
+    padding-left: 12px;
 }
 
-.dropdown>ul>li {
-    padding: 5px;
-    justify-self: left;
-    margin-left: -28px;
-    font-size: 12px;
-}
-
-hr {
-    background-color: 0px 0px 5px #cccbcb99;
-    width: 131px;
-    position: absolute;
-    right: -1px;
-    top: 75px;
-
-}
 
 .menu-visible{
     visibility:visible;
@@ -119,44 +112,26 @@ hr {
     visibility: hidden;
 }
 
-.myspots-wrapper {
-    width: 100%;
-    margin-left: 4px;
-    margin-top: 10px;
-}
-
-.myspots {
+.login-inner-div {
     color: black;
-    font-size: 12px;
-    margin-left: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    padding-left: 12px;
+    padding-top: 10px;
 }
-
-.newspot {
+.login-menu-wrapper {
     color: black;
+    padding-top: 15px;
+    height: 20px;
     font-size: 12px;
-    margin-left: 12px;
 }
 
-.myspots-wrapper :hover {
+
+.login-menu-wrapper :hover {
     background-color: rgb(230, 230, 230);
-    width: 88%;
-    box-shadow: -10px 0px 100px rgb(230, 230, 230)
-}
-
-
-.logout {
-    border: none;
-    background: white;
-    color: black;
-    font-size: 12px;
-    margin-top: 8px;
-    margin-left: 17px;
-}
-
-.logout-div :hover {
-    background-color: rgb(230, 230, 230);
-    width: 88%;
-    cursor: pointer;
+    width: 91%;
+    height: 150%;
+    cursor:pointer;
 }
 
 .profilebuttonwrapper {
@@ -172,7 +147,6 @@ hr {
     background-color: white;
 }
 
-
 .fa-user {
     color: rgb(171, 171, 171);
     margin-left: 5px;
@@ -181,4 +155,44 @@ hr {
 .fa-bars {
     color: rgb(171, 171, 171);
     margin-right: 8px;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(171, 171, 171);
+    background-color: white;
+    width: 100%;
+    margin-top: 100px;
+    height: 50px;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.clone {
+    margin-left: 120px;
+}
+.name {
+    margin-right: 120px;
+}
+.name > a {
+    text-decoration: none;
+    font-weight: 400;
+    color: black;
+}
+.name> :hover {
+    font-weight: 500;
+    color: pink;
+}
+
+.whoops {
+    font-weight: 300;
+    width: fit-content;
+    margin: auto;
+    margin-top: 100px;
 }
