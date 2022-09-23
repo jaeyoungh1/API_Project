@@ -95,7 +95,7 @@ export const SpotShowcase = () => {
                             <span id='numreviews'>{spot.numReviews} review(s)</span>
                         </div>
                     </div>
-                    <div className='one-spot-checkout-dates'>
+                    {/* <div className='one-spot-checkout-dates'>
                         <div className='checkin'>CHECK-IN
                             <input type='date'></input>
                         </div>
@@ -125,7 +125,7 @@ export const SpotShowcase = () => {
                                 <option value='16'>16 guests</option>
                             </select>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className='descriptionbreak'></div>

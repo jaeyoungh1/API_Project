@@ -136,6 +136,12 @@ ul {
 
 .profilebuttonwrapper {
     justify-self: right;
+    /* width: 70px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid rgb(171, 171, 171);
+    justify-self: left;
+    background-color: white; */
 }
 
 .profilebutton {
@@ -145,6 +151,10 @@ ul {
     border: 1px solid rgb(171, 171, 171);
     justify-self: left;
     background-color: white;
+}
+.profilebutton:hover {
+    box-shadow: 2px 2px 2px rgb(213, 213, 213);
+    cursor: pointer;
 }
 
 .fa-user {

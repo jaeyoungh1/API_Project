@@ -33,10 +33,16 @@ export const ProfileButton = ({ user }) => {
     return (
         <>
             <div className='dropdownwrapper'>
+                    <div className='this-on-top'>
+                        
+                    </div>
                 <div className='profilebuttonwrapper'>
+                    
                     <button onClick={openMenu} className='profilebutton'>
-                        <i className="fa-solid fa-bars"></i>
-                        <i className="fa-regular fa-user"></i>
+                        <div className='fa'>
+                            <i id='bars' className="fa-solid fa-bars"></i>
+                            <i className="fa-regular fa-user"></i>
+                        </div>
                     </button>
                 </div>
                 {showMenu && (
