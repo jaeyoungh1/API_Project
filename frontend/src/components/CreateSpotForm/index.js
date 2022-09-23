@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createOneSpot } from '../../store/spots'
 
 import './spotForm.css'
 
 export const CreateASpot = () => {
+    let currentUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -20,6 +21,10 @@ export const CreateASpot = () => {
     const [price, setPrice] = useState('')
     const [url, setUrl] = useState('')
     const [errors, setErrors] = useState([])
+
+    if (!currentUser) {
+        return <Redirect to='/' />
+    }
 
     const onSubmit = async e => {
         e.preventDefault()

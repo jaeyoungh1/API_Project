@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { NavLink, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { NavLink, useParams, Redirect } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
@@ -9,6 +9,7 @@ import aircover from '../../images/aircover.png'
 export const SpotShowcase = () => {
     const { spotId } = useParams()
     const dispatch = useDispatch()
+    const [errors, setErrors] = useState('')
 
     const currentUser = useSelector(state => state.session.user)
 
@@ -17,7 +18,7 @@ export const SpotShowcase = () => {
     const spotImgArr = spotData.SpotImages
 
     const reviewData = useSelector(state => state.reviews.spot)
-    console.log('reviewData', reviewData)
+    // console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
     const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
@@ -26,13 +27,16 @@ export const SpotShowcase = () => {
     let currentUserId 
     currentUser ? currentUserId = currentUser.id : currentUserId = undefined
     
-    console.log('reviewArr', reviewArr)
-
+    
     useEffect(() => {
-        dispatch(getOneSpots(+spotId))
+        dispatch(getOneSpots(+spotId)).then(res => setErrors(res))
         dispatch(getAllSpotReviews(+spotId))
+        
     }, [dispatch])
 
+    let areErrors = false;
+    errors === "Spot couldn't be found" ? areErrors = true : areErrors = false;
+    
 
     let prevImg
     let otherImg = []
@@ -51,8 +55,12 @@ export const SpotShowcase = () => {
         reviewExists = reviewArr.find(obj => obj.userId === currentUserId)
     }
         
+   
 
     if (!spotData || !reviewData) return null
+    if (areErrors) {
+        return <Redirect to='/whoops'/>
+    }
 
     return (
         <div className='one-spot-wrapper'>
