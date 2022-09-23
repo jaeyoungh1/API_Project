@@ -118,7 +118,7 @@ export const SpotShowcase = () => {
             <div className='one-spot-reviews'>
                 <h2>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · {spot.numReviews} review(s)</h2>
                 <div className='spot-reviews'>
-                    {currentUser && currentUserId === spotUserId ?
+                    {currentUser && currentUserId !== spotUserId ?
                         (<div className='review-this-spot'>
                             <NavLink style={{ textDecoration: 'none', color: 'white' }} to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
                         </div>) :

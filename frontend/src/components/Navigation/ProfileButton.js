@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../store/session'
 
 export const ProfileButton = ({ user }) => {
     const dispatch = useDispatch()
+    const history = useHistory()
     let [showMenu, setShowMenu] = useState(false)
 
     const openMenu = () => {
@@ -41,35 +42,29 @@ export const ProfileButton = ({ user }) => {
                 {showMenu && (
 
                     <div id='profile-dropdown' className='profile dropdown'>
-                        <ul>
-                            <li className='profileusername' key='username'>{user.username}</li>
-                            <li className='profileemail' key='email'>{user.email}</li>
-                        </ul>
-                        <hr />
-                        <span></span>
-                        <div className='myspots-wrapper'>
-                            <Link className='myspots-link' style={{ textDecoration: "none" }} to='/my-spots'>
-                                <div className='myspots' key='myspots'>
-                                    My Spots
-                                </div>
-                            </Link>
+                        <div className='profile-info-wrapper'>
+                            <div className='profile-info' key='username'>{user.username}</div>
+                            <div className='profile-info' key='email'>{user.email}</div>
                         </div>
-                        <div className='myspots-wrapper'>
-                            <Link className='myspots-link' style={{ textDecoration: "none" }} to='/new-spot'>
-
-                                <div className='newspot' key='newspot'>Host Your Spot
-                                </div>
-                            </Link>
+                        <div className='headerbreak'></div>
+                        <div className='login-menu-wrapper'>
+                            <div className='login-inner-div' key='myspots' onClick={() => history.push('/my-spots')}>
+                                My Spots
+                            </div>
                         </div>
-                        <div className='myspots-wrapper'>
-                            <Link className='myspots-link' style={{ textDecoration: "none" }} to='/my-reviews'>
+                        <div className='login-menu-wrapper'>
+                            <div className='login-inner-div' key='newspot' onClick={() => history.push('/new-spot')}>Host Your Spot
+                            </div>
+                        </div>
+                        <div className='login-menu-wrapper'>
 
-                                <div className='newspot' key='myreviews'>My Reviews
-                                </div>
-                            </Link>
+                            <div className='login-inner-div' key='myreviews' onClick={() => history.push('/my-reviews')}>My Reviews
+                            </div>
                         </div>
                         <div>
-                            <div className='logout-div'><div onClick={logoutUser} className='logout'>Log Out</div></div>
+                            <div className='login-menu-wrapper'>
+                                <div className='login-inner-div' onClick={logoutUser}> Log Out</div>
+                            </div>
                         </div>
                     </div>
                 )}
