@@ -152,12 +152,12 @@ export const CreateASpot = () => {
                     <label className='create-spot-input-title'>Description of Your Spot</label>
 
                     <div className='create-spot-input'>
-                        <input
-                            type='text'
-                            placeholder='A place where software engineers are devloped!'
+                        <textarea 
+                        className='create-spot-textarea'
+                            placeholder='A place where software engineers are created!'
                             value={description}
                             onChange={e => setDescription(e.target.value)}>
-                        </input>
+                        </textarea>
                     </div>
                     <label className='create-spot-input-title'>Price per Night (American Dollars $)</label>
                     <div className='create-spot-input'>
