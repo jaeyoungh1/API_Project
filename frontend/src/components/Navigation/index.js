@@ -21,9 +21,7 @@ export const Navigation = () => {
     } else {
         sessionLinks = (
             <>
-            <LoginButton/>
-                 {/* <LoginFormModal />
-                <SignUpFormModal/> */}
+                <LoginButton />
             </>
         );
     }
@@ -31,20 +29,20 @@ export const Navigation = () => {
     return (
 
         <>
-        
-        <ul>
-            <li className='session'>
-                <NavLink style={{ 'textDecoration': 'none', 'color': '#45454599' }} exact to="/">
-                    <img className='logo' alt='logo' src={logo}/>
-                </NavLink>
-                <div className='sessionlinks'>
-                    {sessionLinks}
-                </div>
-            </li>
-        </ul>
-        <div className='headerbreak'>
-        </div>
-        
+
+            <ul>
+                <li className='session'>
+                    <NavLink style={{ 'textDecoration': 'none', 'color': '#45454599' }} exact to="/">
+                        <img className='logo' alt='logo' src={logo} />
+                    </NavLink>
+                    <div className='sessionlinks'>
+                        {sessionLinks}
+                    </div>
+                </li>
+            </ul>
+            <div className='headerbreak'>
+            </div>
+
         </>
     );
 }

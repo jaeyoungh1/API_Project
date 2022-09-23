@@ -28,7 +28,7 @@ export const LoginButton = () => {
 
     let sessionLinks = (
         <>
-            
+
         </>
     );
 
@@ -44,15 +44,21 @@ export const LoginButton = () => {
                         <i className="fa-regular fa-user"></i>
                     </button>
                 </div>
-    
-                    <div id='profile-dropdown' className={menuVisibility}>
-                        <div className='sessionlinks'>
-                        <LoginFormModal />
+
+                <div id='login-dropdown' className={menuVisibility}>
+                    <div className='sessionlinks'>
+                        <div className='login-wrapper'>
+                            <div>
+                            <LoginFormModal />
+                            </div>
+                        </div>
+                        <div>
                         <SignUpFormModal />
                         </div>
-
                     </div>
-                
+
+                </div>
+
             </div>
         </>
     )

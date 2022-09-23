@@ -10,22 +10,28 @@ export const SpotShowcase = () => {
     const { spotId } = useParams()
     const dispatch = useDispatch()
 
+    const currentUser = useSelector(state => state.session.user)
+
     const spotData = useSelector(state => state.spots.singleSpot)
     const spot = spotData.spotData
     const spotImgArr = spotData.SpotImages
 
     const reviewData = useSelector(state => state.reviews.spot)
-    console.log('reviewData', reviewData)
+    // console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
-    console.log('reviewArr', reviewArr)
+    const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
+   
+    let currentUserId 
+    currentUser ? currentUserId = currentUser.id : currentUserId = undefined
+    
+    console.log(spotUserId, currentUserId)
+    // console.log('reviewArr', reviewArr)
 
     useEffect(() => {
         dispatch(getOneSpots(+spotId))
-    }, [dispatch])
-
-    useEffect(() => {
         dispatch(getAllSpotReviews(+spotId))
     }, [dispatch])
+
 
     let prevImg
     let otherImg = []
@@ -112,9 +118,12 @@ export const SpotShowcase = () => {
             <div className='one-spot-reviews'>
                 <h2>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · {spot.numReviews} review(s)</h2>
                 <div className='spot-reviews'>
-                    <div className='review-this-spot'>
-                        <NavLink style={{textDecoration:'none', color:'white'}} to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
-                    </div>
+                    {currentUser && currentUserId === spotUserId ?
+                        (<div className='review-this-spot'>
+                            <NavLink style={{ textDecoration: 'none', color: 'white' }} to={`/${spot.id}/create-review`}>Review This Spot</NavLink>
+                        </div>) :
+                        (<div></div>)
+                    }
                     {reviewArr.map(obj => {
                         return (
                             <div className='single-review'>

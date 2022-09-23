@@ -60,7 +60,7 @@ export const signUp = (user) => async dispatch => {
 }
 
 export const logout = () => async dispatch => {
-    let res = await csrfFetch('api/session', {
+    let res = await csrfFetch('/api/session', {
         method: 'DELETE'
     })
     let data = await res.json()

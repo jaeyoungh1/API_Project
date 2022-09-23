@@ -42,9 +42,7 @@ export const ProfileButton = ({ user }) => {
 
                     <div id='profile-dropdown' className='profile dropdown'>
                         <ul>
-
                             <li className='profileusername' key='username'>{user.username}</li>
-
                             <li className='profileemail' key='email'>{user.email}</li>
                         </ul>
                         <hr />

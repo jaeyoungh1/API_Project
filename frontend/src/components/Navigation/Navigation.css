@@ -32,7 +32,7 @@ ul {
     margin-top: -20px;
 }
 
-.login-dropdown {
+#login-dropdown {
     border: solid rgb(198, 198, 198) 1px;
     box-shadow: 0px 0px 5px #ababab99;
     background-color: white;
@@ -40,14 +40,33 @@ ul {
     margin-right: 5px;
     margin-top: 10px;
     position: absolute;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     padding-top: 10px;
     width: 120px;
     z-index: 9999;
     top: 65px;
 }
-.login-wrapper :hover {
-    background-color: pink;
+#login-nav {
+    padding-left: 10px;
+    padding-top: 5px;
+    color: black;
+    background-color: none;
+}
+.login-nav-login {
+    font-weight: 400;
+}
+.login-nav-signup {
+    font-weight: 200
+}
+#login-nav-wrapper {
+    height: 25px;
+    margin-bottom: 10px;
+    /* background-color: pink; */
+}
+#login-nav-wrapper :hover {
+    width: 100%;
+    height: 120%;
+    background-color: rgb(223, 223, 223);
 }
 
 .headerbreak {
@@ -55,7 +74,7 @@ ul {
     width: 100%;
     height: 1px;
     margin-top: 30px;
-    margin-bottom: -40px;
+    /* margin-bottom: -40px; */
 }
 
 #profile-dropdown {
@@ -152,9 +171,7 @@ hr {
     justify-self: left;
     background-color: white;
 }
-#login-nav {
-    border: 1px blue solid;
-}
+
 
 .fa-user {
     color: rgb(171, 171, 171);

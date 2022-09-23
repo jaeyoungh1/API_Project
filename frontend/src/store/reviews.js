@@ -96,6 +96,7 @@ export const createOneReview = (spotId, reviewData) => async dispatch => {
         }
 
         const data = await response.json();
+        data.ReviewImages = []
         dispatch(createAReview(data));
 
         if (url.length > 0) {

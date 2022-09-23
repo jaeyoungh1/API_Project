@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, Redirect } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOwnerReviews } from "../../store/reviews"
 import { getAllSpots } from "../../store/spots"
@@ -9,7 +9,8 @@ import './OwnerReviews.css'
 export const OwnerReviews = () => {
     const dispatch = useDispatch()
     const [spotsLoaded, setSpotsLoaded] = useState(false)
-
+    const currentUser = useSelector(state => state.session.user)
+    
     const reviewData = useSelector(state => state.reviews.user)
     const reviewArr = Object.values(reviewData.ReviewData)
 
@@ -28,6 +29,9 @@ export const OwnerReviews = () => {
     const deleteReview = async (reviewId) => {
         console.log("IM BEING DELETED")
         await dispatch(deleteOneReview(reviewId))
+    }
+    if (!currentUser) {
+        return <Redirect to='/'/>
     }
 
     let ownerReviews;
