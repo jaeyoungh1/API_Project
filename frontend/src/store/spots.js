@@ -6,6 +6,7 @@ const LOAD_ONE_SPOT = 'spots/load_one_spot'
 const UPDATE_SPOT = 'spots/update_spot'
 const REMOVE_SPOT = 'spots/remove_spot'
 const ADD_PREV_IMG = 'spots/spot/add_prv_img'
+const EDIT_PREV_IMG = 'spots/spot/edit_prv_img'
 
 export function loadAllSpots(spots) {
     return {
@@ -29,6 +30,12 @@ export function createASpot(spot) {
 export function addPrevImg(url) {
     return {
         type: ADD_PREV_IMG,
+        url
+    }
+}
+export function editPrevImg(url) {
+    return {
+        type: EDIT_PREV_IMG,
         url
     }
 }
@@ -142,23 +149,29 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
         if (!response.ok) {
             let error
             error = await response.text();
-            console.log(error)
+            throw error
         }
 
 
         const data = await response.json();
-        dispatch(createASpot(data));
+        dispatch(updateASpot(data));
+        console.log('spot data', data)
         if (url.length > 0) {
-            const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
-                method: 'POST',
-                body: JSON.stringify(
-                    { url, preview: true }
-                )
-            });
-            if (imgResponse.ok) {
-                let imgData = await imgResponse.json()
-                dispatch(addPrevImg(imgData))
+            let spotRes = await csrfFetch(`/api/spots/${data.id}`)
+            if (spotRes.ok) {
+                let spotData = await spotRes.json()
+                console.log('oneSpotData', spotData.SpotImages)
             }
+            // const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
+            //     method: 'POST',
+            //     body: JSON.stringify(
+            //         { url, preview: true }
+            //     )
+            // });
+            // if (imgResponse.ok) {
+            //     let imgData = await imgResponse.json()
+            //     dispatch(addPrevImg(imgData))
+            // }
         }
         return data;
     }
@@ -214,15 +227,11 @@ export default function spotsReducer(state = initialState, action) {
             }
             return newState
         case UPDATE_SPOT:
-            return {
+            newState = {
                 ...state,
-                allSpots: {
-                    [action.spot.id]: {
-                        ...state[action.spot.id]
-                    },
-                    ...action.spot
-                }
+                allSpots: { ...state.allSpots, [action.spot.id]: action.spot }
             };
+            return newState
         case REMOVE_SPOT:
             let newAllSpots = {}
             let stateArr = Object.values(state.allSpots)

@@ -184,6 +184,8 @@ hr {
     justify-content: center;
     border-radius: 4px;
     background-color:rgb(220, 28, 114);
+    margin-bottom: 60px;
+    margin-top: 15px;
 }
 .single-review {
     font-weight: 300;

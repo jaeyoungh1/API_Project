@@ -16,13 +16,9 @@ export const EditASpot = () => {
 
     let currSpotId = currSpot.id
         
-    let prevImg
-    if (currSpotImg) {
-        for (let img of currSpotImg) {
-            if (img.preview === true)
-                prevImg = img.url
-        }
-    }
+    let prevImg 
+    if (currSpotImg.length > 0) prevImg = currSpotImg.find(obj => obj.preview === true).url
+    console.log('url', prevImg)
 
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -34,6 +30,7 @@ export const EditASpot = () => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [url, setUrl] = useState('')
+    
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
@@ -183,12 +180,13 @@ export const EditASpot = () => {
                     <label className='create-spot-input-title'>Description of Your Spot</label>
 
                     <div className='create-spot-input'>
-                        <input
-                            type='text'
+                        <textarea
+                            className='create-spot-textarea'
+
                             placeholder='A place where software engineers are devloped!'
                             value={description}
                             onChange={e => setDescription(e.target.value)}>
-                        </input>
+                        </textarea>
                     </div>
                     <label className='create-spot-input-title'>Price per Night (American Dollars $)</label>
                     <div className='create-spot-input'>
@@ -200,8 +198,8 @@ export const EditASpot = () => {
                             onChange={e => setPrice(e.target.value)}>
                         </input>
                     </div>
-                    {/* <label className='create-spot-input-title'>Preview Image URL</label> */}
-                    {/* <div className='create-spot-input'>
+                    {/* <label className='create-spot-input-title'>Preview Image URL</label>
+                    <div className='create-spot-input'>
                         <input
                             type='text'
                             placeholder='https://...'
