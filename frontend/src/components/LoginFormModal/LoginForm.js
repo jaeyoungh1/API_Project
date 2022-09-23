@@ -37,9 +37,13 @@ const LoginForm = () => {
     return (
         <>
             <form onSubmit={onSubmit}>
-                <ul>
-                    {errors && <li key={errors}>{errors}</li>}
-                </ul>
+                <div className='modal-header'>Log in</div>
+                <span className='break'></span>
+                <div className='modal-subheader'>Welcome to HeirBnB! 👑</div>
+
+                <div className='login-errors'>
+                    {errors && <div key={errors}>{errors}</div>}
+                </div>
                 <div className='login credential'>
                     <label className='login' htmlFor='login credential'>Username or Email</label>
                     <input id='login credential' type='text'

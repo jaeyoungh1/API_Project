@@ -40,9 +40,12 @@ export const SignUpPage = () => {
 
     return (
         <form onSubmit={onSubmit}>
-            <ul>
-                {errors.length > 0 && errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
+            <div className='modal-header'>Sign Up</div>
+            <span className='break'></span>
+            <div className='modal-subheader'>Welcome to HeirBnB! 👑</div>
+            <div className='login-errors'>
+                {errors.length > 0 && errors.map((error, idx) => <div key={idx}>{error}</div>)}
+            </div>
             <div>
                 <label htmlFor='firstName' id='signup firstName'>First Name</label>
                 <input id='signup firstName' type='text'
