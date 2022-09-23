@@ -6,8 +6,6 @@ HeirBnB is a website clone inspired by AirBnb, an online marketplace for homesta
 [See here for HeirBnB Live Site.](https://apiproject-airbnbclone.herokuapp.com/)
 
 
-[See here for HeirBnB Live Site.](https://apiproject-airbnbclone.herokuapp.com/)
-
 ## Wiki Links
 [API Documentation](https://github.com/jaeyoungh1/API_Project/wiki/API-Documentation)
 [Database Schema](https://github.com/jaeyoungh1/API_Project/wiki/Database-Schema)
@@ -23,8 +21,11 @@ This project was developed with:
 - Sequelize
 - React
 - Redux
+### Hosted on Heroku
 
 ## Descriptions of features
+### Login and Sign Up Functionality
+
 ## Roadmap for future features
 ## Get Started
 ## Contact Info
