@@ -113,13 +113,17 @@
 
 .create-spot-textarea {
     resize: none;
-    width: 95%;
+    width: 93%;
     height: 150px;
     font-size: 14px;
-    text-indent: 7px;
+    /* text-indent: 7px; */
     border: none;
+    margin-left: 5px;
 }
 
+#edit-spot-textarea {
+    text-indent: 0px;
+}
 
 .errors-wrapper {
     display: flex;

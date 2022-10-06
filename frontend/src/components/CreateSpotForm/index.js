@@ -27,7 +27,7 @@ export const CreateASpot = () => {
 
     const [errors, setErrors] = useState([])
 
-    const otherArr = []
+    // const otherArr = []
 
     if (!currentUser) {
         return <Redirect to='/' />
