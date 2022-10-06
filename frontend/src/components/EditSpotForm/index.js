@@ -18,12 +18,7 @@ export const EditASpot = () => {
         
     let prevImg 
     if (currSpotImg.length > 0) prevImg = currSpotImg.find(obj => obj.preview === true).url
-    // console.log('url', prevImg)
-    let otherImg1
-    let otherImg2
-    let otherImg3
-    let otherImg4
-    // if (currSpotImg.length > 0) otherImg1 = currSpotImg.find(obj => obj.preview === false)[0].url
+    console.log('url', prevImg)
 
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -35,10 +30,6 @@ export const EditASpot = () => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [url, setUrl] = useState('')
-    const [otherUrl1, setOtherUrl1] = useState('')
-    const [otherUrl2, setOtherUrl2] = useState('')
-    const [otherUrl3, setOtherUrl3] = useState('')
-    const [otherUrl4, setOtherUrl4] = useState('')
     
     const [errors, setErrors] = useState([])
 
@@ -55,7 +46,6 @@ export const EditASpot = () => {
         setDescription(currSpot.description)
         setPrice(currSpot.price)
         setUrl(prevImg)
-        // setOtherUrl1(otherImg1)
     }, [spotId, currSpot])
 
     const onSubmit = async e => {
@@ -71,11 +61,7 @@ export const EditASpot = () => {
             name,
             description,
             price,
-            url,
-            // otherUrl1,
-            // otherUrl2,
-            // otherUrl3,
-            // otherUrl4
+            url
         }
         let createdSpot;
         try {
@@ -99,21 +85,16 @@ export const EditASpot = () => {
             setDescription('')
             setPrice('')
             setUrl('')
-            setOtherUrl1('')
-            setOtherUrl2('')
-            setOtherUrl3('')
-            setOtherUrl4('')
 
             console.log('SPOT BEING EDITED', createdSpot)
             setErrors([])
             history.push(`/my-spots`)
         }
     }
-
     return (
         <div id='create-spot-form-wrapper'>
             <div id='create-spot-name'>
-                What kind of place will you host?
+                Edit {currSpot.name}
             </div>
             <div id='create-spot-wrapper'>
                 <div className='errors-wrapper'>
@@ -204,7 +185,7 @@ export const EditASpot = () => {
                         <span className='create-spot-form-input-break'></span>
                         <label className='create-spot-input-title'>Description of Your Spot</label>
 
-                        <div className='create-spot-input' id='edit-spot-textarea'>
+                        <div className='create-spot-input' id='create-spot-textarea'>
                             <textarea
                                 className='create-spot-textarea'
                                 placeholder='A place where software engineers are created!'
@@ -234,8 +215,8 @@ export const EditASpot = () => {
                                 onChange={e => setUrl(e.target.value)}>
                             </input>
                         </div>
-                        {/* <span className='create-spot-form-input-break'></span> */}
-                        {/* <label className='create-spot-input-title'>Other Spot Image URLs</label>
+                        {/* <span className='create-spot-form-input-break'></span>
+                        <label className='create-spot-input-title'>Other Spot Image URLs</label>
                         <div className='create-spot-input'>
                             <input
                                 // required
@@ -274,7 +255,7 @@ export const EditASpot = () => {
                         </div> */}
                         <span className='create-spot-form-input-break'></span>
                         <div id='create-spot-button-wrapper' n>
-                            <button id='create-spot-button' type='submit'>Create New Spot</button>
+                            <button id='create-spot-button' type='submit'>Edit My Spot</button>
                         </div>
                     </form>
                 </div>
