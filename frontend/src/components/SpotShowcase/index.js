@@ -5,6 +5,7 @@ import { getOneSpots } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
 import './SpotShowcase.css'
 import aircover from '../../images/aircover.png'
+import noimage from '../../images/noimage.png'
 
 export const SpotShowcase = () => {
     const { spotId } = useParams()
@@ -23,20 +24,20 @@ export const SpotShowcase = () => {
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
     const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
 
-    
-    let currentUserId 
+
+    let currentUserId
     currentUser ? currentUserId = currentUser.id : currentUserId = undefined
-    
-    
+
+
     useEffect(() => {
         dispatch(getOneSpots(+spotId)).then(res => setErrors(res))
         dispatch(getAllSpotReviews(+spotId))
-        
+
     }, [dispatch])
 
     let areErrors = false;
     errors === "Spot couldn't be found" ? areErrors = true : areErrors = false;
-    
+
 
     let prevImg
     let otherImg = []
@@ -54,12 +55,17 @@ export const SpotShowcase = () => {
     if (currentUserId && reviewArr.length > 0) {
         reviewExists = reviewArr.find(obj => obj.userId === currentUserId)
     }
-        
-   
+
+    let otherImglength = otherImg.length
+    if (otherImg.length < 4) {
+        for (let i = 3; i >= otherImglength; i--) {
+            otherImg[i] = noimage
+        }
+    }
 
     if (!spotData || !reviewData) return null
     if (areErrors) {
-        return <Redirect to='/whoops'/>
+        return <Redirect to='/whoops' />
     }
 
     return (
@@ -72,10 +78,10 @@ export const SpotShowcase = () => {
             </div>
             <div className="one-spot-pics">
                 <img id='one-spot-preview' alt={spot.name} src={prevImg} />
-                <div className="one-spot-pics-not-preview">
+                {<div className="one-spot-pics-not-preview">
                     {otherImg.length > 0 && otherImg.map(url => <img id={`spot-image-${url.id}`} className='not-preview-image' alt={spot.name} src={url} />)}
-                    {/* {otherImg.length === 0 && <img className='not-preview-image' alt={spot.name} src={'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.electricmirror.com%2Fportfolio-items%2Faria-4%2Fimage-coming-soon%2F&psig=AOvVaw1vz55xwww2emiF5T44clsZ&ust=1664062878144000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPD_kLuLrPoCFQAAAAAdAAAAABAE'} />} */}
-                </div>
+                    {/* {otherImg.length < 4 && <img className='not-preview-image' alt={spot.name} src={'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.electricmirror.com%2Fportfolio-items%2Faria-4%2Fimage-coming-soon%2F&psig=AOvVaw1vz55xwww2emiF5T44clsZ&ust=1664062878144000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPD_kLuLrPoCFQAAAAAdAAAAABAE'} />} */}
+                </div>}
             </div>
 
             <div className='one-spot-details-scroll'>
@@ -150,7 +156,7 @@ export const SpotShowcase = () => {
                                     {obj.ReviewImages && obj.ReviewImages.map(obj => {
                                         return (
                                             <img className='single-review-image' alt='reviewphoto' src={obj.url} />
-                                        
+
                                         )
                                     })}
                                 </div>
