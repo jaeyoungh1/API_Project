@@ -86,7 +86,7 @@ ul {
     margin-top: 10px;
     position: absolute;
     height: 275px;
-    width: 131px;
+    width: 156px;
     z-index: 9999;
     top: 65px;
 }
@@ -129,7 +129,7 @@ ul {
 
 .login-menu-wrapper :hover {
     background-color: rgb(230, 230, 230);
-    width: 91%;
+    width: 92.3%;
     height: 150%;
     cursor:pointer;
 }
@@ -196,7 +196,7 @@ ul {
     color: black;
 }
 .name> :hover {
-    font-weight: 500;
+    /* font-weight: 500; */
     color: pink;
 }
 

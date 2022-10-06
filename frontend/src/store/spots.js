@@ -6,7 +6,7 @@ const LOAD_ONE_SPOT = 'spots/load_one_spot'
 const UPDATE_SPOT = 'spots/update_spot'
 const REMOVE_SPOT = 'spots/remove_spot'
 const ADD_PREV_IMG = 'spots/spot/add_prv_img'
-const EDIT_PREV_IMG = 'spots/spot/edit_prv_img'
+const ADD_REG_IMG = 'spots/spot/edit_reg_img'
 
 export function loadAllSpots(spots) {
     return {
@@ -33,9 +33,9 @@ export function addPrevImg(url) {
         url
     }
 }
-export function editPrevImg(url) {
+export function addRegImg(url) {
     return {
-        type: EDIT_PREV_IMG,
+        type: ADD_REG_IMG,
         url
     }
 }
@@ -91,6 +91,7 @@ export const getOwnerSpots = () => async dispatch => {
 export const createOneSpot = (spot) => async dispatch => {
     let { address, city, state, country, lat, lng, name, description, price } = spot
     let { url } = spot
+    let { otherUrl1, otherUrl2, otherUrl3, otherUrl4 } = spot
 
     try {
         const response = await csrfFetch(`/api/spots`, {
@@ -126,6 +127,47 @@ export const createOneSpot = (spot) => async dispatch => {
             let imgData = await imgResponse.json()
             dispatch(addPrevImg(imgData))
         }
+        const otherImgResponse1 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl1, preview: false }
+            )
+        });
+        if (otherImgResponse1.ok) {
+            let imgData = await otherImgResponse1.json()
+            dispatch(addRegImg(imgData))
+        }
+        const otherImgResponse2 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl2, preview: false }
+            )
+        });
+        if (otherImgResponse2.ok) {
+            let imgData = await otherImgResponse2.json()
+            dispatch(addRegImg(imgData))
+        }
+        const otherImgResponse3 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl3, preview: false }
+            )
+        });
+        if (otherImgResponse3.ok) {
+            let imgData = await otherImgResponse3.json()
+            dispatch(addRegImg(imgData))
+        }
+        const otherImgResponse4 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl4, preview: false }
+            )
+        });
+        if (otherImgResponse4.ok) {
+            let imgData = await otherImgResponse4.json()
+            dispatch(addRegImg(imgData))
+        }
+       
         return data;
     }
     catch (error) {
@@ -163,7 +205,7 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
                 // console.log('oneSpotData', spotData.SpotImages)
                 let prevImg = spotData.SpotImages.find(obj => obj.preview === true)
                 let deleteImg = await csrfFetch(`/api/spot-images/${prevImg.id}`, {
-                    method:"DELETE"
+                    method: "DELETE"
                 })
                 if (deleteImg.ok) {
                     console.log('newimg', url)
@@ -232,7 +274,15 @@ export default function spotsReducer(state = initialState, action) {
             newState = {
                 ...state,
                 singleSpot: { ...state.singleSpot, spotData: {}, SpotImages: [action.url], Owner: {} },
-                allSpots: {...state.allSpots, }
+                allSpots: { ...state.allSpots, }
+            }
+            return newState
+
+        case ADD_REG_IMG:
+            newState = {
+                ...state,
+                singleSpot: { ...state.singleSpot, spotData: {}, SpotImages: [...state.singleSpot.SpotImages, action.url], Owner: {} },
+                allSpots: { ...state.allSpots, }
             }
             return newState
         case UPDATE_SPOT:

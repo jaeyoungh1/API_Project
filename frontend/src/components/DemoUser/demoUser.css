@@ -1,16 +1,16 @@
 #demouser {
-    background-color: #ff0073;
+    /* background-color: #ff0073; */
     color: white;
     /* font-family: 'Noto Sans', sans-serif; */
     padding: 3px;
     position: absolute;
     left: 40px;
-    border: 1px solid #ff0073;
-    border-radius: 4px;
-    width: 40%;
+    /* border: 1px solid #ff0073; */
+    /* border-radius: 4px; */
+    /* width: 40%; */
 }
 .demo-user-wrapper :hover {
-    border: solid #ff0073 1px;
+    /* border: solid #ff0073 1px; */
     background-color: white;
     color: #ff0073;
 }
