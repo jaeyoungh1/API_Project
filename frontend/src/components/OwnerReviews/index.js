@@ -25,7 +25,7 @@ export const OwnerReviews = () => {
     }, [dispatch])
 
     const deleteReview = async (reviewId) => {
-        console.log("IM BEING DELETED")
+        // console.log("IM BEING DELETED")
         await dispatch(deleteOneReview(reviewId))
     }
     if (!currentUser) {
@@ -74,9 +74,13 @@ export const OwnerReviews = () => {
             </div>
             <div className='review-wrapper-wrapper'>
 
-            <div className='review-wrapper'>
+            {reviewArr.length ? (<div className='review-wrapper'>
                 {ownerReviews}
-            </div>
+            </div>) :
+            <div id='owner-no-reviews'>
+                You haven't written any reviews yet.
+            </div> 
+            }
             </div>
         </>
     )

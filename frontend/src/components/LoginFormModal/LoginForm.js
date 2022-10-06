@@ -44,19 +44,25 @@ const LoginForm = () => {
                 <div className='login-errors'>
                     {errors && <div key={errors}>{errors}</div>}
                 </div>
-                <div className='login credential'>
-                    <label className='login' htmlFor='login credential'>Username or Email</label>
-                    <input id='login credential' type='text'
-                        value={credential}
-                        onChange={e => setCredential(e.target.value)}
-                        required />
-                </div>
-                <div className='login password'>
-                    <label className='login' htmlFor='login password'>Password</label>
-                    <input id='login password' type='password'
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        required />
+                <div className='form-input-wrapper'>
+
+                    <div className='login login-credential'>
+                        <label className='login' htmlFor='login credential'>Username or Email</label>
+                        <input id='login credential' type='text'
+                            value={credential}
+                            onChange={e => setCredential(e.target.value)}
+                            required />
+                    </div>
+                    <div className='form-input-break'>
+
+                    </div>
+                    <div className='login password'>
+                        <label className='login' htmlFor='login password'>Password</label>
+                        <input id='login password' type='password'
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            required />
+                    </div>
                 </div>
                 <div className='login-button-wrapper'>
                     <button className='login-button' type='submit'>Login</button>

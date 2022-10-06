@@ -49,8 +49,12 @@ export const ProfileButton = ({ user }) => {
 
                     <div id='profile-dropdown' className='profile dropdown'>
                         <div className='profile-info-wrapper'>
-                            <div className='profile-info' key='username'>{user.username}</div>
-                            <div className='profile-info' key='email'>{user.email}</div>
+                            <div className='profile-info' key='username'>
+                                {user.username.length < 20  ? user.username : user.username.slice(0,19)+"..."}
+                                </div>
+                            <div className='profile-info' key='email'>
+                                {user.email.length < 20 ? user.email : user.email.slice(0,19)+"..."}
+                                </div>
                         </div>
                         <div className='headerbreak'></div>
                         <div className='login-menu-wrapper'>

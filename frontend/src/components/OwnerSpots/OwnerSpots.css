@@ -1,6 +1,6 @@
 #owner-spots-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     /* grid-template-rows: 1fr 1fr 1fr 1fr; */
     margin-top: 40px;
     margin-left: 130px;
@@ -8,6 +8,13 @@
     flex-wrap: wrap;
     column-gap: 30px;
 }
+#owner-no-spots {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    font-style: italic;
+}
+
 .owner-spots-header {
     display: flex;
     justify-content: center;

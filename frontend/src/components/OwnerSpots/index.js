@@ -51,9 +51,12 @@ export const OwnerSpots = () => {
             <div className='owner-spots-header'>
                 <h1>My Spots</h1>
             </div>
-            <div id='owner-spots-wrapper'>
+            {spots.length ? <div id='owner-spots-wrapper'>
                 {spotsInfo}
-            </div>
+            </div> :
+            <div id='owner-no-spots'>
+                You're not currently hosting any spots.
+            </div>}
         </>
     )
 }
