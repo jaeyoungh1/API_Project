@@ -18,7 +18,7 @@ export const SignUpPage = () => {
     const [errors, setErrors] = useState([])
 
 
-    console.log('Sign Up Component working before Redirect')
+    // console.log('Sign Up Component working before Redirect')
     const currentUser = useSelector(state => state.session.user)
     if (currentUser) return <Redirect to='/' />
 

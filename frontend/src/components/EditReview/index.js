@@ -15,8 +15,6 @@ export const EditAReview = () => {
     // const currSpotData = useSelector(state => state.reviews.user.Spot)
     // const currReview = useSelector(state => state.reviews.user.ReviewData[reviewId])
     const currReview = currReviewData.ReviewData[reviewId]
-    console.log('currReview', currReview)
-    console.log('currReviewData', currReviewData)
 
     const currReviewImg = currReviewData.ReviewImages
     // const currSpot = currReview.Spot
@@ -69,7 +67,7 @@ export const EditAReview = () => {
             setStars(0)
             setUrl([])
         
-            console.log('REVIEW BEING EDITED', createdReview)
+            // console.log('REVIEW BEING EDITED', createdReview)
             setErrors([])
             history.push(`/my-reviews`)
         }

@@ -90,8 +90,8 @@ router.get('/', validatePagination, async (req, res, next) => {
     if (!size) size = 0
     if (!minPrice) minPrice = 0;
     if (!maxPrice) maxPrice = 0;
-    console.log('this is the console log for page', page)
-    console.log('this is the console log for size', size)
+    // console.log('this is the console log for page', page)
+    // console.log('this is the console log for size', size)
 
     page = parseInt(page)
     size = parseInt(size)
@@ -167,7 +167,7 @@ router.get('/', validatePagination, async (req, res, next) => {
             let imgobj = await previewImgObj.toJSON()
             url = imgobj.url
         } else url = null
-        console.log(url)
+        // console.log(url)
         let spotObj = await spots[i]
         spotObj.previewImage = url
         Spots.push(spotObj)
@@ -226,7 +226,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             let imgobj = await previewImgObj.toJSON()
             url = imgobj.url
         } else url = null
-        console.log(url)
+        // console.log(url)
         let spotObj = await spots[i]
         spotObj.previewImage = url
         Spots.push(spotObj)

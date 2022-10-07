@@ -15,9 +15,8 @@ export const OwnerSpots = () => {
     }, [dispatch])
 
     const deleteSpot = async (spotId) => {
-        console.log('IM BEING DELETED')
+        // console.log('IM BEING DELETED')
         await dispatch(deleteOneSpot(spotId))
-        console.log('IVE BEEN DELETED')
     }
 
     const spotsInfo = spots.map(spot => {

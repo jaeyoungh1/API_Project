@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react"
-import { NavLink, useParams, Redirect } from "react-router-dom"
+import { NavLink, useParams, Redirect, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
+import { createOneBooking } from "../../store/bookings"
 import './SpotShowcase.css'
 import aircover from '../../images/aircover.png'
 import noimage from '../../images/noimage.png'
 
 export const SpotShowcase = () => {
+    const history = useHistory()
     const { spotId } = useParams()
     const dispatch = useDispatch()
     const [errors, setErrors] = useState('')
+
+    const [bookingStart, setBookingStart] = useState('')
+    const [bookingEnd, setBookingEnd] = useState('')
+    const [bookingerrors, setBookingErrors] = useState([])
 
     const currentUser = useSelector(state => state.session.user)
 
@@ -19,7 +25,6 @@ export const SpotShowcase = () => {
     const spotImgArr = spotData.SpotImages
 
     const reviewData = useSelector(state => state.reviews.spot)
-    // console.log('reviewData', reviewData)
     const reviewArr = Object.values(reviewData.ReviewData)
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
     const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
@@ -68,6 +73,33 @@ export const SpotShowcase = () => {
         return <Redirect to='/whoops' />
     }
 
+    const onSubmit = async e => {
+        e.preventDefault()
+
+        const submission = {
+            "startDate": bookingStart,
+            "endDate": bookingEnd
+        }
+
+        console.log(submission, 'submission')
+        let createdBooking;
+        try {
+            createdBooking = await dispatch(createOneBooking(spotId, submission))
+        } catch (err) {
+            if (err) {
+                let errMsgs = err.errors
+                let errMsgsArr = Object.values(errMsgs)
+                setErrors(errMsgsArr)
+            }
+        }
+        if (createdBooking) {
+            setBookingStart('')
+            setBookingEnd('')
+            setErrors([])
+            return history.push(`/my-bookings`)
+        }
+    }
+
     return (
         <div className='one-spot-wrapper'>
             <h1>{spot.name}</h1>
@@ -102,39 +134,73 @@ export const SpotShowcase = () => {
                             <span id='numreviews'>{spot.numReviews} review(s)</span>
                         </div>
                     </div>
-                    {/* <div className='one-spot-checkout-dates'>
-                        <div className='checkin'>CHECK-IN
-                            <input type='date'></input>
-                        </div>
-                        <div className='checkin'>CHECKOUT
-                            <input type='date'></input>
-                        </div>
+
+                    <div className='errors-wrapper'>
+                        {errors.length > 0 && (
+                            <ul className='create-booking-errorlist' key={errors}>
+                                <div>Please address the following errors:</div>
+                                {errors.map(error => (
+                                    <li className='create-booking-error' key={error}>{error}</li>
+                                ))}
+
+                            </ul>
+                        )}
                     </div>
-                    <div className='one-spot-checkout-guests'>
-                        <div id='one-spot-guests'>
-                            <div>GUESTS</div>
-                            <select>
-                                <option value='1'>1 guest</option>
-                                <option value='2'>2 guests</option>
-                                <option value='3'>3 guests</option>
-                                <option value='4'>4 guests</option>
-                                <option value='5'>5 guests</option>
-                                <option value='6'>6 guests</option>
-                                <option value='7'>7 guests</option>
-                                <option value='8'>8 guests</option>
-                                <option value='9'>9 guests</option>
-                                <option value='10'>10 guests</option>
-                                <option value='11'>11 guests</option>
-                                <option value='12'>12 guests</option>
-                                <option value='13'>13 guests</option>
-                                <option value='14'>14 guests</option>
-                                <option value='15'>15 guests</option>
-                                <option value='16'>16 guests</option>
-                            </select>
+
+                    <form onSubmit={onSubmit}>
+                        <div className='one-spot-checkout-dates'>
+                            <div className='checkin'>CHECK-IN
+                                <input
+                                    id='booking'
+                                    type='date'
+                                    value={bookingStart}
+                                    onChange={e => setBookingStart(e.target.value)}>
+                                </input>
+                            </div>
+                            <div className='checkin'>CHECKOUT
+                                <input
+                                    id='booking'
+                                    type='date'
+                                    value={bookingEnd}
+                                    onChange={e => setBookingEnd(e.target.value)}>
+                                </input>
+                            </div>
                         </div>
+                        <div className='one-spot-checkout-guests'>
+                            <div id='one-spot-guests'>
+                                <div>GUESTS</div>
+                                <select>
+                                    <option value='1'>1 guest</option>
+                                    <option value='2'>2 guests</option>
+                                    <option value='3'>3 guests</option>
+                                    <option value='4'>4 guests</option>
+                                    <option value='5'>5 guests</option>
+                                    <option value='6'>6 guests</option>
+                                    <option value='7'>7 guests</option>
+                                    <option value='8'>8 guests</option>
+                                    <option value='9'>9 guests</option>
+                                    <option value='10'>10 guests</option>
+                                    <option value='11'>11 guests</option>
+                                    <option value='12'>12 guests</option>
+                                    <option value='13'>13 guests</option>
+                                    <option value='14'>14 guests</option>
+                                    <option value='15'>15 guests</option>
+                                    <option value='16'>16 guests</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type='submit'>Reserve</button>
+                    </form>
+                    <div>
+                        You won't be charged yet
+                    </div>
+                    {/* <div>
+                        ${spot.price} x {bookingEnd}
                     </div> */}
+
                 </div>
             </div>
+
             <div className='descriptionbreak'></div>
 
             <div className='one-spot-reviews'>

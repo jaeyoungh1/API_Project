@@ -5,15 +5,12 @@
     font-family: 'Noto Sans', sans-serif;
 }
 
-form {
+/* form {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    /* padding: 10px; */
     width: 400px;
     margin: auto;
-    /* background-color: red; */
-}
+} */
 
 .login {
     /* padding-bottom: 10px; */

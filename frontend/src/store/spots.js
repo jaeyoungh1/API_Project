@@ -208,7 +208,6 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
                     method: "DELETE"
                 })
                 if (deleteImg.ok) {
-                    console.log('newimg', url)
                     let newImg = await csrfFetch(`/api/spots/${data.id}/images`, {
                         method: 'POST',
                         body: JSON.stringify(
@@ -217,7 +216,6 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
                     })
                     if (newImg.ok) {
                         let imgData = await newImg.json()
-                        console.log('newimg', imgData)
                         dispatch(addPrevImg(imgData))
                     }
                 }
@@ -226,7 +224,6 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
         return data;
     }
     catch (error) {
-        console.log(error)
         let errorJSON = await error.json()
         throw errorJSON
     }
@@ -238,7 +235,6 @@ export const deleteOneSpot = (spotId) => async dispatch => {
     })
     if (res.ok) {
         let data = await res.json()
-        console.log('data shape', data)
         dispatch(deleteASpot(spotId))
     }
 }
@@ -294,14 +290,11 @@ export default function spotsReducer(state = initialState, action) {
         case REMOVE_SPOT:
             let newAllSpots = {}
             let stateArr = Object.values(state.allSpots)
-            console.log(stateArr)
             stateArr.forEach(obj => { //figuring out how to load curr reviews
-                console.log(obj.id)
                 return newAllSpots[obj.id] = obj
 
             })
             newState = { ...state, allSpots: newAllSpots }
-            console.log('newState', newState)
             delete newState.allSpots[action.spotId]
             return newState
         default:

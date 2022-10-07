@@ -14,10 +14,8 @@ export const AddPreviewImg = (data) => async dispatch => {
         method: 'POST',
         body: JSON.stringify(data)
     })
-    console.log('image data', data)
 
     const imageData = await response.json()
-    console.log('image response', imageData)
     dispatch(addPrevImg(imageData))
     return data;
 }

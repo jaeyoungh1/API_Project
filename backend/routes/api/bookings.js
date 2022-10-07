@@ -118,7 +118,7 @@ router.put('/:bookingId', requireAuth, restoreUser, async (req, res, next) => {
 
     let today = new Date().toJSON().slice(0, 10);
     let currentEndDate = await currentBooking.endDate
-    console.log(currentEndDate)
+    // console.log(currentEndDate)
 
     if (currentEndDate < today) {
         res.status(403)

@@ -12,6 +12,7 @@ import { OwnerSpots } from './components/OwnerSpots';
 import { OwnerBookings } from './components/OwnerBookings';
 import { OwnerReviews } from './components/OwnerReviews';
 import { EditAReview } from './components/EditReview';
+import { EditABooking } from './components/EditBookingForm/EditBookingForm';
 import { CreateAReview } from './components/CreateReviewForm';
 // import { ManageReviewPhotos } from './components/ManageReviewPhotos';
 import { Whoops } from './components/404'
@@ -26,7 +27,7 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  console.log("isLoaded is: ", isLoaded)
+  // console.log("isLoaded is: ", isLoaded)
   //work on 404/error pages
   // blocker: continued issues with adding more than 4 new spots
   // today's steps: work on styling and hosts can add spot images, sign up modal
@@ -61,6 +62,9 @@ function App() {
           </Route>
           <Route path="/:reviewId/edit-review">
             <EditAReview />
+          </Route>
+          <Route path="/:bookingId/edit-booking">
+            <EditABooking />
           </Route>
           <Route path="/:spotId/create-review">
             <CreateAReview />

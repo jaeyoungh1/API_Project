@@ -54,7 +54,6 @@ export const getAllSpotBookings = (spotId) => async dispatch => {
     let res = await csrfFetch(`/api/spots/${spotId}/bookings`)
     if (res.ok) {
         let data = await res.json()
-        console.log('data', data)
         dispatch(loadAllBookings(data.Bookings))
         return data
     }
@@ -71,14 +70,12 @@ export const getOwnerBookings = () => async dispatch => {
 }
 
 export const createOneBooking = (spotId, bookingData) => async dispatch => {
-    let { booking, stars } = bookingData
-    let { url } = bookingData
-
+    console.log(spotId, bookingData)
     try {
         const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
             method: 'POST',
             body: JSON.stringify(
-                { booking, stars }
+                bookingData
             )
         });
 
@@ -96,22 +93,9 @@ export const createOneBooking = (spotId, bookingData) => async dispatch => {
         }
 
         const data = await response.json();
-        data.BookingImages = []
+
         dispatch(createABooking(data));
 
-        if (url.length > 0) {
-
-            const imgResponse = await csrfFetch(`/api/bookings/${data.id}/images`, {
-                method: 'POST',
-                body: JSON.stringify(
-                    { url }
-                )
-            });
-            if (imgResponse.ok) {
-                let imgData = await imgResponse.json()
-                dispatch(addBookingImage(imgData.url))
-            }
-        }
         return data;
     }
     catch (error) {
@@ -133,7 +117,6 @@ export const updateOneBooking = (bookingId, booking) => async dispatch => {
         if (!response.ok) {
             let error
             error = await response.text();
-            console.log(error)
         }
 
 
@@ -142,7 +125,6 @@ export const updateOneBooking = (bookingId, booking) => async dispatch => {
         return data;
     }
     catch (error) {
-        console.log(error)
         let errorJSON = await error.json()
         throw errorJSON
     }
@@ -200,29 +182,21 @@ export default function bookingsReducer(state = initialState, action) {
             }
             return newState
         case UPDATE_BOOKING:
-            bookingData[action.booking.id] = action.booking;
-            userData[action.booking.id] = action.booking.userId
-            newState = {
-                ...state,
-                spot: {
-                    BookingData: { ...bookingData }, User: { ...userData }, BookingImages: [...bookingImg]
-                }
-            }
+            userData[action.booking.id] = action.booking
+            // spotData[action.booking.id] = action.booking.Spot
+            newState = { ...state, user: { ...state.user, ...userData } } 
             return newState;
 
         case REMOVE_BOOKING:
-            let newAllBookings = {}
-            let stateArr = Object.values(state.user.BookingData)
-            console.log(stateArr)
-            stateArr.forEach(obj => {
-                console.log(obj.id)
-                return newAllBookings[obj.id] = obj
+            // let newAllBookings = {}
+            // let stateArr = Object.values(state.user.BookingData)
+            // console.log(stateArr)
+            // stateArr.forEach(obj => {
+            //     return newAllBookings[obj.id] = obj
 
-            })
-
-            newState = { ...state, user: { ...state.user, BookingData: { ...newAllBookings } } }
-            console.log('newState', newState)
-            delete newState.user.BookingData[action.bookingId]
+            // })
+            newState = { ...state }
+            delete newState.user[action.bookingId]
             return newState
         default:
             return state

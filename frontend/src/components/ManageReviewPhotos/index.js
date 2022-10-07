@@ -14,9 +14,9 @@ export const ManageReviewPhotos = () => {
     const currReviewSpot = currReview.Spot
     const currReviewImg = currReview.ReviewImages
 
-    console.log('currReview', currReview)
-    console.log('currReviewImg', currReviewImg)
-    console.log('curReviewSpot', currReviewSpot)
+    // console.log('currReview', currReview)
+    // console.log('currReviewImg', currReviewImg)
+    // console.log('curReviewSpot', currReviewSpot)
 
 
     const [url, setUrl] = useState([])
@@ -44,7 +44,7 @@ export const ManageReviewPhotos = () => {
 
         if (createdReview) {
             setUrl([])
-            console.log('REVIEW BEING EDITED', createdReview)
+            // console.log('REVIEW BEING EDITED', createdReview)
             history.push(`/my-reviews`)
         }
     }
