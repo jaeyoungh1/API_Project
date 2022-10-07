@@ -9,10 +9,11 @@ import { CreateASpot } from './components/CreateSpotForm';
 import { EditASpot } from './components/EditSpotForm';
 import { SpotShowcase } from './components/SpotShowcase';
 import { OwnerSpots } from './components/OwnerSpots';
+import { OwnerBookings } from './components/OwnerBookings';
 import { OwnerReviews } from './components/OwnerReviews';
 import { EditAReview } from './components/EditReview';
 import { CreateAReview } from './components/CreateReviewForm';
-import { ManageReviewPhotos } from './components/ManageReviewPhotos';
+// import { ManageReviewPhotos } from './components/ManageReviewPhotos';
 import { Whoops } from './components/404'
 
 import * as sessionActions from './store/session'
@@ -51,6 +52,9 @@ function App() {
           </Route>
           <Route path='/my-spots'>
             <OwnerSpots />
+          </Route>
+          <Route path='/my-bookings'>
+            <OwnerBookings />
           </Route>
           <Route path='/my-reviews'>
             <OwnerReviews />
