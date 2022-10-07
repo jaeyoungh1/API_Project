@@ -96,7 +96,7 @@ export const SpotShowcase = () => {
             setBookingStart('')
             setBookingEnd('')
             setErrors([])
-            return history.push(`/my-bookings`)
+            // return history.push(`/my-bookings`)
         }
     }
 
