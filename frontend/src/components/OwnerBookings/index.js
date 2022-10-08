@@ -50,11 +50,11 @@ export const OwnerBookings = () => {
         ownerBookingsUpcoming = upcomingBookingArr.map(booking => {
             // console.log('enddate', (new Date(booking.endDate.replace(/-/g, '\/'))))
             let nights = (new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24)
-            console.log('booking.Spot', booking.Spot?.name)
+            // console.log('booking.Spot', booking.Spot?.name)
             return (
                 <div className='single-booking-div' key={booking.id}>
                     <h4>
-                        {nights} {nights > 1 ? "nights" : "night"} in
+                        {nights} {nights > 1 ? "nights" : "night"} in {bookingUserData[booking.id].Spot.state}
                         {/* {booking.Spot.state}  */}
                     </h4>
                     <div>

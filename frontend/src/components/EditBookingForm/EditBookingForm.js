@@ -9,14 +9,11 @@ export const EditABooking = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const { bookingId } = useParams()
-    // let bookingId = props.bookingId
-    console.log("bookingId", bookingId)
     const currentUser = useSelector(state => state.session.user)
 
-    const bookingUserData = useSelector(state => state.bookings.user[bookingId])
-    // const bookingSpotData = if (bookingUserData useSelector(state => state.bookings.user[bookingId].Spot)
+    const bookingUserData = useSelector(state => state.bookings.user)
+    const bookingSpotData = useSelector(state => state.bookings.spot)
 
-    const bookingUser = useSelector(state => state.bookings.user)
     const [bookingStart, setBookingStart] = useState('')
     const [bookingEnd, setBookingEnd] = useState('')
     const [spotName, setSpotName] = useState('')
@@ -26,18 +23,13 @@ export const EditABooking = () => {
         dispatch(getOwnerBookings())
     }, [dispatch])
 
-    let bookingSpotData;
-
     useEffect(() => {
-        if (bookingUserData) {
-            setBookingStart(bookingUserData.startDate)
-            setBookingEnd(bookingUserData.endDate)
-        } 
-        if (bookingSpotData.Spot) {
-            setSpotName(bookingUserData.Spot.name)
+        if (bookingUserData.length > 0) {
+            setBookingStart(bookingUserData[bookingId].startDate)
+            setBookingEnd(bookingUserData[bookingId].endDate)
+            setSpotName(bookingSpotData[bookingId].name)
         }
-
-    }, [bookingId, bookingUserData])
+    }, [bookingId, bookingSpotData])
 
     if (!currentUser) {
         return <Redirect to='/' />
@@ -67,11 +59,7 @@ export const EditABooking = () => {
             return history.push(`/my-bookings`)
         }
     }
-    // console.log('spotData', bookingSpotData)
-    console.log('spotName', spotName)
 
- 
-        
         return (
             <>
                 <div id='create-booking-name'>

@@ -38,7 +38,7 @@ export const SpotShowcase = () => {
     allSpotBookings = spotBooking.map(booking => {
         return (
             <div>
-                {booking.User && <span>{booking.User.firstName} {booking.User.lastName} staying from  </span>}
+                {booking.User && <span>{booking.User.firstName} {booking.User.lastName} is staying from  </span>}
                 {new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)}
                 {booking.User && <div>Reservation made on {booking.createdAt.slice(0, -14)}</div>}
             </div>
@@ -215,7 +215,7 @@ export const SpotShowcase = () => {
                     <div>
                         Total before taxes
                     </div>
-                    {bookingEnd && bookingStart && ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div> ${spot.price * ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} </div>}
+                    {bookingEnd && bookingStart ? ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div> ${spot.price * ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} </div> : <div>...</div>}
 
                 </div>
             </div>

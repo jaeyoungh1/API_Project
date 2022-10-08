@@ -70,7 +70,7 @@ export const getOwnerBookings = () => async dispatch => {
 }
 
 export const createOneBooking = (spotId, bookingData) => async dispatch => {
-    console.log(spotId, bookingData)
+    // console.log(spotId, bookingData)
     try {
         const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
             method: 'POST',
@@ -95,6 +95,9 @@ export const createOneBooking = (spotId, bookingData) => async dispatch => {
         const data = await response.json();
 
         dispatch(createABooking(data));
+        data.Spot = {}
+        data.User = {}
+        console.log('create booking data', data)
 
         return data;
     }
@@ -151,16 +154,18 @@ export default function bookingsReducer(state = initialState, action) {
     let bookingImg = []
     switch (action.type) {
         case LOAD_SPOT_BOOKINGS:
-            action.bookings.forEach(booking => {
-                spotData[booking.id] = booking
+            // console.log("spot bookings", action.bookings)
+            action.bookings.forEach((booking, i) => {
+                spotData[i] = booking
             })
             newState = { ...state, user: { ...userData }, spot: { ...spotData } }
             return newState
         case LOAD_USER_BOOKINGS:
             action.bookings.forEach(booking => {
                 userData[booking.id] = booking
+                spotData[booking.id] = booking.Spot
             })
-            newState = { ...state, user: { ...userData } }
+            newState = { ...state, user: { ...userData }, spot: {...spotData} }
             return newState
         case CREATE_BOOKING:
             spotData[action.booking.id] = action.booking
