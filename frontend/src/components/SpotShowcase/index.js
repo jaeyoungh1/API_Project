@@ -3,7 +3,7 @@ import { NavLink, useParams, Redirect, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { getOneSpots } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
-import { createOneBooking } from "../../store/bookings"
+import { createOneBooking, getAllSpotBookings } from "../../store/bookings"
 import './SpotShowcase.css'
 import aircover from '../../images/aircover.png'
 import noimage from '../../images/noimage.png'
@@ -17,6 +17,7 @@ export const SpotShowcase = () => {
     const [bookingStart, setBookingStart] = useState('')
     const [bookingEnd, setBookingEnd] = useState('')
     const [bookingerrors, setBookingErrors] = useState([])
+    const [showBookings, setShowBookings] = useState(false)
 
     const currentUser = useSelector(state => state.session.user)
 
@@ -28,21 +29,31 @@ export const SpotShowcase = () => {
     const reviewArr = Object.values(reviewData.ReviewData)
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
     const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
-
+    const spotBooking = useSelector(state => Object.values(state.bookings.spot))
 
     let currentUserId
     currentUser ? currentUserId = currentUser.id : currentUserId = undefined
 
+    let allSpotBookings
+    allSpotBookings = spotBooking.map(booking => {
+        return (
+            <div>
+                {booking.User && <span>{booking.User.firstName} {booking.User.lastName} staying from  </span>}
+                {new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)}
+                {booking.User && <div>Reservation made on {booking.createdAt.slice(0, -14)}</div>}
+            </div>
+        )
+    })
 
     useEffect(() => {
         dispatch(getOneSpots(+spotId)).then(res => setErrors(res))
         dispatch(getAllSpotReviews(+spotId))
+        dispatch(getAllSpotBookings(+spotId))
 
     }, [dispatch])
 
     let areErrors = false;
     errors === "Spot couldn't be found" ? areErrors = true : areErrors = false;
-
 
     let prevImg
     let otherImg = []
@@ -81,7 +92,7 @@ export const SpotShowcase = () => {
             "endDate": bookingEnd
         }
 
-        console.log(submission, 'submission')
+        // console.log(submission, 'submission')
         let createdBooking;
         try {
             createdBooking = await dispatch(createOneBooking(spotId, submission))
@@ -131,20 +142,20 @@ export const SpotShowcase = () => {
                         <div className='one-spot-review'>
 
                             <span>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · </span>
-                            <span id='numreviews'>{spot.numReviews} review(s)</span>
+                            <span id='numreviews'>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
                         </div>
                     </div>
 
                     <div className='errors-wrapper'>
-                        {errors.length > 0 && (
-                            <ul className='create-booking-errorlist' key={errors}>
-                                <div>Please address the following errors:</div>
-                                {errors.map(error => (
-                                    <li className='create-booking-error' key={error}>{error}</li>
-                                ))}
-
-                            </ul>
-                        )}
+                        {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> Checkout must occur after Check-In </div>)}
+                        {(new Date(bookingEnd).getTime() > new Date(bookingStart).getTime()) && errors.length > 0 && (
+                            // {console.log(errors.filter(error=> error.includes("conflicts"))}
+                            <div className='create-booking-errorlist' key={errors}>
+                                 {errors.filter(error=> error.includes("conflict")) &&
+                                    <div className='create-booking-error'> Your requested dates conflict with an existing reservation</div>
+                                }
+                            </div>
+                        )} 
                     </div>
 
                     <form onSubmit={onSubmit}>
@@ -191,20 +202,39 @@ export const SpotShowcase = () => {
                         </div>
                         <button type='submit'>Reserve</button>
                     </form>
+                    {/* {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> End Date cannot be on or before Start Date </div>)} */}
                     <div>
                         You won't be charged yet
                     </div>
-                    {/* <div>
-                        ${spot.price} x {bookingEnd}
-                    </div> */}
+                    {bookingEnd && bookingStart && ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div>
+                        <div> ${spot.price} x {((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} nights </div>
+
+                    </div>}
+                    <div className='descriptionbreak'></div>
+
+                    <div>
+                        Total before taxes
+                    </div>
+                    {bookingEnd && bookingStart && ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div> ${spot.price * ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} </div>}
 
                 </div>
             </div>
 
             <div className='descriptionbreak'></div>
 
+
+
+
+            <div onClick={() => setShowBookings(!showBookings)} >
+                {showBookings ? "Hide booked dates" : "Show booked dates"}
+            </div>
+            <div>{showBookings && allSpotBookings}</div>
+
+
+            <div className='descriptionbreak'></div>
+
             <div className='one-spot-reviews'>
-                <h2>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · {spot.numReviews} review(s)</h2>
+                <h2>{spot.avgStarRating === null ? `★ New` : `★ ${spot.avgStarRating}`} · {spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</h2>
                 <div className='spot-reviews'>
                     {currentUser && currentUserId !== spotUserId && !reviewExists ?
                         (<div className='review-this-spot'>

@@ -10,11 +10,11 @@ export const EditABooking = () => {
     const history = useHistory()
     const { bookingId } = useParams()
     // let bookingId = props.bookingId
-    // console.log("bookingId", bookingId)
+    console.log("bookingId", bookingId)
     const currentUser = useSelector(state => state.session.user)
 
-    const bookingSpotData = useSelector(state => state.bookings.spot[bookingId])
     const bookingUserData = useSelector(state => state.bookings.user[bookingId])
+    // const bookingSpotData = if (bookingUserData useSelector(state => state.bookings.user[bookingId].Spot)
 
     const bookingUser = useSelector(state => state.bookings.user)
     const [bookingStart, setBookingStart] = useState('')
@@ -26,13 +26,17 @@ export const EditABooking = () => {
         dispatch(getOwnerBookings())
     }, [dispatch])
 
+    let bookingSpotData;
 
     useEffect(() => {
-        if (bookingUserData && bookingSpotData) {
+        if (bookingUserData) {
             setBookingStart(bookingUserData.startDate)
             setBookingEnd(bookingUserData.endDate)
-            setSpotName(bookingSpotData.name)
+        } 
+        if (bookingSpotData.Spot) {
+            setSpotName(bookingUserData.Spot.name)
         }
+
     }, [bookingId, bookingUserData])
 
     if (!currentUser) {
@@ -63,8 +67,10 @@ export const EditABooking = () => {
             return history.push(`/my-bookings`)
         }
     }
+    // console.log('spotData', bookingSpotData)
+    console.log('spotName', spotName)
 
-    if (bookingSpotData) {
+ 
         
         return (
             <>
@@ -111,5 +117,5 @@ export const EditABooking = () => {
                 </div>
             </>
         )
-    }
+    
 }

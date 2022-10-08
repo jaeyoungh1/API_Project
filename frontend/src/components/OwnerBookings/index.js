@@ -36,23 +36,29 @@ export const OwnerBookings = () => {
 
     let ownerBookingsUpcoming;
     let ownerBookingsPast;
-    let bookingArr = Object.values(bookingUserData)
-    console.log(new Date())
+    let bookingArr
+    if (bookingUserData) {
+        bookingArr = Object.values(bookingUserData)
+    }
+    // console.log(new Date())
     let upcomingBookingArr = bookingArr.filter(booking => new Date(new Date(booking.startDate.replace(/-/g, '\/'))) > new Date())
-    console.log('arr',upcomingBookingArr)
     let pastBookingArr = bookingArr.filter(booking => new Date(new Date(booking.startDate.replace(/-/g, '\/'))) < new Date())
+    console.log('upcomingbookingarr', upcomingBookingArr)
+    // console.log('pastbookingarr', pastBookingArr)
 
     if (upcomingBookingArr.length > 0) {
         ownerBookingsUpcoming = upcomingBookingArr.map(booking => {
             // console.log('enddate', (new Date(booking.endDate.replace(/-/g, '\/'))))
             let nights = (new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24)
+            console.log('booking.Spot', booking.Spot?.name)
             return (
                 <div className='single-booking-div' key={booking.id}>
                     <h4>
-                        {nights} {nights > 1 ? "nights" : "night"} in {bookingUserData[booking.id].Spot.state}
+                        {nights} {nights > 1 ? "nights" : "night"} in
+                        {/* {booking.Spot.state}  */}
                     </h4>
                     <div>
-                        {new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)} at <NavLink style={{ textDecoration: 'none' }} to={`/spots/${bookingUserData[booking.id].id}`}><span className='booking-spotname'> {bookingUserData[booking.id].Spot.name}</span></NavLink>
+                        {new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)} at <NavLink style={{ textDecoration: 'none' }} to={`/spots/${bookingUserData[booking.id].spotId}`}><span className='booking-spotname'> {bookingUserData[booking.id].Spot.name}</span></NavLink>
                     </div>
                     <div className='edit-booking https://i.insider.com/5e4c65927b1ede028c006075?width=1000&format=jpeg&auto=webp'>
                         {/* <div><EditBookingModal bookingId={booking.id}/></div> */}

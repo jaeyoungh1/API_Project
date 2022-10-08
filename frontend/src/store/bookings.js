@@ -152,30 +152,28 @@ export default function bookingsReducer(state = initialState, action) {
     switch (action.type) {
         case LOAD_SPOT_BOOKINGS:
             action.bookings.forEach(booking => {
-                bookingData[booking.id] = booking;
-                userData[booking.id] = booking.User
-                bookingImg = [...booking.BookingImages]
+                spotData[booking.id] = booking
             })
-            newState = { ...state, spot: { BookingData: { ...bookingData }, User: { ...userData }, BookingImages: [...bookingImg] } }
+            newState = { ...state, user: { ...userData }, spot: { ...spotData } }
             return newState
         case LOAD_USER_BOOKINGS:
             action.bookings.forEach(booking => {
                 userData[booking.id] = booking
             })
-            newState = { ...state, user: { ...userData } } 
+            newState = { ...state, user: { ...userData } }
             return newState
         case CREATE_BOOKING:
             spotData[action.booking.id] = action.booking
-            newState = { ...state, spot: { ...spotData} } 
+            newState = { ...state, spot: { ...spotData } }
             return newState;
         case UPDATE_BOOKING:
             userData[action.booking.id] = action.booking
-            newState = { ...state, user: { ...state.user, ...userData } } 
+            newState = { ...state, user: { ...state.user, ...userData } }
             return newState;
 
         case REMOVE_BOOKING:
             userData = state.user
-            newState = { ...state, user: {...userData} }
+            newState = { ...state, user: { ...userData } }
             delete newState.user[action.bookingId]
             return newState
         default:
