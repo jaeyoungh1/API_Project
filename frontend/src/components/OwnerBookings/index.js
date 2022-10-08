@@ -48,6 +48,7 @@ export const OwnerBookings = () => {
 
     if (upcomingBookingArr.length > 0) {
         ownerBookingsUpcoming = upcomingBookingArr.map(booking => {
+            console.log('booking', booking)
             // console.log('enddate', (new Date(booking.endDate.replace(/-/g, '\/'))))
             let nights = (new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24)
             // console.log('booking.Spot', booking.Spot?.name)

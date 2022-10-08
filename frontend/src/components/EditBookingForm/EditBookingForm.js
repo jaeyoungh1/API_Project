@@ -14,6 +14,8 @@ export const EditABooking = () => {
     const bookingUserData = useSelector(state => state.bookings.user)
     const bookingSpotData = useSelector(state => state.bookings.spot)
 
+    const currBookingUser = bookingUserData[bookingId]
+
     const [bookingStart, setBookingStart] = useState('')
     const [bookingEnd, setBookingEnd] = useState('')
     const [spotName, setSpotName] = useState('')
@@ -24,9 +26,9 @@ export const EditABooking = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if (bookingUserData.length > 0) {
-            setBookingStart(bookingUserData[bookingId].startDate)
-            setBookingEnd(bookingUserData[bookingId].endDate)
+        if (currBookingUser) {
+            setBookingStart(currBookingUser.startDate)
+            setBookingEnd(currBookingUser.endDate)
             setSpotName(bookingSpotData[bookingId].name)
         }
     }, [bookingId, bookingSpotData])
@@ -56,9 +58,11 @@ export const EditABooking = () => {
             setBookingStart('')
             setBookingEnd('')
             setErrors([])
+            await dispatch(getOwnerBookings())
             return history.push(`/my-bookings`)
         }
     }
+    // console.log('currBookingUser', currBookingUser)
 
         return (
             <>
@@ -66,8 +70,17 @@ export const EditABooking = () => {
                     <h2>Edit Booking for <span className='booking-spot-name'> {spotName} </span></h2>
                 </div>
                 <div id='create-booking-wrapper'>
+                    {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> Checkout must occur after Check-In </div>)}
                     <div className='errors-wrapper'>
-                        {errors.length > 0 && (
+                        {(new Date(bookingEnd).getTime() > new Date(bookingStart).getTime()) && errors.length > 0 && (
+                            // {console.log(errors.filter(error=> error.includes("conflicts"))}
+                            <div className='create-booking-errorlist' key={errors}>
+                                {errors.filter(error => error.includes("conflict")) &&
+                                    <div className='create-booking-error'> Your requested dates conflict with an existing reservation</div>
+                                }
+                            </div>
+                        )}
+                        {/* {errors.length > 0 && (
                             <ul className='create-booking-errorlist' key={errors}>
                                 <div>Please address the following errors:</div>
                                 {errors.map(error => (
@@ -75,7 +88,7 @@ export const EditABooking = () => {
                                 ))}
 
                             </ul>
-                        )}
+                        )} */}
                     </div>
                     <form className='create-booking-form' onSubmit={onSubmit}>
 

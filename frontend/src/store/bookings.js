@@ -165,7 +165,7 @@ export default function bookingsReducer(state = initialState, action) {
                 userData[booking.id] = booking
                 spotData[booking.id] = booking.Spot
             })
-            newState = { ...state, user: { ...userData }, spot: {...spotData} }
+            newState = { user: { ...userData }, spot: {...spotData} }
             return newState
         case CREATE_BOOKING:
             spotData[action.booking.id] = action.booking
