@@ -7,16 +7,17 @@ textarea {
 }
 
 .review-spot-name {
-    color: rgb(220, 28, 114);
-    font-weight: 500
+    color: #dc1c72;
+    font-weight: 400
 }
 #create-review-name {
     display: flex;
     justify-content: center;
     margin-top: 50px;
+    font-weight: 300;
 }
 #create-review-name > h2 {
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 10px;
 }
 

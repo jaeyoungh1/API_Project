@@ -1,7 +1,9 @@
+import ReactStars from "react-rating-stars-component"
 import { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createOneReview } from '../../store/reviews'
+
 
 import '../EditReview/EditReview.css'
 
@@ -17,6 +19,11 @@ export const CreateAReview = () => {
     const [stars, setStars] = useState(0)
     const [url, setUrl] = useState('')
     const [errors, setErrors] = useState([])
+
+
+    const ratingChanged = (newRating) => {
+        console.log(newRating);
+    };
 
 
     const onSubmit = async e => {
@@ -91,14 +98,11 @@ export const CreateAReview = () => {
                     <label className='create-review-input-title'>Rating</label>
 
                     <div className='create-review-input-rating'>
-
-                        ★<input
-                            type='number'
-                            min='0' max='5'
-                            placeholder='4'
-                            value={stars}
-                            onChange={e => setStars(e.target.value)}>
-                        </input>/5
+                        <ReactStars
+                            count={5}
+                            onChange={ratingChanged}
+                            size={30}
+                            activeColor="#dc1c72" />
                     </div>
 
                     <label className='create-review-input-title'>Add a Picture</label>

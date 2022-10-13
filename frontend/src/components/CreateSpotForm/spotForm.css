@@ -1,32 +1,21 @@
 #create-spot-wrapper {
-    /* background-color: #2844d4; */
-    /* background-image: linear-gradient(0deg, #2844d4 0%, #d54cd9 61%, #f313bf 100%); */
     display: flex;
-    justify-content: center;
-    /* display: grid;
-    grid-template-columns: 1fr 1fr; */
+    flex-direction: column;
 }
 
-/* #what-kind-of-place-will-you-host {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 50px;
-    font-weight: 400;
-} */
+textarea:focus {
+    outline: none;
+}
 
-/* #create-spot-form-wrapper {
-    background-image: url("https://images.unsplash.com/photo-1630673245362-f69d2b93880e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80");
-    background-size: 300%;
-    background: white;
-} */
+select:focus {
+    outline: none;
+}
 
 .create-spot-form-input-break {
     background-color: rgb(200, 200, 200);
     height: 1px;
     margin-left: -11px;
-    width: 100%;
+    width: 103.3%;
     margin-top: 6px;
     margin-bottom: 6px;
 }
@@ -34,73 +23,69 @@
 .create-spot-form-input-wrapper {
     border: rgb(200, 200, 200) 1px solid;
     border-radius: 9px;
-    /* margin-bottom: 15px; */
-    width: 60%;
-    /* margin: auto; */
+    margin-bottom: 1px;
+    width: 40%;
+    margin: auto;
+    width: 100%;
+    padding: 11px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
 #create-spot-name {
     display: flex;
     justify-content: center;
-    font-weight: 500;
+    font-weight: 200;
     font-size: 40px;
     color: rgb(255, 0, 115);
     margin-top: 60px;
-    margin-bottom: 80px;
+    margin-bottom: 50px;
     width: 100%;
 }
 
 .create-spot-form {
-    /* margin: 0px; */
-    width: 100%;
+    width: 40%;
     padding: 11px;
-    /* border: solid purple 3px; */
+    margin: auto;
 }
 
 
 .create-spot-form>div {
-    display: flex;
-    /* justify-content: center; */
     width: 100%;
-    padding: 0px;
-    /* border: solid blue 2px */
-}
-
-.create-spot-form>div>input {
-    text-indent: 2px;
-    /* width: 95%; */
+    padding: 8px;
+    padding-left: 10px;
 }
 
 .create-spot-input-title {
     color: rgb(255, 0, 115);
-    /* margin-left: 20px; */
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    padding-left: 3px;
 }
 
 #country {
-    /* padding: 10px; */
-    text-indent: 2px;
-    /* color: rgb(109, 108, 108); */
     height: 20px;
-    width: 96%;
-    /* border-radius: 4px; */
-    border: white solid 1px; 
+    width: 100%;
+    margin-left: -2px;
+    border: white solid 1px;
 }
 
 #create-spot-button {
     background-color: rgb(255, 0, 115);
     color: white;
-    width: 96%;
+    width: 100%;
     margin-top: 9px;
     padding: 15px;
     border: none;
     border-radius: 4px;
-    font-size: 18px;
+    border: 1px solid rgb(255, 0, 115);
+    font-size: 15px;
+    font-weight: 300;
 }
 
 #create-spot-button-wrapper {
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     margin: auto;
     width: 100%;
 }
@@ -116,14 +101,10 @@
     width: 93%;
     height: 150px;
     font-size: 14px;
-    /* text-indent: 7px; */
     border: none;
-    margin-left: 5px;
+    margin-left: 2px;
 }
 
-#edit-spot-textarea {
-    text-indent: 0px;
-}
 
 .errors-wrapper {
     display: flex;

@@ -11,6 +11,7 @@
 }
 .spot {
     text-decoration: none;
+    margin-bottom: 20px;
 }
 
 .spot-img-div {
@@ -36,15 +37,26 @@
     padding-bottom: 5px;
     padding-left: 2px;
     text-decoration: none;
+    font-size: 15px;
+}
+.spot-location-country-div {
+    font-weight: 500;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    text-decoration: none;
+    color: grey;
+    font-size: 15px;
 }
 
 .spot-location-div > span {
     float: right;
     padding-right: 2px;
+    /* font-size: 10px; */
 }
 
 .spot-price-div {
     padding-left: 2px;
+    font-size: 15px;
 }
 
 

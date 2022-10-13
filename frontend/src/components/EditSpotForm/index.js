@@ -86,7 +86,6 @@ export const EditASpot = () => {
             setPrice('')
             setUrl('')
 
-            console.log('SPOT BEING EDITED', createdSpot)
             setErrors([])
             history.push(`/my-spots`)
         }
@@ -108,9 +107,9 @@ export const EditASpot = () => {
                         </ul>
                     )}
                 </div>
-                <div className='create-spot-form-input-wrapper'>
 
                     <form className='create-spot-form' onSubmit={onSubmit}>
+                <div className='create-spot-form-input-wrapper'>
 
                         <label className='create-spot-input-title'>Address</label>
                         <div className='create-spot-input address'>
@@ -253,12 +252,11 @@ export const EditASpot = () => {
                                 onChange={e => setOtherUrl4(e.target.value)}>
                             </input>
                         </div> */}
-                        <span className='create-spot-form-input-break'></span>
+                </div>
                         <div id='create-spot-button-wrapper' n>
                             <button id='create-spot-button' type='submit'>Edit My Spot</button>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     )

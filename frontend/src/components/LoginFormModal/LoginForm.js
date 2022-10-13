@@ -36,7 +36,7 @@ const LoginForm = () => {
 
     return (
         <>
-            <form onSubmit={onSubmit}>
+            <form className='login-signup-modal' onSubmit={onSubmit}>
                 <div className='modal-header'>Log in</div>
                 <span className='break'></span>
                 <div className='modal-subheader'>Welcome to HeirBnB! 👑</div>

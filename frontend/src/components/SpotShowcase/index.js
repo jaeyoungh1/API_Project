@@ -16,7 +16,7 @@ export const SpotShowcase = () => {
 
     const [bookingStart, setBookingStart] = useState('')
     const [bookingEnd, setBookingEnd] = useState('')
-    const [bookingerrors, setBookingErrors] = useState([])
+    const [bookingError, setBookingError] = useState(false)
     const [showBookings, setShowBookings] = useState(false)
 
     const currentUser = useSelector(state => state.session.user)
@@ -29,17 +29,18 @@ export const SpotShowcase = () => {
     const reviewArr = Object.values(reviewData.ReviewData)
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
     const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
-    const spotBooking = useSelector(state => Object.values(state.bookings.spot))
+    const spotBooking = useSelector(state => Object.values(state.bookings.user))
 
     let currentUserId
     currentUser ? currentUserId = currentUser.id : currentUserId = undefined
 
     let allSpotBookings
-    allSpotBookings = spotBooking.map(booking => {
+    // console.log('spootBooking', spotBooking)
+    allSpotBookings = spotBooking.length === 0 ? <div>No upcoming bookings</div> : spotBooking.map(booking => {
         return (
             <div>
                 {booking.User && <span>{booking.User.firstName} {booking.User.lastName} is staying from  </span>}
-                {new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)}
+                {booking.startDate && new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)}
                 {booking.User && <div>Reservation made on {booking.createdAt.slice(0, -14)}</div>}
             </div>
         )
@@ -86,6 +87,10 @@ export const SpotShowcase = () => {
 
     const onSubmit = async e => {
         e.preventDefault()
+        
+        if (currentUser && currentUserId === spotUserId) {
+            setBookingError(true)
+        } 
 
         const submission = {
             "startDate": bookingStart,
@@ -107,7 +112,7 @@ export const SpotShowcase = () => {
             setBookingStart('')
             setBookingEnd('')
             setErrors([])
-            // return history.push(`/my-bookings`)
+            return history.push(`/my-bookings`)
         }
     }
 
@@ -147,6 +152,7 @@ export const SpotShowcase = () => {
                     </div>
 
                     <div className='errors-wrapper'>
+                        {bookingError && <div>You may not reserve a spot you're hosting</div>}
                         {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> Checkout must occur after Check-In </div>)}
                         {(new Date(bookingEnd).getTime() > new Date(bookingStart).getTime()) && errors.length > 0 && (
                             // {console.log(errors.filter(error=> error.includes("conflicts"))}
@@ -200,7 +206,7 @@ export const SpotShowcase = () => {
                                 </select>
                             </div>
                         </div>
-                        <button type='submit'>Reserve</button>
+                       <button type='submit'>Reserve</button>
                     </form>
                     {/* {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> End Date cannot be on or before Start Date </div>)} */}
                     <div>

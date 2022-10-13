@@ -21,6 +21,7 @@ export const SpotsList = () => {
                 <div className={`spot ${spot.id}`}  >
                     <div className='spot-img-div'><img className='spot-img' alt={spot.previewImage} src={spot.previewImage} /></div>
                     <div className='spot-location-div'>{`${spot.city}, ${spot.state}`}<span style={{ fontWeight: '300' }} id={`rating-${spot.id}`}>{spot.avgRating !== null ? `★ ${spot.avgRating}` : `★ New`}</span></div>
+                    <div className='spot-location-country-div' style={{ fontWeight: 300}} >{`${spot.country}`}</div>
                     <div className='spot-price-div' style={{ fontWeight: 500 }}>{`$${spot.price}`} <span style={{ fontWeight: 300 }}>night</span></div>
                 </div>
             </NavLink>
