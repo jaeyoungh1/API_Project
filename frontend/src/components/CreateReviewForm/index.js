@@ -22,7 +22,7 @@ export const CreateAReview = () => {
 
 
     const ratingChanged = (newRating) => {
-        console.log(newRating);
+        setStars(newRating)
     };
 
 
@@ -50,7 +50,7 @@ export const CreateAReview = () => {
                     setErrors(errMsgsArr)
                 }
                 if (err.statusCode === 403) {
-                    
+
                     setErrors(['You already have written a review for this spot! Feel free to edit your existing review'])
                 }
             }
@@ -85,34 +85,43 @@ export const CreateAReview = () => {
                     )}
                 </div>
                 <form className='create-review-form' onSubmit={onSubmit}>
+                    <div className='create-review-wrapper'>
 
-                    <label className='create-review-input-title'>Review</label>
-                    <div className='create-review-input-review'>
-                        <textarea
-                            id='review'
-                            placeholder='What a great location..'
-                            value={review}
-                            onChange={e => setReview(e.target.value)}>
-                        </textarea>
-                    </div>
-                    <label className='create-review-input-title'>Rating</label>
+                        <label className='create-review-input-title'>Review</label>
+                        <div className='create-review-input-review'>
+                            <textarea
+                                id='review'
+                                placeholder='What a great location..'
+                                value={review}
+                                onChange={e => setReview(e.target.value)}>
+                            </textarea>
+                        </div>
+                        <span className='create-review-form-input-break'></span>
 
-                    <div className='create-review-input-rating'>
-                        <ReactStars
-                            count={5}
-                            onChange={ratingChanged}
-                            size={30}
-                            activeColor="#dc1c72" />
-                    </div>
+                        <label className='create-review-input-title'>Rating</label>
 
-                    <label className='create-review-input-title'>Add a Picture</label>
-                    <div className='create-review-input'>
-                        <input
-                            type='text'
-                            placeholder='https://...'
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}>
-                        </input>
+                        <div className='create-review-input-rating'>
+                            <ReactStars
+                                count={5}
+                                onChange={ratingChanged}
+                                size={20}
+                                emptyIcon={<i className="far fa-star"></i>}
+                                filledIcon={<i className="fa fa-star"></i>}
+                                activeColor="#dc1c72" />
+
+                        </div>
+                        <span className='create-review-form-input-break'></span>
+
+
+                        <label className='create-review-input-title'>Add a Picture</label>
+                        <div className='create-review-input'>
+                            <input
+                                type='text'
+                                placeholder='https://...'
+                                value={url}
+                                onChange={e => setUrl(e.target.value)}>
+                            </input>
+                        </div>
                     </div>
                     <div id='create-review-button-wrapper' n>
                         <button id='create-review-button' type='submit'>Create Review</button>

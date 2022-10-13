@@ -1,4 +1,3 @@
-
 textarea {
     resize: none;
     width: 100%;
@@ -10,43 +9,77 @@ textarea {
     color: #dc1c72;
     font-weight: 400
 }
+
 #create-review-name {
     display: flex;
     justify-content: center;
     margin-top: 50px;
     font-weight: 300;
 }
-#create-review-name > h2 {
+
+#create-review-name>h2 {
     font-weight: 400;
     margin-bottom: 10px;
+}
+
+.create-review-form-input-break {
+    background-color: rgb(200, 200, 200);
+    height: 1px;
+    margin-left: -11px;
+    width: 103.6%;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.create-review-form {
+    width: 40%;
+    padding: 11px;
+    margin: auto;
+}
+
+.create-review-wrapper {
+    border: rgb(200, 200, 200) 1px solid;
+    border-radius: 9px;
+    margin-bottom: 1px;
+    width: 40%;
+    margin: auto;
+    width: 100%;
+    padding: 11px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
 .create-review-input-title {
-    font-size: 20px;
-    font-weight: 400;
-    color: rgb(220, 28, 114);
     margin-bottom: 10px;
 }
 
-.create-review-input-rating {
-    display: flex;
-    width: 85px;
-    align-items: center;
-}
 
-.create-review-input-rating > input {
+.create-review-input-rating>input {
     margin: 3px;
     font-size: 15px;
 }
+
+.fa-star {
+    padding-right: 5px;
+    padding-bottom: 10px;
+}
+
+#review {
+    border: 1px solid white;
+    height: 120px;
+}
+
 #create-review-button {
-    background-color:rgb(220, 28, 114);
+    background-color: rgb(220, 28, 114);
     color: white;
-    border:rgb(220, 28, 114) 1px solid;
+    border: rgb(220, 28, 114) 1px solid;
     border-radius: 4px;
     height: 40px;
     width: 150px;
     margin-top: 10px;
 }
+
 #create-review-button-wrapper :hover {
     background-color: white;
     color: rgb(220, 28, 114);
@@ -55,4 +88,6 @@ textarea {
     height: 40px;
     width: 150px;
     margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
