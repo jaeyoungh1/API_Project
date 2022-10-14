@@ -15,7 +15,6 @@ export const OwnerSpots = () => {
     }, [dispatch])
 
     const deleteSpot = async (spotId) => {
-        // console.log('IM BEING DELETED')
         await dispatch(deleteOneSpot(spotId))
     }
 
@@ -33,11 +32,14 @@ export const OwnerSpots = () => {
                     <NavLink to={`${spot.id}/edit-spot`}> <button className='owner-actions-button'>Edit</button> </NavLink>
                     <button className='owner-actions-button' onClick={() => deleteSpot(spot.id)}>Delete</button>
                 </div>
+                <div className='owner-actions'>
+                    <NavLink to={`${spot.id}/edit-spot-images`}> <button className='owner-actions-button'>Manage Photos</button> </NavLink>
+                </div>
             </div>
+
         )
     })
 
-    // console.log('spotsInfo', spotsInfo)
 
     if (!currentUser) {
         return <Redirect to='/' />

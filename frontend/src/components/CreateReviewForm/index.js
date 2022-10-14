@@ -40,7 +40,6 @@ export const CreateAReview = () => {
         let createdReview;
         try {
             createdReview = await dispatch(createOneReview(+spotId, submission))
-            console.log('createdReview', createdReview)
         } catch (err) {
             if (err) {
                 if (err.statusCode === 400) {
@@ -61,7 +60,6 @@ export const CreateAReview = () => {
             setStars(0)
             setUrl([])
 
-            console.log('REVIEW BEING EDITED', createdReview)
             setErrors([])
             history.push(`/my-reviews`)
         }
@@ -124,7 +122,7 @@ export const CreateAReview = () => {
                         </div>
                     </div>
                     <div id='create-review-button-wrapper' n>
-                        <button id='create-review-button' type='submit'>Create Review</button>
+                        <button id='create-review-button' className='mouse-cursor-gradient-tracking' type='submit'>Create Review</button>
                     </div>
                 </form>
             </div>

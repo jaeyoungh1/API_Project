@@ -80,6 +80,7 @@ textarea {
     margin-top: 10px;
 }
 
+
 #create-review-button-wrapper :hover {
     background-color: white;
     color: rgb(220, 28, 114);
@@ -88,6 +89,4 @@ textarea {
     height: 40px;
     width: 150px;
     margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
 }

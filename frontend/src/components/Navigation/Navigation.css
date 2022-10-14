@@ -100,7 +100,7 @@ ul {
     margin-right: 5px;
     margin-top: 10px;
     position: absolute;
-    height: 270px;
+    height: 285px;
     width: 170px;
     z-index: 9999;
     top: 65px;
@@ -132,20 +132,19 @@ ul {
     font-size: 13px;
     font-weight: 300;
     padding-left: 12px;
-    padding-top: 10px;
+    padding-top: 7px;
 }
 .login-menu-wrapper {
     color: black;
-    padding-top: 15px;
+    padding-top: 13px;
     height: 20px;
-    font-size: 12px;
 }
 
 
 .login-menu-wrapper :hover {
     background-color: rgb(230, 230, 230);
-    width: 92.3%;
-    height: 150%;
+    width: 93.2%;
+    height: 140%;
     cursor:pointer;
 }
 

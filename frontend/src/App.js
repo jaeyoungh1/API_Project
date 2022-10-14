@@ -1,8 +1,6 @@
 import { Route, Switch } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-// import { LoginFormPage } from './components/LoginFormPage'
-// import { SignUpPage } from './components/SignupFormPage';
 import { Navigation } from './components/Navigation';
 import { SpotsList } from './components/SpotsList';
 import { CreateASpot } from './components/CreateSpotForm';
@@ -14,6 +12,7 @@ import { OwnerReviews } from './components/OwnerReviews';
 import { EditAReview } from './components/EditReview';
 import { EditABooking } from './components/EditBookingForm/EditBookingForm';
 import { CreateAReview } from './components/CreateReviewForm';
+import { EditSpotImages } from './components/ManageSpotPhotos';
 // import { ManageReviewPhotos } from './components/ManageReviewPhotos';
 import { Whoops } from './components/404'
 
@@ -27,10 +26,6 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  // console.log("isLoaded is: ", isLoaded)
-  //work on 404/error pages
-  // blocker: continued issues with adding more than 4 new spots
-  // today's steps: work on styling and hosts can add spot images, sign up modal
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -50,6 +45,9 @@ function App() {
           </Route>
           <Route path="/:spotId/edit-spot">
             <EditASpot />
+          </Route>
+          <Route path="/:spotId/edit-spot-images">
+            <EditSpotImages />
           </Route>
           <Route path='/my-spots'>
             <OwnerSpots />

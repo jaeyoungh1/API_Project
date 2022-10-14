@@ -71,6 +71,11 @@ export const ProfileButton = ({ user }) => {
                             <div className='login-inner-div' key='myreviews' onClick={() => history.push('/my-reviews')}>My Reviews
                             </div>
                         </div>
+                        <div className='login-menu-wrapper'>
+
+                            <div className='login-inner-div' key='mybookings' onClick={() => history.push('/my-bookings')}>My Bookings
+                            </div>
+                        </div>
                         <div>
                             <div className='login-menu-wrapper'>
                                 <div className='login-inner-div' onClick={logoutUser}> Log Out</div>
