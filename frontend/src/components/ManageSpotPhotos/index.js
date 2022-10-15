@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOneSpots, updateOneSpot } from '../../store/spots'
+import { getOneSpots, addSpotImg } from '../../store/spots'
 
 import './ManageSpotImages.css'
 
@@ -22,18 +22,12 @@ export const EditSpotImages = () => {
     let otherImg
     if (currSpotImg.length > 0) otherImg = currSpotImg.filter(obj => obj.preview === false)
 
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState(currSpot.state)
-    const [country, setCountry] = useState(currSpot.country)
-    const [lat, setLat] = useState('')
-    const [lng, setLng] = useState('')
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
     const [url, setUrl] = useState('')
 
     const [otherUrl1, setOtherUrl1] = useState('')
+    const [otherUrl2, setOtherUrl2] = useState('')
+    const [otherUrl3, setOtherUrl3] = useState('')
+    const [otherUrl4, setOtherUrl4] = useState('')
 
     const [errors, setErrors] = useState([])
 
@@ -42,61 +36,41 @@ export const EditSpotImages = () => {
     }, [dispatch])
 
     useEffect(() => {
-        setAddress(currSpot.address)
-        setCity(currSpot.city)
-        setState(currSpot.state)
-        setCountry(currSpot.country)
-        setName(currSpot.name)
-        setDescription(currSpot.description)
-        setPrice(currSpot.price)
+
         setUrl(prevImg)
         otherImg ? setOtherUrl1(otherImg[0] ? otherImg[0].url : '') : setOtherUrl1('')
+        otherImg ? setOtherUrl2(otherImg[1] ? otherImg[1].url : '') : setOtherUrl2('')
+        otherImg ? setOtherUrl3(otherImg[2] ? otherImg[2].url : '') : setOtherUrl3('')
+        otherImg ? setOtherUrl4(otherImg[3] ? otherImg[3].url : '') : setOtherUrl4('')
+
     }, [spotId, currSpot])
 
     let otherImgDiv
     if (otherImg && otherImg.length > 0) {
-        otherImgDiv = otherImg.map((obj,i) => {
+        otherImgDiv = otherImg.map((obj, i) => {
             return (
                 <>
                     <div className='edit-spot-img-div'>
-                        <img className='edit-spot-img' alt={obj.id} src={obj.url} />
-                    </div>
-                    <label className='create-spot-input-title'>Other Spot Image URLs</label>
-                    <div className='create-spot-input'>
-                        <input
-                            // required
-                            type='text'
-                            placeholder='https://...'
-                            value={otherUrl1}} 
-                            // ^^^^^^figuring out how to set each URL
-                            onChange={e => setOtherUrl1(e.target.value)}>
-                        </input>
+                        <img className='edit-spot-other-img' alt={obj.id} src={obj.url} />
                     </div>
                 </>
             )
         })
     }
-    console.log("otherImg", otherImg)
 
     const onSubmit = async e => {
         e.preventDefault()
 
         const submission = {
-            address,
-            city,
-            state,
-            country,
-            lat: 34.0, //include this in form? // what does the create spot look like?
-            lng: 66.0, //can leave it blank and make a default lat:0
-            name,
-            description,
-            price,
             url,
-            otherUrl1
+            otherUrl1,
+            otherUrl2,
+            otherUrl3,
+            otherUrl4
         }
         let createdSpot;
         try {
-            createdSpot = await dispatch(updateOneSpot(currSpotId, submission))
+            createdSpot = await dispatch(addSpotImg(currSpotId, submission))
         } catch (err) {
             if (err) {
                 let errMsgs = err.errors
@@ -106,20 +80,14 @@ export const EditSpotImages = () => {
         }
 
         if (createdSpot) {
-            setAddress('')
-            setCity('')
-            setState('')
-            setCountry('')
-            setLat('')
-            setLng('')
-            setName('')
-            setDescription('')
-            setPrice('')
             setUrl('')
             setOtherUrl1('')
+            setOtherUrl2('')
+            setOtherUrl3('')
+            setOtherUrl4('')
 
             setErrors([])
-            history.push(`/my-spots`)
+            history.push(`/spots/${spotId}`)
         }
     }
 
@@ -127,8 +95,7 @@ export const EditSpotImages = () => {
         <div id='create-spot-form-wrapper'>
             <div id='create-spot-name'>
                 Manage Photos for {currSpot.name}
-            </div>
-            <div id='create-spot-wrapper'>
+            </div >
                 {/* <div className='errors-wrapper'>
                     {errors.length > 0 && (
                         <ul className='create-spot-errorlist' key={errors}>
@@ -141,65 +108,85 @@ export const EditSpotImages = () => {
                     )}
                 </div> */}
 
-                <form className='create-spot-form' onSubmit={onSubmit}>
-                    <div>Preview Image</div>
-                    <div className='edit-spot-img-div'>
-                        <img className='edit-spot-img' alt={currSpot.name} src={prevImg} />
-                    </div>
-                    <label className='create-spot-input-title'>Preview Image URL</label>
-                    <div className='create-spot-input'>
-                        <input
-                            // required
-                            type='text'
-                            placeholder='https://...'
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}>
-                        </input>
-                    </div>
-                    <div>Other Photos</div>
-                    <div>{otherImgDiv}</div>
-                    <label className='create-spot-input-title'>Other Spot Image URLs</label>
-                    <div className='create-spot-input'>
-                        <input
-                            // required
-                            type='text'
-                            placeholder='https://...'
-                            value={otherUrl1}
-                            onChange={e => setOtherUrl1(e.target.value)}>
-                        </input>
-                    </div>
-                    {/* <div className='create-spot-input'>
-                            <input
-                                // required
-                                type='text'
-                                placeholder='https://...'
-                                value={otherUrl2}
-                                onChange={e => setOtherUrl2(e.target.value)}>
-                            </input>
+                <form className= 'edit-spot-img-form' onSubmit={onSubmit}>
+                    <div id='edit-spot-img-wrapper'>
+                        <div>Preview Image
+                            <div className='edit-spot-img-div'>
+                                <img className='edit-spot-img' alt={currSpot.name} src={prevImg} />
+                            </div>
+                            <label className='create-spot-input-title'>Edit Preview Image URL</label>
+                            <div className='create-spot-input'>
+                                <input
+                                    // required
+                                    type='text'
+                                    placeholder='https://...'
+                                    value={url}
+                                    onChange={e => setUrl(e.target.value)}>
+                                </input>
+                            </div>
                         </div>
-                        <div className='create-spot-input'>
-                            <input
-                                // required
-                                type='text'
-                                placeholder='https://...'
-                                value={otherUrl3}
-                                onChange={e => setOtherUrl3(e.target.value)}>
-                            </input>
+
+                        <div>Other Photos
+                            <div className='edit-spot-photos-images'>{otherImgDiv}</div>
                         </div>
-                        <div className='create-spot-input'>
-                            <input
-                                // required
-                                type='text'
-                                placeholder='https://...'
-                                value={otherUrl4}
-                                onChange={e => setOtherUrl4(e.target.value)}>
-                            </input>
-                        </div>  */}
-                    <div id='create-spot-button-wrapper' n>
-                        <button id='create-spot-button' type='submit'>Edit My Spot</button>
+
+                        <div className='edit-spot-photos-urls'>
+
+
+                            <label className='create-spot-input-title'>
+                                {otherUrl1 ? "Edit Photo Url" : "Add Photo Url"}
+                            </label>
+                            <div className='create-spot-input'>
+                                <input
+                                    // required
+                                    type='text'
+                                    placeholder='https://...'
+                                    value={otherUrl1}
+                                    onChange={e => setOtherUrl1(e.target.value)}>
+                                </input>
+                            </div>
+                            <label className='create-spot-input-title'>
+                                {otherUrl1 ? "Edit Photo Url" : "Add Photo Url"}
+                            </label>
+                            <div className='create-spot-input'>
+                                <input
+                                    // required
+                                    type='text'
+                                    placeholder='https://...'
+                                    value={otherUrl2}
+                                    onChange={e => setOtherUrl2(e.target.value)}>
+                                </input>
+                            </div>
+                            <label className='create-spot-input-title'>
+                                {otherUrl1 ? "Edit Photo Url" : "Add Photo Url"}
+                            </label>
+                            <div className='create-spot-input'>
+                                <input
+                                    // required
+                                    type='text'
+                                    placeholder='https://...'
+                                    value={otherUrl3}
+                                    onChange={e => setOtherUrl3(e.target.value)}>
+                                </input>
+                            </div>
+                            <label className='create-spot-input-title'>
+                                {otherUrl1 ? "Edit Photo Url" : "Add Photo Url"}
+                            </label>
+                            <div className='create-spot-input'>
+                                <input
+                                    // required
+                                    type='text'
+                                    placeholder='https://...'
+                                    value={otherUrl4}
+                                    onChange={e => setOtherUrl4(e.target.value)}>
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                <div className='edit-spot-image-button' >
+                        <button id='create-spot-button' type='submit'>Edit My Spot Photos</button>
                     </div>
                 </form>
-            </div>
         </div>
     )
 }

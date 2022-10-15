@@ -167,7 +167,7 @@ export const createOneSpot = (spot) => async dispatch => {
             let imgData = await otherImgResponse4.json()
             dispatch(addRegImg(imgData))
         }
-       
+
         return data;
     }
     catch (error) {
@@ -228,6 +228,113 @@ export const updateOneSpot = (spotId, spot) => async dispatch => {
         throw errorJSON
     }
 };
+
+export const addSpotImg = (spotId, spot) => async dispatch => {
+
+    let { url, otherUrl1, otherUrl2, otherUrl3, otherUrl4 } = spot
+
+        if (url.length > 0) {
+            let spotRes = await csrfFetch(`/api/spots/${spotId}`)
+            if (spotRes.ok) {
+                let spotData = await spotRes.json()
+                let prevImg = spotData.SpotImages.find(obj => obj.preview === true)
+                let deleteImg = await csrfFetch(`/api/spot-images/${prevImg.id}`, {
+                    method: "DELETE"
+                })
+                if (deleteImg.ok) {
+                    let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+                        method: 'POST',
+                        body: JSON.stringify(
+                            { url, preview: true }
+                        )
+                    })
+                    if (newImg.ok) {
+                        let imgData = await newImg.json()
+                        dispatch(addPrevImg(imgData))
+                    }
+                }
+            }
+        }
+    if (otherUrl1.length > 0) {
+        let spotRes = await csrfFetch(`/api/spots/${spotId}`)
+        if (spotRes.ok) {
+            let spotData = await spotRes.json()
+            let prevImg = spotData.SpotImages.find(obj => obj.preview === true)
+            let deleteImg = await csrfFetch(`/api/spot-images/${prevImg.id}`, {
+                method: "DELETE"
+                // decided to change page to deleting images and adding images, no editing 
+            })
+            if (deleteImg.ok) {
+                let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+                    method: 'POST',
+                    body: JSON.stringify(
+                        { url, preview: true }
+                    )
+                })
+                if (newImg.ok) {
+                    let imgData = await newImg.json()
+                    dispatch(addPrevImg(imgData))
+                }
+            }
+        }
+    }
+
+        const data = await response.json();
+        dispatch(createASpot(data));
+        const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url, preview: true }
+            )
+        });
+        if (imgResponse.ok) {
+            let imgData = await imgResponse.json()
+            dispatch(addPrevImg(imgData))
+        }
+        const otherImgResponse1 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl1, preview: false }
+            )
+        });
+        if (otherImgResponse1.ok) {
+            let imgData = await otherImgResponse1.json()
+            dispatch(addRegImg(imgData))
+        }
+        const otherImgResponse2 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl2, preview: false }
+            )
+        });
+        if (otherImgResponse2.ok) {
+            let imgData = await otherImgResponse2.json()
+            dispatch(addRegImg(imgData))
+        }
+        const otherImgResponse3 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl3, preview: false }
+            )
+        });
+        if (otherImgResponse3.ok) {
+            let imgData = await otherImgResponse3.json()
+            dispatch(addRegImg(imgData))
+        }
+        const otherImgResponse4 = await csrfFetch(`/api/spots/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify(
+                { url: otherUrl4, preview: false }
+            )
+        });
+        if (otherImgResponse4.ok) {
+            let imgData = await otherImgResponse4.json()
+            dispatch(addRegImg(imgData))
+        }
+
+        return data
+
+}
 
 export const deleteOneSpot = (spotId) => async dispatch => {
     let res = await csrfFetch(`api/spots/${spotId}`, {
