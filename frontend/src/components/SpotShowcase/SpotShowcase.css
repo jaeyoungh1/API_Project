@@ -34,7 +34,7 @@ hr {
     gap: 4px;
     overflow: hidden;
     border-radius: 10px;
-    height: 40vh
+    height: 45vh
 }
 
 .one-spot-pics-not-preview {
@@ -194,7 +194,7 @@ hr {
 }
 
 .one-spot-reviews>h2 {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
 }
 

@@ -17,7 +17,10 @@
 }
 
 .create-booking-input-booking {
-    width: 30%;
+    width: 100%;
+}
+.manage-reviews-button:hover {
+    cursor: pointer;
 }
 
 #create-booking-name>h2 {
@@ -42,7 +45,7 @@
     border: rgb(200, 200, 200) 1px solid;
     border-radius: 9px;
     margin-bottom: 1px;
-    width: 30%;
+    width: fit-content;
     padding: 12px 12px;
 }
 
