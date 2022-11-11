@@ -128,7 +128,7 @@ export const SpotShowcase = () => {
             <div className="one-spot-pics">
                 <img id='one-spot-preview' alt={spot.name} src={prevImg} />
                 {<div className="one-spot-pics-not-preview">
-                    {otherImg.length > 0 && otherImg.map(url => <img id={`spot-image-${url.id}`} className='not-preview-image' alt={spot.name} src={url} />)}
+                    {otherImg.length > 0 && otherImg.map(url => <img id={`spot-image-${url?.id}`} className='not-preview-image' alt={spot?.name} src={url} />)}
                     {/* {otherImg.length < 4 && <img className='not-preview-image' alt={spot.name} src={'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.electricmirror.com%2Fportfolio-items%2Faria-4%2Fimage-coming-soon%2F&psig=AOvVaw1vz55xwww2emiF5T44clsZ&ust=1664062878144000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPD_kLuLrPoCFQAAAAAdAAAAABAE'} />} */}
                 </div>}
             </div>
