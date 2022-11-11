@@ -153,13 +153,13 @@ export const SpotShowcase = () => {
                     </div>
 
                     <div className='checkout-errors'>
-                        {bookingError && <div>You may not reserve a spot you're hosting</div>}
+                        {bookingError && <div className='checkout-error'>You may not reserve a spot you're hosting</div>}
                         {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div className='checkout-error'> Checkout must occur after Check-In </div>)}
                         {(new Date(bookingEnd).getTime() > new Date(bookingStart).getTime()) && errors.length > 0 && (
                             // {console.log(errors.filter(error=> error.includes("conflicts"))}
                             <div className='create-booking-errorlist' key={errors}>
                                 {errors.filter(error => error.includes("conflict")) &&
-                                    <div className='create-booking-error'> Your requested dates conflict with an existing reservation</div>
+                                    <div className='checkout-error'> Your requested dates conflict with an existing reservation</div>
                                 }
                             </div>
                         )}
