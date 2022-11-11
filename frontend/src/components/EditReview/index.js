@@ -37,15 +37,15 @@ export const EditAReview = () => {
 
     }, [reviewId, currReview])
 
-    
+
     const ratingChanged = (newRating) => {
         setStars(newRating)
     };
-   
+
     if (!currentUser) {
         return <Redirect to='/' />
     }
-    
+
     const onSubmit = async e => {
         e.preventDefault()
 
@@ -58,9 +58,13 @@ export const EditAReview = () => {
             createdReview = await dispatch(updateOneReview(reviewId, submission))
         } catch (err) {
             if (err) {
+                console.log(err)
                 let errMsgs = err.errors
-                let errMsgsArr = Object.values(errMsgs)
-                setErrors(errMsgsArr)
+                if (errMsgs) {
+
+                    let errMsgsArr = Object.values(errMsgs)
+                    setErrors(errMsgsArr)
+                }
             }
         }
 

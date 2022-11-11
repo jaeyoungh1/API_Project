@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 const CREATE_REVIEW = 'reviews/create_review'
 const ADD_REVIEW_IMG = 'reviews/add_review_photo'
+const DELETE_REVIEW_IMG = 'reviews/delete_review_photo'
 const LOAD_SPOT_REVIEWS = 'reviews/load_spot_reviews'
 const LOAD_USER_REVIEWS = 'reviews/load_user_reviews'
 const UPDATE_REVIEW = 'reviews/update_review'
@@ -14,10 +15,10 @@ export function loadAllReviews(reviews) {
     }
 }
 
-export function addReviewImage(img) {
+export function addReviewImage(url) {
     return {
         type: ADD_REVIEW_IMG,
-        img
+        url
     }
 }
 
@@ -46,6 +47,13 @@ export function deleteAReview(reviewId) {
     return {
         type: REMOVE_REVIEW,
         reviewId
+    }
+}
+
+export function deleteReviewPhoto(imageId) {
+    return {
+        type: DELETE_REVIEW_IMG,
+        imageId
     }
 }
 
@@ -129,6 +137,8 @@ export const updateOneReview = (reviewId, review) => async dispatch => {
             )
         });
 
+        console.log("RESPONSE", response)
+
         if (!response.ok) {
             let error
             error = await response.text();
@@ -153,6 +163,29 @@ export const deleteOneReview = (reviewId) => async dispatch => {
         let data = await res.json()
         dispatch(deleteAReview(reviewId))
         return data
+    }
+}
+
+
+export const addImage = (reviewId, img) => async dispatch => {
+    console.log("INSIDE STORE", addImage)
+    const response = await csrfFetch(`/api/reviews/${reviewId}/images`, {
+        method: 'POST',
+        body: JSON.stringify(img)
+    })
+    if (response.ok) {
+        let data = await response.json()
+        dispatch(addReviewImage(data))
+        return data
+    }
+}
+export const deleteImage = (imageId) => async dispatch => {
+    const response = await csrfFetch(`/api/review-images/${imageId}`,{
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        let data = await response.json()
+        dispatch(deleteReviewPhoto(imageId))
     }
 }
 
@@ -196,8 +229,14 @@ export default function reviewsReducer(state = initialState, action) {
         case ADD_REVIEW_IMG:
             newState = {
                 ...state,
-                spot: { ...state.spot, ReviewImages: [action.url], Owner: {} }
+                spot: { ...state.spot, ReviewImages: [...state.spot.ReviewImages, action.url], Owner: {} }
             }
+            return newState
+        case DELETE_REVIEW_IMG:
+            let newArr = state.user.ReviewImages
+            let obj = newArr.filter(obj => obj.id === action.id)
+            newArr.slice((newArr.indexOf(obj)), 1)
+            newState = {...state, user: {...state.user, ReviewImages: newArr}}
             return newState
         case UPDATE_REVIEW:
             reviewData[action.review.id] = action.review;

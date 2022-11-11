@@ -259,7 +259,7 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
     console.log("INSIDE STORE", spot)
 
     if (otherUrl1.length > 0) {
-        console.log("getting hit")
+        
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
             method: 'POST',
             body: JSON.stringify(
@@ -275,7 +275,7 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
 
     }
     if (otherUrl2.length > 0) {
-                console.log("getting hit")
+                
 
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
             method: 'POST',
@@ -290,7 +290,7 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
 
     }
     if (otherUrl3.length > 0) {
-        console.log("getting hit")
+        
 
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
             method: 'POST',
@@ -305,7 +305,7 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
 
     }
     if (otherUrl4.length > 0) {
-        console.log("getting hit")
+        
 
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
             method: 'POST',

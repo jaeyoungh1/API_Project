@@ -198,7 +198,9 @@ export const EditSpotImages = () => {
                     <button id='create-spot-button' type='submit'>Add New Listing Photos</button>
                 </div>
             </form>
-                    <div onClick={() => returnToSpot()} id='create-spot-button'>Return to Listing Page</div>
+            <div className='edit-spot-image-button' >
+                <div onClick={() => returnToSpot()} id='return-to-listings'>Return to Listing Page</div>
+            </div>
         </div>
     )
 }

@@ -92,10 +92,26 @@ button :hover {
     margin-right: 4px;
 }
 
+.manage-reviews-button:hover {
+    background-color: white;
+    color: rgb(220, 28, 114);
+    border: 1px solid rgb(220, 28, 114);
+}
+
 .review-button-wrapper :hover {
     background-color: white;
     color: rgb(220, 28, 114);
     font-size: 12px;
     border: 1px solid rgb(220, 28, 114);
     margin-right: 4px;
+}
+
+.delete-photo {
+    margin-left: -25px;
+    z-index: 2;
+    position: absolute;
+}
+
+.delete-photo:hover {
+    cursor: pointer;
 }
