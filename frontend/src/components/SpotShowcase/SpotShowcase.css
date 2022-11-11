@@ -182,6 +182,7 @@ hr {
     font-weight: 300;
     font-size: 13px;
     margin-bottom: 7px;
+    margin-top: 2px;
     margin-left: 10px;
     width: 94%;
     border: none;
@@ -235,4 +236,70 @@ hr {
     border-radius: 4px;
     margin-right: 4px;
     object-fit: cover;
+}
+.submit-booking {
+     width: 99%;
+     margin-top: 12px;
+     padding: 12px 0;
+     border: 1px solid rgb(220, 28, 114);
+     border-radius: 6px;
+     color: white;
+     background-color:rgb(220, 28, 114)
+}
+.submit-booking:hover {
+    width: 99%;
+    margin-top: 12px;
+    padding: 12px 0;
+    border: none;
+    border: 1px solid rgb(220, 28, 114);
+    color: rgb(220, 28, 114);
+    background-color: white;
+    cursor: pointer;
+}
+.wontbecharged {
+    font-size: 14px;
+    font-weight: 200;
+    text-align: center;
+    margin-top: 12px;
+}
+.booking-price-night {
+    text-decoration: underline;
+}
+.booking-lines {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 12px;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.total-booking {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 12px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.show-bookings {
+    font-size: 18px;
+    font-weight: 500;
+    color:rgb(220, 28, 114);
+}
+.show-bookings:hover {
+    cursor: pointer;
+}
+.bookings-shown {
+    font-weight: 300;
+    margin-top: 12px;
+}
+.checkout-errors {
+    width: 100%;
+}
+.checkout-error {
+    font-weight: 400;
+    font-size: 12px;
+    color: red;
+    text-align: center;
+    width: 100%;
 }

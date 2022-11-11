@@ -29,7 +29,7 @@ export const SpotShowcase = () => {
     const reviewArr = Object.values(reviewData.ReviewData)
     const spotUserId = useSelector(state => state.spots.singleSpot.Owner.id)
     const spotUserName = useSelector(state => state.spots.singleSpot.Owner.firstName)
-    const spotBooking = useSelector(state => Object.values(state.bookings.user))
+    const spotBooking = useSelector(state => Object.values(state.bookings.spot))
 
     let currentUserId
     currentUser ? currentUserId = currentUser.id : currentUserId = undefined
@@ -37,10 +37,11 @@ export const SpotShowcase = () => {
     let allSpotBookings
     // console.log('spootBooking', spotBooking)
     allSpotBookings = spotBooking.length === 0 ? <div>No upcoming bookings</div> : spotBooking.map(booking => {
+        console.log("BOOKING", booking)
         return (
             <div>
                 {booking.User && <span>{booking.User.firstName} {booking.User.lastName} is staying from  </span>}
-                {booking.startDate && new Date(new Date(booking.startDate.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate.replace(/-/g, '\/'))).toString().slice(0, -42)}
+                {booking.startDate && new Date(new Date(booking.startDate?.replace(/-/g, '\/'))).toString().slice(0, -42)} to {new Date(new Date(booking.endDate?.replace(/-/g, '\/'))).toString().slice(0, -42)}
                 {booking.User && <div>Reservation made on {booking.createdAt.slice(0, -14)}</div>}
             </div>
         )
@@ -87,10 +88,10 @@ export const SpotShowcase = () => {
 
     const onSubmit = async e => {
         e.preventDefault()
-        
+
         if (currentUser && currentUserId === spotUserId) {
             setBookingError(true)
-        } 
+        }
 
         const submission = {
             "startDate": bookingStart,
@@ -151,17 +152,17 @@ export const SpotShowcase = () => {
                         </div>
                     </div>
 
-                    <div className='errors-wrapper'>
+                    <div className='checkout-errors'>
                         {bookingError && <div>You may not reserve a spot you're hosting</div>}
-                        {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> Checkout must occur after Check-In </div>)}
+                        {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div className='checkout-error'> Checkout must occur after Check-In </div>)}
                         {(new Date(bookingEnd).getTime() > new Date(bookingStart).getTime()) && errors.length > 0 && (
                             // {console.log(errors.filter(error=> error.includes("conflicts"))}
                             <div className='create-booking-errorlist' key={errors}>
-                                 {errors.filter(error=> error.includes("conflict")) &&
+                                {errors.filter(error => error.includes("conflict")) &&
                                     <div className='create-booking-error'> Your requested dates conflict with an existing reservation</div>
                                 }
                             </div>
-                        )} 
+                        )}
                     </div>
 
                     <form onSubmit={onSubmit}>
@@ -206,22 +207,37 @@ export const SpotShowcase = () => {
                                 </select>
                             </div>
                         </div>
-                       <button type='submit'>Reserve</button>
+                        <button className='submit-booking' type='submit'>Reserve</button>
                     </form>
                     {/* {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> End Date cannot be on or before Start Date </div>)} */}
-                    <div>
+                    <div className='wontbecharged'>
                         You won't be charged yet
                     </div>
-                    {bookingEnd && bookingStart && ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div>
-                        <div> ${spot.price} x {((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} nights </div>
+                    {bookingEnd && bookingStart && ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 &&
+                        <>
+                            <div className='booking-lines'>
+                                <div className='booking-price-night'> ${spot.price} x {((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} nights </div>
+                                {bookingEnd && bookingStart ? ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div> ${spot.price * ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} </div> : <div>...</div>}
+                            </div>
+                            <div className='booking-lines'>
+                                <div className='booking-price-night'> Cleaning fee</div>
+                                <div>$60</div>
+                            </div>
+                            <div className='booking-lines'>
+                                <div className='booking-price-night'>Service fee</div>
+                                <div>$120</div>
+                            </div>
+                        </>
+                    }
 
-                    </div>}
                     <div className='descriptionbreak'></div>
 
-                    <div>
-                        Total before taxes
+                    <div className='total-booking'>
+                        <div>
+                            Total before taxes
+                        </div>
+                        {bookingEnd && bookingStart ? ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div> ${60 + 120 + spot.price * ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} </div> : <div>...</div>}
                     </div>
-                    {bookingEnd && bookingStart ? ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24)) > 0 && <div> ${spot.price * ((new Date(bookingEnd).getTime() - new Date(bookingStart).getTime()) / (1000 * 60 * 60 * 24))} </div> : <div>...</div>}
 
                 </div>
             </div>
@@ -231,10 +247,10 @@ export const SpotShowcase = () => {
 
 
 
-            <div onClick={() => setShowBookings(!showBookings)} >
+            <div className='show-bookings' onClick={() => setShowBookings(!showBookings)} >
                 {showBookings ? "Hide booked dates" : "Show booked dates"}
             </div>
-            <div>{showBookings && allSpotBookings}</div>
+            <div className='bookings-shown' >{showBookings && allSpotBookings}</div>
 
 
             <div className='descriptionbreak'></div>

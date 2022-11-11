@@ -93,7 +93,8 @@ select:focus {
 #create-spot-button-wrapper :hover {
     background-color: white;
     color: rgb(255, 0, 115);
-    border: 1px solid rgb(255, 0, 115)
+    border: 1px solid rgb(255, 0, 115);
+    cursor:pointer;
 }
 
 .create-spot-textarea {

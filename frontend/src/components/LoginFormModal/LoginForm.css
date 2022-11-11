@@ -62,7 +62,8 @@ input:focus {
 .login-button-wrapper :hover {
     background: white;
     border: 1px rgb(255, 0, 115) solid;
-    color:rgb(255, 0, 115)
+    color:rgb(255, 0, 115);
+    cursor: pointer;
 }
 
 .login-button {
@@ -74,6 +75,10 @@ input:focus {
     color: white;
     font: bold;
 }
+.login-button:hover{
+    cursor:pointer;
+}
+
 .login-errors {
     display: flex;
     flex-direction: column;
