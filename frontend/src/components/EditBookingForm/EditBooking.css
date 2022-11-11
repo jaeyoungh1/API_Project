@@ -1,0 +1,53 @@
+#create-booking-button {
+    background-color: rgb(220, 28, 114);
+    color: white;
+    border: rgb(220, 28, 114) 1px solid;
+    border-radius: 4px;
+    height: 40px;
+    width: 150px;
+    margin-top: 10px;
+}
+
+
+#create-booking-button:hover {
+    background-color: white;
+    color: rgb(255, 0, 115);
+    border: 1px solid rgb(255, 0, 115);
+    cursor: pointer;
+}
+
+.create-booking-input-booking {
+    width: 30%;
+}
+
+#create-booking-name>h2 {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.booking-spot-name {
+    color: rgb(255, 0, 115);
+}
+
+#create-booking-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
+.create-booking-form {
+    border: rgb(200, 200, 200) 1px solid;
+    border-radius: 9px;
+    margin-bottom: 1px;
+    width: 30%;
+    padding: 12px 12px;
+}
+
+.booking-line-break {
+    height: 1px;
+    background-color:rgb(54, 35, 35);
+    width: 1003%;
+}

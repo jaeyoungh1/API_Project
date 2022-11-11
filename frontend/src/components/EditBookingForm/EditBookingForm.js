@@ -3,7 +3,7 @@ import { useHistory, useParams, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOwnerBookings, updateOneBooking } from '../../store/bookings'
 
-// import './EditBooking.cs'
+import './EditBooking.css'
 
 export const EditABooking = () => {
     const dispatch = useDispatch()
@@ -112,7 +112,7 @@ export const EditABooking = () => {
                         </div>
 
                         <div id='create-booking-button-wrapper' n>
-                            <button id='create-booking-button' type='submit'>Update My Booking</button>
+                            <button id='create-booking-button' type='submit'> Update My Booking </button>
                         </div>
                     </form>
                 </div>
