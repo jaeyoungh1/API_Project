@@ -29,14 +29,14 @@ const LoginForm = () => {
         return dispatch(login(user))
             .catch(async (res) => {
                 const data = await res.json();
-                console.log('data:', data)
+                // console.log('data:', data)
                 if (data && data.statusCode === 401) setErrors(data.message)
             })
     }
 
     return (
         <>
-            <form onSubmit={onSubmit}>
+            <form className='login-signup-modal' onSubmit={onSubmit}>
                 <div className='modal-header'>Log in</div>
                 <span className='break'></span>
                 <div className='modal-subheader'>Welcome to HeirBnB! 👑</div>

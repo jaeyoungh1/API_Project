@@ -36,6 +36,11 @@
     padding-right: 15px;
     padding-left: 15px;
 }
+.owner-actions-button:hover {
+    background-color: rgb(220, 28, 114);
+    color: white;
+    cursor: pointer;
+}
 
 .owner-actions {
     display: flex;

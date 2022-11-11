@@ -1,0 +1,40 @@
+/* .edit-spot-img-form { */
+    /* display: flex;
+    justify-content: center;
+} */
+
+.edit-spot-img {
+    height: 485px;
+    width: 550px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+#edit-spot-img-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.edit-spot-other-img {
+    height: 130px;
+    width: 130px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.edit-spot-photos-urls > div {
+    padding-bottom: 85px;
+}
+.edit-spot-photos-urls {
+    margin-top: 20px;
+}
+
+.edit-spot-image-button {
+    width: 30%;
+    margin: auto;
+    margin-top: 20px;
+}
+.edit-spot-image-button :hover {
+    background-color: white;
+}

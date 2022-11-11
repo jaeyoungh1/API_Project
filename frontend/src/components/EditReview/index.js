@@ -1,3 +1,4 @@
+import ReactStars from 'react-rating-stars-component'
 import { useEffect, useState } from 'react'
 import { useHistory, useParams, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,27 +13,21 @@ export const EditAReview = () => {
     const currentUser = useSelector(state => state.session.user)
 
     const currReviewData = useSelector(state => state.reviews.user)
-    // const currSpotData = useSelector(state => state.reviews.user.Spot)
-    // const currReview = useSelector(state => state.reviews.user.ReviewData[reviewId])
     const currReview = currReviewData.ReviewData[reviewId]
-    console.log('currReview', currReview)
-    console.log('currReviewData', currReviewData)
 
     const currReviewImg = currReviewData.ReviewImages
-    // const currSpot = currReview.Spot
-    
 
     const [review, setReview] = useState('')
     const [stars, setStars] = useState(0)
     const [url, setUrl] = useState([])
     const [spotName, setSpotName] = useState('')
     const [errors, setErrors] = useState([])
-    
+
     useEffect(() => {
         dispatch(getOwnerReviews())
     }, [dispatch])
 
-    
+
     useEffect(() => {
         if (currReview) {
             setReview(currReview.review)
@@ -42,10 +37,15 @@ export const EditAReview = () => {
 
     }, [reviewId, currReview])
 
+    
+    const ratingChanged = (newRating) => {
+        setStars(newRating)
+    };
+   
     if (!currentUser) {
         return <Redirect to='/' />
     }
-
+    
     const onSubmit = async e => {
         e.preventDefault()
 
@@ -68,8 +68,7 @@ export const EditAReview = () => {
             setReview('')
             setStars(0)
             setUrl([])
-        
-            console.log('REVIEW BEING EDITED', createdReview)
+
             setErrors([])
             history.push(`/my-reviews`)
         }
@@ -93,42 +92,48 @@ export const EditAReview = () => {
                     )}
                 </div>
                 <form className='create-review-form' onSubmit={onSubmit}>
+                    <div className='create-review-wrapper'>
 
-                    <label className='create-review-input-title'>Review</label>
-                    <div className='create-review-input-review'>
-                        <textarea
-                            id='review'
-                            placeholder='What a great location..'
-                            value={review}
-                            onChange={e => setReview(e.target.value)}>
-                        </textarea>
+                        <label className='create-review-input-title'>Review</label>
+                        <div className='create-review-input-review'>
+                            <textarea
+                                id='review'
+                                placeholder='What a great location..'
+                                value={review}
+                                onChange={e => setReview(e.target.value)}>
+                            </textarea>
+                        </div>
+                        <span className='create-review-form-input-break'></span>
+
+                        <label className='create-review-input-title'>Rating</label>
+
+                        {stars > 0 && <div className='create-review-input-rating'>
+                            <ReactStars
+                                count={5}
+                                value={stars}
+                                onChange={ratingChanged}
+                                size={20}
+                                emptyIcon={<i className="far fa-star"></i>}
+                                filledIcon={<i className="fa fa-star"></i>}
+                                activeColor="#dc1c72" />
+
+                        </div>}
+                        <span className='create-review-form-input-break'></span>
+
+
+                        <label className='create-review-input-title'>Add a Picture</label>
+                        <div className='create-review-input'>
+                            <input
+                                type='text'
+                                placeholder='https://...'
+                                value={url}
+                                onChange={e => setUrl(e.target.value)}>
+                            </input>
+                        </div>
                     </div>
-                    <label className='create-review-input-title'>Rating</label>
-
-                    <div className='create-review-input-rating'>
-
-                        ★<input
-                            type='number'
-                            placeholder='4'
-                            value={stars}
-                            onChange={e => setStars(e.target.value)}>
-                        </input>/5 
-                    </div>
-                    
-                    {/* <label className='create-spot-input-title'>My Review Pictures</label>
-                    <div className='remove-current-photos'>
-
-                    <div className='create-spot-input'>
-                        <input
-                            type='text'
-                            placeholder='https://...'
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}>
-                        </input>
-                    </div> */}
                     <div id='create-review-button-wrapper' n>
-                        <button id='create-review-button' type='submit'>Update My Review</button>
-                    </div> 
+                        <button id='create-review-button' className='mouse-cursor-gradient-tracking' type='submit'>Edit My Review</button>
+                    </div>
                 </form>
             </div>
         </>

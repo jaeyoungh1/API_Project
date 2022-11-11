@@ -101,16 +101,15 @@ export const CreateASpot = () => {
                         </ul>
                     )}
                 </div>
-                <div className='create-spot-form-input-wrapper'>
 
                     <form className='create-spot-form' onSubmit={onSubmit}>
 
+                <div className='create-spot-form-input-wrapper'>
                         <label className='create-spot-input-title'>Address</label>
                         <div className='create-spot-input address'>
                             <input
                                 id='address'
                                 type='text'
-                                placeholder='123 App Academy St'
                                 value={address}
                                 onChange={e => setAddress(e.target.value)}>
                             </input>
@@ -122,7 +121,6 @@ export const CreateASpot = () => {
 
                             <input
                                 type='text'
-                                placeholder='San Francisco'
                                 value={city}
                                 onChange={e => setCity(e.target.value)}>
                             </input>
@@ -134,7 +132,6 @@ export const CreateASpot = () => {
 
                             <input
                                 type='text'
-                                placeholder='California'
                                 value={state}
                                 onChange={e => setState(e.target.value)}>
                             </input>
@@ -146,7 +143,7 @@ export const CreateASpot = () => {
                             <select id="country" name="country"
                                 value={country}
                                 onChange={e => setCountry(e.target.value)}>
-                                <option value='' disabled>Select a country...</option>
+                                <option value=''> </option>
                                 <option value="United States of America">United States of America</option>
                                 <option value="Canada">Canada</option>
                                 <option value="Cayman Islands">Cayman Islands</option>
@@ -170,7 +167,6 @@ export const CreateASpot = () => {
                         <div className='create-spot-input'>
                             <input
                                 type='text'
-                                placeholder='App Academy'
                                 value={name}
                                 onChange={e => setName(e.target.value)}>
                             </input>
@@ -181,7 +177,6 @@ export const CreateASpot = () => {
                         <div className='create-spot-input' id='create-spot-textarea'>
                             <textarea
                                 className='create-spot-textarea'
-                                placeholder='A place where software engineers are created!'
                                 value={description}
                                 onChange={e => setDescription(e.target.value)}>
                             </textarea>
@@ -191,7 +186,6 @@ export const CreateASpot = () => {
                         <div className='create-spot-input'>
                             <input
                                 type='number'
-                                placeholder='123'
                                 min='1'
                                 value={price}
                                 onChange={e => setPrice(e.target.value)}>
@@ -203,19 +197,18 @@ export const CreateASpot = () => {
                             <input
                                 // required
                                 type='text'
-                                placeholder='https://...'
                                 value={url}
                                 onChange={e => setUrl(e.target.value)}>
                             </input>
                         </div>
                         <span className='create-spot-form-input-break'></span>
-                        <label className='create-spot-input-title'>Other Spot Image URLs</label>
+                        <label className='create-spot-input-title'>More Image URLs</label>
                         <div className='create-spot-input'>
                             <input
                                 // required
                                 type='text'
-                                placeholder='https://...'
                                 value={otherUrl1}
+                                placeholder='...'
                                 onChange={e => setOtherUrl1(e.target.value)}>
                             </input>
                         </div>
@@ -223,8 +216,8 @@ export const CreateASpot = () => {
                             <input
                                 // required
                                 type='text'
-                                placeholder='https://...'
                                 value={otherUrl2}
+                                placeholder='...'
                                 onChange={e => setOtherUrl2(e.target.value)}>
                             </input>
                         </div>
@@ -232,7 +225,7 @@ export const CreateASpot = () => {
                             <input
                                 // required
                                 type='text'
-                                placeholder='https://...'
+                                placeholder='...'
                                 value={otherUrl3}
                                 onChange={e => setOtherUrl3(e.target.value)}>
                             </input>
@@ -241,17 +234,16 @@ export const CreateASpot = () => {
                             <input
                                 // required
                                 type='text'
-                                placeholder='https://...'
                                 value={otherUrl4}
+                                placeholder='...'
                                 onChange={e => setOtherUrl4(e.target.value)}>
                             </input>
                         </div>
-                        <span className='create-spot-form-input-break'></span>
+                </div>
                         <div id='create-spot-button-wrapper' n>
                             <button id='create-spot-button' type='submit'>Create New Spot</button>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     )

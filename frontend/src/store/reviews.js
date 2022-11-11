@@ -54,7 +54,6 @@ export const getAllSpotReviews = (spotId) => async dispatch => {
     let res = await csrfFetch(`/api/spots/${spotId}/reviews`)
     if (res.ok) {
         let data = await res.json()
-        console.log('data', data)
         dispatch(loadAllReviews(data.Reviews))
         return data
     }
@@ -133,7 +132,6 @@ export const updateOneReview = (reviewId, review) => async dispatch => {
         if (!response.ok) {
             let error
             error = await response.text();
-            console.log(error)
         }
 
 
@@ -142,7 +140,6 @@ export const updateOneReview = (reviewId, review) => async dispatch => {
         return data;
     }
     catch (error) {
-        console.log(error)
         let errorJSON = await error.json()
         throw errorJSON
     }
@@ -218,13 +215,11 @@ export default function reviewsReducer(state = initialState, action) {
             let stateArr = Object.values(state.user.ReviewData)
             console.log(stateArr)
             stateArr.forEach(obj => {
-                console.log(obj.id)
                 return newAllReviews[obj.id] = obj
 
             })
 
             newState = { ...state, user: { ...state.user, ReviewData: { ...newAllReviews } } }
-            console.log('newState', newState)
             delete newState.user.ReviewData[action.reviewId]
             return newState
         default:

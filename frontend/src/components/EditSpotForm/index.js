@@ -18,7 +18,9 @@ export const EditASpot = () => {
         
     let prevImg 
     if (currSpotImg.length > 0) prevImg = currSpotImg.find(obj => obj.preview === true).url
-    console.log('url', prevImg)
+    
+    let otherImg
+    if (currSpotImg.length > 0) otherImg = currSpotImg.filter(obj => obj.preview === false)
 
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -30,7 +32,9 @@ export const EditASpot = () => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [url, setUrl] = useState('')
-    
+
+    const [otherUrl1, setOtherUrl1] = useState('')
+
     const [errors, setErrors] = useState([])
 
     useEffect(() => {
@@ -46,8 +50,11 @@ export const EditASpot = () => {
         setDescription(currSpot.description)
         setPrice(currSpot.price)
         setUrl(prevImg)
+        setOtherUrl1(otherImg[0] ? otherImg[0].url : '')
     }, [spotId, currSpot])
 
+    console.log('otherUrl1',otherUrl1)
+    
     const onSubmit = async e => {
         e.preventDefault()
 
@@ -61,7 +68,8 @@ export const EditASpot = () => {
             name,
             description,
             price,
-            url
+            url,
+            otherUrl1
         }
         let createdSpot;
         try {
@@ -85,8 +93,8 @@ export const EditASpot = () => {
             setDescription('')
             setPrice('')
             setUrl('')
+            setOtherUrl1('')
 
-            console.log('SPOT BEING EDITED', createdSpot)
             setErrors([])
             history.push(`/my-spots`)
         }
@@ -108,9 +116,9 @@ export const EditASpot = () => {
                         </ul>
                     )}
                 </div>
-                <div className='create-spot-form-input-wrapper'>
 
                     <form className='create-spot-form' onSubmit={onSubmit}>
+                <div className='create-spot-form-input-wrapper'>
 
                         <label className='create-spot-input-title'>Address</label>
                         <div className='create-spot-input address'>
@@ -215,7 +223,7 @@ export const EditASpot = () => {
                                 onChange={e => setUrl(e.target.value)}>
                             </input>
                         </div>
-                        {/* <span className='create-spot-form-input-break'></span>
+                        <span className='create-spot-form-input-break'></span>
                         <label className='create-spot-input-title'>Other Spot Image URLs</label>
                         <div className='create-spot-input'>
                             <input
@@ -226,7 +234,7 @@ export const EditASpot = () => {
                                 onChange={e => setOtherUrl1(e.target.value)}>
                             </input>
                         </div>
-                        <div className='create-spot-input'>
+                        {/* <div className='create-spot-input'>
                             <input
                                 // required
                                 type='text'
@@ -252,13 +260,12 @@ export const EditASpot = () => {
                                 value={otherUrl4}
                                 onChange={e => setOtherUrl4(e.target.value)}>
                             </input>
-                        </div> */}
-                        <span className='create-spot-form-input-break'></span>
+                        </div>  */}
+                </div>
                         <div id='create-spot-button-wrapper' n>
                             <button id='create-spot-button' type='submit'>Edit My Spot</button>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     )

@@ -17,8 +17,6 @@ export const SignUpPage = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errors, setErrors] = useState([])
 
-
-    console.log('Sign Up Component working before Redirect')
     const currentUser = useSelector(state => state.session.user)
     if (currentUser) return <Redirect to='/' />
 
@@ -39,7 +37,7 @@ export const SignUpPage = () => {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form className='login-signup-modal' onSubmit={onSubmit}>
             <div className='modal-header'>Sign Up</div>
             <span className='break'></span>
             <div className='modal-subheader'>Welcome to HeirBnB! 👑</div>

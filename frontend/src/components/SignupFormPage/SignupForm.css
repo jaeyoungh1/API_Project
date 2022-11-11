@@ -26,6 +26,9 @@ form > div {
     margin-top: 10px;
     width: 101%;
 }
+.signup-button:hover {
+    cursor: pointer;
+}
 .break {
     height: 1px;
     background-color: rgb(182, 182, 182);
