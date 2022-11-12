@@ -34,7 +34,8 @@ hr {
     gap: 4px;
     overflow: hidden;
     border-radius: 10px;
-    height: 45vh
+    height: 43vh;
+    max-height: 450px;
 }
 
 .one-spot-pics-not-preview {

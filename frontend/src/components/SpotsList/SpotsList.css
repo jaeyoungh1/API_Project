@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     /* grid-template-rows: 1fr 1fr 1fr 1fr; */
-    margin-top: 80px;
+    margin-top: 20px;
     margin-left: 130px;
     margin-right: 120px;
     margin-bottom: 80px;
