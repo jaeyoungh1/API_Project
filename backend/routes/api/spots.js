@@ -1,4 +1,7 @@
 'use strict'; //delete later if needed
+import { singlePublicFileUpload } from '../../awsS3';
+import { singleMulterUpload } from '../../awsS3';
+
 const express = require('express')
 const router = express.Router();
 
@@ -85,7 +88,7 @@ router.get('/', validatePagination, async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
     let pagination = {}
     let where = {}
-    
+
     if (!page) page = 1;
     if (!size) size = 0
     if (!minPrice) minPrice = 0;
@@ -162,7 +165,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         })
         let url;
         let previewImgObj = await previewImage[0]
-    
+
         if (previewImgObj) {
             let imgobj = await previewImgObj.toJSON()
             url = imgobj.url
@@ -172,7 +175,7 @@ router.get('/', validatePagination, async (req, res, next) => {
         spotObj.previewImage = url
         Spots.push(spotObj)
     }
-    
+
     let result = {}
     result.Spots = Spots;
     // result.page = page 
@@ -210,7 +213,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     })
 
     let Spots = []
-    
+
     for (let i = 0; i < spots.length; i++) {
         let previewImage = await SpotImage.findAll({
             where: {
@@ -236,7 +239,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     result.Spots = Spots;
 
     return res.json(result)
-    
+
 
     // return res.json({ Spots: spots })
 })
@@ -404,42 +407,45 @@ router.put('/:spotId/',
     })
 
 //add image to spot based on spotid
-router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+router.post('/:spotId/images',
+    singleMulterUpload("image"),
+    requireAuth, async (req, res, next) => {
 
-    const spot = await Spot.findByPk(req.params.spotId)
+        const spot = await Spot.findByPk(req.params.spotId)
 
-    if (!spot) {
-        res.status(404)
-        return res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": res.statusCode
+        if (!spot) {
+            res.status(404)
+            return res.json({
+                "message": "Spot couldn't be found",
+                "statusCode": res.statusCode
+            })
+        }
+        const { user } = req;
+        let currentUser = user.toSafeObject()
+        let currentUserId = currentUser.id
+
+        if (currentUserId !== spot.ownerId) {
+            res.status(403)
+            return res.json({
+                "message": "Forbidden",
+                "statusCode": 403
+            })
+        }
+
+        const { preview } = req.body;
+        const url = await singlePublicFileUpload(req.file);
+
+        const newImg = await spot.createSpotImage({
+            url: url,
+            preview: preview
         })
-    }
-    const { user } = req;
-    let currentUser = user.toSafeObject()
-    let currentUserId = currentUser.id
 
-    if (currentUserId !== spot.ownerId) {
-        res.status(403)
-        return res.json({
-            "message": "Forbidden",
-            "statusCode": 403
+        const result = await SpotImage.findByPk(newImg.id, {
+            attributes: { exclude: ['spotId', 'updatedAt', 'createdAt'] }
         })
-    }
 
-    const { url, preview } = req.body;
-
-    const newImg = await spot.createSpotImage({
-        url: url,
-        preview: preview
+        return res.json(result)
     })
-
-    const result = await SpotImage.findByPk(newImg.id, {
-        attributes: { exclude: ['spotId', 'updatedAt', 'createdAt'] }
-    })
-
-    return res.json(result)
-})
 
 //get spot's reviews
 router.get('/:spotId/reviews', async (req, res, next) => {
@@ -553,9 +559,9 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
         for (let i = 0; i < bookings.length; i++) {
             let user = await User.findByPk(bookings[i].userId,
-                {attributes: ['id', 'firstName', 'lastName']}
+                { attributes: ['id', 'firstName', 'lastName'] }
             )
-            
+
             let userObj = await user.toJSON()
 
             let book = await bookings[i]
@@ -564,7 +570,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             bookObj.User = userObj
             Bookings.push(bookObj)
         }
-        
+
         return res.json({ Bookings })
     }
 
