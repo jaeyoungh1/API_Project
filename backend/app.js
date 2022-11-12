@@ -15,6 +15,7 @@ const app = express();
 app.use(morgan('dev')); //logging info about req/res
 
 app.use(cookieParser()); //middleware to parse cookies
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const { ValidationError } = require('sequelize');
