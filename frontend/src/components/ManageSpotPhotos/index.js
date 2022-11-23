@@ -23,10 +23,10 @@ export const EditSpotImages = () => {
 
     const [url, setUrl] = useState('')
 
-    const [otherUrl1, setOtherUrl1] = useState('')
-    const [otherUrl2, setOtherUrl2] = useState('')
-    const [otherUrl3, setOtherUrl3] = useState('')
-    const [otherUrl4, setOtherUrl4] = useState('')
+    const [otherUrl1, setOtherUrl1] = useState(null)
+    // const [otherUrl2, setOtherUrl2] = useState('')
+    // const [otherUrl3, setOtherUrl3] = useState('')
+    // const [otherUrl4, setOtherUrl4] = useState('')
 
     const [errors, setErrors] = useState([])
 
@@ -48,12 +48,12 @@ export const EditSpotImages = () => {
     if (otherImg && otherImg.length > 0) {
         otherImgDiv = otherImg.map((obj, i) => {
             return (
-                <>
+                <div key={i}>
                     <div className='edit-spot-img-div'>
                         <img className='edit-spot-other-img' alt={obj.id} src={obj.url} />
                         <div onClick={() => deleteImg(obj.id)}>Delete</div>
                     </div>
-                </>
+                </div >
             )
         })
     }
@@ -67,28 +67,36 @@ export const EditSpotImages = () => {
         await dispatch(getOneSpots(spotId))
     }
 
+    const updateFile = (e) => {
+        // console.log("TARGET", e.target.files)
+        const file = e.target.files[0];
+        console.log("FILE", file)
+        if (file) setOtherUrl1(file);
+    };
+
     const onSubmit = async e => {
         e.preventDefault()
         if (url.length > 0) {
             await dispatch(AddPreviewImg(spotId, url))
             await dispatch(getOneSpots(spotId))
         }
+        // console.log("URL1", otherUrl1)
 
         const submission = {
             otherUrl1,
-            otherUrl2,
-            otherUrl3,
-            otherUrl4
+            // otherUrl2,
+            // otherUrl3,
+            // otherUrl4
         }
         let createdSpot;
         try {
-            // console.log('spotid submission', spotId, submission)
+            console.log('spotid submission', spotId, submission)
             createdSpot = await dispatch(addSpotImg(spotId, submission))
             setUrl('')
-            setOtherUrl1('')
-            setOtherUrl2('')
-            setOtherUrl3('')
-            setOtherUrl4('')
+            setOtherUrl1(null)
+            // setOtherUrl2('')
+            // setOtherUrl3('')
+            // setOtherUrl4('')
         } catch (err) {
             if (err) {
                 console.log(err)
@@ -145,18 +153,20 @@ export const EditSpotImages = () => {
 
 
                         <label className='create-spot-input-title'>
-                            {otherUrl1 ? "Edit Photo Url" : "Add Photo Url"}
+                            {"Add Photo Url"}
                         </label>
                         <div className='create-spot-input'>
                             <input
                                 // required
-                                type='text'
-                                placeholder='https://...'
-                                value={otherUrl1}
-                                onChange={e => setOtherUrl1(e.target.value)}>
+                                type='file'
+                                // placeholder='https://...'
+                                // value={otherUrl1}
+                                onChange={updateFile}
+                            // onChange={(e) => setOtherUrl1(e.target.files[0])}
+                            >
                             </input>
                         </div>
-                        <label className='create-spot-input-title'>
+                        {/* <label className='create-spot-input-title'>
                             {otherUrl1 ? "Edit Photo Url" : "Add Photo Url"}
                         </label>
                         <div className='create-spot-input'>
@@ -191,7 +201,7 @@ export const EditSpotImages = () => {
                                 value={otherUrl4}
                                 onChange={e => setOtherUrl4(e.target.value)}>
                             </input>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className='edit-spot-image-button' >

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { NavLink, useParams, Redirect, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { getOneSpots } from "../../store/spots"
+import { getOneSpots,cleanUp } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
 import { createOneBooking, getAllSpotBookings } from "../../store/bookings"
 import './SpotShowcase.css'
@@ -48,6 +48,7 @@ export const SpotShowcase = () => {
     })
 
     useEffect(() => {
+        dispatch(cleanUp())
         dispatch(getOneSpots(+spotId)).then(res => setErrors(res))
         dispatch(getAllSpotReviews(+spotId))
         dispatch(getAllSpotBookings(+spotId))

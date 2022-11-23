@@ -8,7 +8,6 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
 const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = require('../../db/models');
 
 router.delete('/:imageId',
-    singleMulterUpload('image'),
     requireAuth, async (req, res, next) => {
         const image = await SpotImage.findByPk(req.params.imageId)
 
