@@ -9,6 +9,7 @@ const REMOVE_SPOT = 'spots/remove_spot'
 const ADD_PREV_IMAGE = 'spot/add_prev_image'
 const ADD_REG_IMG = 'spots/spot/edit_reg_img'
 const DELETE_IMG = 'spots/spot/delete_img'
+const CLEAN_UP = 'spots/cleanup'
 
 
 export function loadAllSpots(spots) {
@@ -68,13 +69,19 @@ export function deleteImg(id) {
     }
 }
 
+export function _cleanUp() {
+    return {
+        type: CLEAN_UP
+    }
+}
+
 export const getAllSpots = () => async dispatch => {
     let res = await csrfFetch('/api/spots')
     if (res.ok) {
         let data = await res.json()
         dispatch(loadAllSpots(data.Spots))
         return data
-    }
+    } else console.log(await res.json())
 }
 
 export const getOneSpots = (spotId) => async dispatch => {
@@ -258,73 +265,80 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
     let { otherUrl1, otherUrl2, otherUrl3, otherUrl4 } = spot
     console.log("INSIDE STORE", spot)
 
-    if (otherUrl1.length > 0) {
-        
-        let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl1, preview: false }
-            )
-        })
-        if (newImg.ok) {
-            let imgData = await newImg.json()
-            console.log("IMG DATAA", imgData)
-            dispatch(addRegImg(imgData))
-        }
+    const formData = new FormData();
+    formData.append("preview", false)
 
-
-    }
-    if (otherUrl2.length > 0) {
-                
+    if (otherUrl1) {
+        if (otherUrl1) formData.append("url", otherUrl1);
+        console.log("INSIDE STORE FORM DATA", formData)
+        console.log("OTHERURL1", otherUrl1, spotId)
 
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl2, preview: false }
-            )
-        })
-        if (newImg.ok) {
-            let imgData = await newImg.json()
-            dispatch(addRegImg(imgData))
-        }
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData,
+        });
 
+        let imgData = await newImg.json()
+        if (!imgData.ok) console.log("ERROR: ", imgData)
+        console.log("INSIDE STORE IMGDATA", imgData)
+        dispatch(addRegImg(imgData))
     }
-    if (otherUrl3.length > 0) {
-        
 
-        let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl3, preview: false }
-            )
-        })
-        if (newImg.ok) {
-            let imgData = await newImg.json()
-            dispatch(addRegImg(imgData))
-        }
 
-    }
-    if (otherUrl4.length > 0) {
-        
+    // if (otherUrl2.length > 0) {
 
-        let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl4, preview: false }
-            )
-        })
-        if (newImg.ok) {
-            let imgData = await newImg.json()
-            dispatch(addRegImg(imgData))
-        }
 
-    }
+    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+    //         method: 'POST',
+    //         body: JSON.stringify(
+    //             { url: otherUrl2, preview: false }
+    //         )
+    //     })
+    //     if (newImg.ok) {
+    //         let imgData = await newImg.json()
+    //         dispatch(addRegImg(imgData))
+    //     }
+
+    // }
+    // if (otherUrl3.length > 0) {
+
+
+    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+    //         method: 'POST',
+    //         body: JSON.stringify(
+    //             { url: otherUrl3, preview: false }
+    //         )
+    //     })
+    //     if (newImg.ok) {
+    //         let imgData = await newImg.json()
+    //         dispatch(addRegImg(imgData))
+    //     }
+
+    // }
+    // if (otherUrl4.length > 0) {
+
+
+    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+    //         method: 'POST',
+    //         body: JSON.stringify(
+    //             { url: otherUrl4, preview: false }
+    //         )
+    //     })
+    //     if (newImg.ok) {
+    //         let imgData = await newImg.json()
+    //         dispatch(addRegImg(imgData))
+    //     }
+
+    // }
 
 }
 
 
 export const AddPreviewImg = (spotId, url) => async dispatch => {
-    
+
     let spotRes = await csrfFetch(`/api/spots/${spotId}`)
     if (spotRes.ok) {
         let spotData = await spotRes.json()
@@ -362,6 +376,10 @@ export const deleteSpotImg = (imageId) => async dispatch => {
 
 }
 
+
+export const cleanUp = () => async dispatch => {
+    dispatch(_cleanUp())
+}
 
 const initialState = { allSpots: { spotId: {} }, singleSpot: { spotData: {}, SpotImages: [], Owner: {} } }
 
@@ -409,14 +427,14 @@ export default function spotsReducer(state = initialState, action) {
         case ADD_PREV_IMAGE:
             newState = {
                 ...state,
-                singleSpot: { ...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages, action.url]},
+                singleSpot: { ...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages, action.url] },
                 allSpots: { ...state.allSpots, }
             }
             return newState
         case ADD_REG_IMG:
             newState = {
                 ...state,
-                singleSpot: { ...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages, action.url]},
+                singleSpot: { ...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages, action.url] },
                 allSpots: { ...state.allSpots, }
             }
             return newState
@@ -425,10 +443,12 @@ export default function spotsReducer(state = initialState, action) {
             // console.log("NEW ARR", newArr)
             // console.log("ACTION ID", action.id)
             let obj = newArr.filter(obj => obj.id === action.id)
-            newArr.slice((newArr.indexOf(obj)),1)
+            newArr.slice((newArr.indexOf(obj)), 1)
 
-            newState = { ...state, singleSpot: {...state.singleSpot, SpotImages : newArr }}
+            newState = { ...state, singleSpot: { ...state.singleSpot, SpotImages: newArr } }
             return newState
+        case CLEAN_UP:
+            return initialState
         default:
             return state
     }

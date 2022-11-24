@@ -36,6 +36,7 @@ hr {
     border-radius: 10px;
     height: 43vh;
     max-height: 450px;
+    min-height: 360px;
 }
 
 .one-spot-pics-not-preview {

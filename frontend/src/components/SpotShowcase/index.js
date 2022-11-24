@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { NavLink, useParams, Redirect, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { getOneSpots } from "../../store/spots"
+import { getOneSpots, cleanUp } from "../../store/spots"
 import { getAllSpotReviews } from "../../store/reviews"
 import { createOneBooking, getAllSpotBookings } from "../../store/bookings"
 import './SpotShowcase.css'
@@ -37,7 +37,7 @@ export const SpotShowcase = () => {
     let allSpotBookings
     // console.log('spootBooking', spotBooking)
     allSpotBookings = spotBooking.length === 0 ? <div>No upcoming bookings</div> : spotBooking.map(booking => {
-        console.log("BOOKING", booking)
+        // console.log("BOOKING", booking)
         return (
             <div>
                 {booking.User && <span>{booking.User.firstName} {booking.User.lastName} is staying from  </span>}
@@ -48,6 +48,7 @@ export const SpotShowcase = () => {
     })
 
     useEffect(() => {
+        dispatch(cleanUp())
         dispatch(getOneSpots(+spotId)).then(res => setErrors(res))
         dispatch(getAllSpotReviews(+spotId))
         dispatch(getAllSpotBookings(+spotId))
