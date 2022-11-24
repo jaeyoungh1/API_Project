@@ -1,6 +1,6 @@
+let  singlePublicFileUpload = require('../../awsS3')
+let  {singleMulterUpload} = require('../../awsS3')
 'use strict'; //delete later if needed
-import { singlePublicFileUpload } from '../../awsS3';
-import { singleMulterUpload } from '../../awsS3';
 
 const express = require('express')
 const router = express.Router();
@@ -434,6 +434,7 @@ router.post('/:spotId/images',
 
         const { preview } = req.body;
         const url = await singlePublicFileUpload(req.file);
+        console.log("INSIDE STORE URL", url)
 
         const newImg = await spot.createSpotImage({
             url: url,
