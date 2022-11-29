@@ -81,7 +81,7 @@ export const getAllSpots = () => async dispatch => {
         let data = await res.json()
         dispatch(loadAllSpots(data.Spots))
         return data
-    }
+    } else console.log(await res.json())
 }
 
 export const getOneSpots = (spotId) => async dispatch => {

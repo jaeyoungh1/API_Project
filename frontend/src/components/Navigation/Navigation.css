@@ -3,23 +3,35 @@ input {
     color: rgb(50, 50, 50);
     font-family: "Noto Sans"
 }
+
 textarea {
     font-weight: 300;
     color: rgb(50, 50, 50);
     font-family: "Noto Sans"
 }
+
 select {
     font-weight: 300;
     color: rgb(50, 50, 50);
     font-family: "Noto Sans"
 }
 
+.spot-details {
+    width: 100%;
+    /* margin-left: 120px;
+        margin-right: 120px;
+        max-width: 1400px;
+        min-width: 1100px; */
+}
+
 .session {
     display: flex;
     justify-content: space-between;
+    width: 80%;
+    margin: auto;
     margin-top: 40px;
-    margin-left: 80px;
-    margin-right: 100px;
+    /* margin-left: 80px;
+    margin-right: 100px; */
 }
 
 .sessionlinks {
@@ -62,18 +74,22 @@ ul {
     z-index: 9999;
     top: 65px;
 }
+
 #login-nav {
     padding-left: 10px;
     padding-top: 5px;
     color: black;
     background-color: none;
 }
+
 .login-nav-login {
     font-weight: 400;
 }
+
 .login-nav-signup {
     font-weight: 200
 }
+
 #login-nav-wrapper {
     height: 25px;
     margin-bottom: 10px;
@@ -81,9 +97,10 @@ ul {
     height: 120%;
     /* background-color: pink; */
 }
+
 #login-nav-wrapper:hover {
     background-color: rgb(204, 204, 204);
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .headerbreak {
@@ -114,16 +131,17 @@ ul {
 
 .profile-info {
     margin-top: 15px;
-    font-size:13px;
-    font-weight:400;
+    font-size: 13px;
+    font-weight: 400;
     padding-left: 12px;
 }
 
 
-.menu-visible{
-    visibility:visible;
+.menu-visible {
+    visibility: visible;
     border: solid red 1px
 }
+
 .menu-not-visible {
     visibility: hidden;
 }
@@ -135,6 +153,7 @@ ul {
     padding-left: 12px;
     padding-top: 7px;
 }
+
 .login-menu-wrapper {
     color: black;
     padding-top: 13px;
@@ -146,7 +165,7 @@ ul {
     background-color: rgb(230, 230, 230);
     width: 93.2%;
     height: 140%;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .profilebuttonwrapper {
@@ -161,6 +180,7 @@ ul {
     justify-self: left;
     background-color: white;
 }
+
 .profilebutton:hover {
     box-shadow: 2px 2px 2px rgb(213, 213, 213);
     cursor: pointer;
@@ -175,6 +195,7 @@ ul {
     color: rgb(171, 171, 171);
     margin-right: 8px;
 }
+
 .footer {
     display: flex;
     justify-content: space-between;
@@ -196,14 +217,17 @@ ul {
 .clone {
     margin-left: 120px;
 }
+
 .name {
     margin-right: 120px;
 }
-.name > a {
+
+.name>a {
     text-decoration: none;
     font-weight: 400;
     color: black;
 }
+
 .name> :hover {
     /* font-weight: 500; */
     color: pink;
