@@ -1,16 +1,23 @@
 #spots-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: flex;
+    justify-content: center;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; */
     /* grid-template-rows: 1fr 1fr 1fr 1fr; */
+    min-width: 1400px;
+    width: 100%;
+    margin: auto;
     margin-top: 20px;
-    margin-left: 130px;
-    margin-right: 120px;
+    /* margin-left: 130px;
+    margin-right: 120px; */
     margin-bottom: 80px;
     flex-wrap: wrap;
     column-gap: 30px;
 }
 .spot {
     text-decoration: none;
+    min-width: 300px;
+    width: 100%;
     margin-bottom: 20px;
 }
 
