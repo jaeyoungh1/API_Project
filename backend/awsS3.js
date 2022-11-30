@@ -28,7 +28,7 @@ const singlePublicFileUpload = async (file) => {
 
     const result = await s3.upload(uploadParams).promise()
 
-    console.log(">>>>RESULT", result)
+    // console.log(">>>>RESULT", result)
     // save the name of the file in your bucket as the key in your database to retrieve for later
     return result.Location;
 };

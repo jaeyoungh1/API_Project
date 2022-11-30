@@ -92,32 +92,29 @@ export const EditSpotImages = () => {
         let createdSpot;
         try {
             console.log('spotid submission', spotId, submission)
-            // createdSpot = await dispatch(addSpotImg(spotId, submission))
+            createdSpot = await dispatch(addSpotImg(spotId, submission))
 
+            // const formData = new FormData();
+            // formData.append("preview", false)
 
+            // if (otherUrl1) {
+            //     formData.append("image", otherUrl1);
+            //     console.log("INSIDE STORE FORM DATA", formData)
+            //     console.log("OTHERURL1", otherUrl1, spotId)
 
-            const formData = new FormData();
-            formData.append("preview", false)
+            //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "multipart/form-data",
+            //         },
+            //         body: formData,
+            //     });
 
-            if (otherUrl1) {
-                formData.append("image", otherUrl1);
-                console.log("INSIDE STORE FORM DATA", formData)
-                console.log("OTHERURL1", otherUrl1, spotId)
+            //     let imgData = await newImg.json()
+            //     if (!imgData.ok) console.log("ERROR: ", imgData)
+            //     console.log("INSIDE STORE IMGDATA", imgData)
 
-                let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    body: formData,
-                });
-
-                let imgData = await newImg.json()
-                if (!imgData.ok) console.log("ERROR: ", imgData)
-                console.log("INSIDE STORE IMGDATA", imgData)
-
-            }
-
+            // }
 
             setUrl('')
             setOtherUrl1(null)

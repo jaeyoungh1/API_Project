@@ -434,20 +434,20 @@ router.post('/:spotId/images',
 
         const { preview } = req.body;
         // console.log('>>>>> REQBODY', req.body, preview)
-        console.log('>>>>> REQBODY', req.file)
+        // console.log('>>>>> REQBODY', req.file)
         // console.log('>>>>> REQFILE', await singlePublicFileUpload(req.file))
         
         try {
             const tryUrl = await singlePublicFileUpload(req.file);
             console.log(tryUrl)
         } catch(err) {
-            console.log('I"M THE ERROR', err)
+            console.log('I\'M THE ERROR', err)
             console.log("I shouldnt be hit at all my dude")
         }
 
-        console.log("HI I'M HERE!! I'M HERE!!!!")
+        // console.log("HI I'M HERE!! I'M HERE!!!!")
         const url = await singlePublicFileUpload(req.file);
-        console.log(">>>>> INSIDE STORE URL", url)
+        // console.log(">>>>> INSIDE STORE URL", url)
 
         const newImg = await spot.createSpotImage({
             url: url,

@@ -270,8 +270,8 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
 
     if (otherUrl1) {
         formData.append("image", otherUrl1);
-        console.log("INSIDE STORE FORM DATA", formData)
-        console.log("OTHERURL1", otherUrl1, spotId)
+        // console.log("INSIDE STORE FORM DATA", formData)
+        // console.log("OTHERURL1", otherUrl1, spotId)
 
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
             method: "POST",
@@ -283,7 +283,7 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
 
         let imgData = await newImg.json()
         if (!imgData.ok) console.log("ERROR: ", imgData)
-        console.log("INSIDE STORE IMGDATA", imgData)
+        // console.log("INSIDE STORE IMGDATA", imgData)
         dispatch(addRegImg(imgData))
     }
 
