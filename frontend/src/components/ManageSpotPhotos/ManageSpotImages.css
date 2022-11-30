@@ -1,26 +1,61 @@
-/* .edit-spot-img-form { */
-/* display: flex;
+.edit-spot-img-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-} */
+    align-items: center;
+}
 
 .edit-spot-img {
-    height: 485px;
-    width: 550px;
+    height: 50vh;
+    width: 40vw;
+    min-height: 240px;
+    min-width: 240px;
+    max-height: 800px;
+    max-width: 900px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.edit-spot-prev-img {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.edit-spot-prev-img > div {
+    width: fit-content;
+}
+
+.edit-spot-prev-img-title {
+    width: 100%;
+    text-align: start;
 }
 
 #edit-spot-img-wrapper {
     display: flex;
     justify-content: center;
     gap: 10px;
+    width: 90%;
+    margin:auto;
 }
 
 .edit-spot-other-img {
-    height: 130px;
-    width: 130px;
+    height: 25vh;
+    width: 10vw;
+    min-height: 120px;
+    min-width: 120px;
+    max-height: 300px;
+    max-width: 300px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.edit-spot-photos-images {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .edit-spot-photos-urls>div {
@@ -41,6 +76,12 @@
     background-color: white;
 }
 
+.manage-photos-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 #return-to-listings {
     background-color: rgb(255, 0, 115);
     color: white;
@@ -55,6 +96,12 @@
     text-align: center;
 }
 
+#create-spot-button:hover{
+    cursor:pointer;
+    background-color: white;
+        color: rgb(255, 0, 115);
+        border: 1px solid rgb(255, 0, 115);
+}
 
 #return-to-listings:hover {
     background-color: white;
