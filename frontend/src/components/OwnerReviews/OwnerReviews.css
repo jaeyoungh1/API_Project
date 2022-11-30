@@ -100,7 +100,7 @@ button :hover {
 
 .review-button-wrapper :hover {
     background-color: white;
-    color: rgb(220, 28, 114);
+    color: #dc1c72;
     font-size: 12px;
     border: 1px solid rgb(220, 28, 114);
     margin-right: 4px;
@@ -113,5 +113,7 @@ button :hover {
 }
 
 .delete-photo:hover {
+    transition-duration: 200ms;
     cursor: pointer;
+    filter: invert(18%) sepia(100%) saturate(3243%) hue-rotate(321deg) brightness(90%) contrast(91%);
 }

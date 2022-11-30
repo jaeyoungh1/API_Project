@@ -262,16 +262,16 @@ export const deleteOneSpot = (spotId) => async dispatch => {
 
 export const addSpotImg = (spotId, spot) => async dispatch => {
 
-    let { otherUrl1, otherUrl2, otherUrl3, otherUrl4 } = spot
-    console.log("INSIDE STORE", spot)
+    let { otherUrl1 } = spot
+    // console.log("INSIDE STORE", spot)
 
     const formData = new FormData();
     formData.append("preview", false)
 
     if (otherUrl1) {
-        if (otherUrl1) formData.append("url", otherUrl1);
-        console.log("INSIDE STORE FORM DATA", formData)
-        console.log("OTHERURL1", otherUrl1, spotId)
+        formData.append("image", otherUrl1);
+        // console.log("INSIDE STORE FORM DATA", formData)
+        // console.log("OTHERURL1", otherUrl1, spotId)
 
         let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
             method: "POST",
@@ -283,56 +283,9 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
 
         let imgData = await newImg.json()
         if (!imgData.ok) console.log("ERROR: ", imgData)
-        console.log("INSIDE STORE IMGDATA", imgData)
+        // console.log("INSIDE STORE IMGDATA", imgData)
         dispatch(addRegImg(imgData))
     }
-
-
-    // if (otherUrl2.length > 0) {
-
-
-    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(
-    //             { url: otherUrl2, preview: false }
-    //         )
-    //     })
-    //     if (newImg.ok) {
-    //         let imgData = await newImg.json()
-    //         dispatch(addRegImg(imgData))
-    //     }
-
-    // }
-    // if (otherUrl3.length > 0) {
-
-
-    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(
-    //             { url: otherUrl3, preview: false }
-    //         )
-    //     })
-    //     if (newImg.ok) {
-    //         let imgData = await newImg.json()
-    //         dispatch(addRegImg(imgData))
-    //     }
-
-    // }
-    // if (otherUrl4.length > 0) {
-
-
-    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(
-    //             { url: otherUrl4, preview: false }
-    //         )
-    //     })
-    //     if (newImg.ok) {
-    //         let imgData = await newImg.json()
-    //         dispatch(addRegImg(imgData))
-    //     }
-
-    // }
 
 }
 
@@ -348,17 +301,38 @@ export const AddPreviewImg = (spotId, url) => async dispatch => {
             // decided to change page to deleting images and adding images, no editing 
         })
         if (deleteImg.ok) {
-            let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-                method: 'POST',
-                body: JSON.stringify(
-                    { url, preview: true }
-                )
-            })
-            if (newImg.ok) {
+            const formData = new FormData();
+            formData.append("preview", true)
+
+            if (url) {
+                formData.append("image", url);
+                // console.log("INSIDE STORE FORM DATA", formData)
+                // console.log("OTHERURL1", otherUrl1, spotId)
+
+                let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                    body: formData,
+                });
+
                 let imgData = await newImg.json()
-                console.log("PREV IMG DATA", imgData)
+                if (!imgData.ok) console.log("ERROR: ", imgData)
+                // console.log("INSIDE STORE IMGDATA", imgData)
                 dispatch(addPrevImg(imgData))
             }
+            // let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
+            //     method: 'POST',
+            //     body: JSON.stringify(
+            //         { url, preview: true }
+            //     )
+            // })
+            // if (newImg.ok) {
+            //     let imgData = await newImg.json()
+            //     console.log("PREV IMG DATA", imgData)
+            //     dispatch(addPrevImg(imgData))
+            // }
         }
     }
 }

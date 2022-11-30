@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     /* display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr; */
-    /* grid-template-rows: 1fr 1fr 1fr 1fr; */
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr; */
     min-width: 1400px;
     width: 100%;
     margin: auto;
