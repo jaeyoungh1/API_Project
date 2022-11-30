@@ -269,7 +269,7 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
     formData.append("preview", false)
 
     if (otherUrl1) {
-        if (otherUrl1) formData.append("url", otherUrl1);
+        formData.append("image", otherUrl1);
         console.log("INSIDE STORE FORM DATA", formData)
         console.log("OTHERURL1", otherUrl1, spotId)
 
@@ -286,53 +286,6 @@ export const addSpotImg = (spotId, spot) => async dispatch => {
         console.log("INSIDE STORE IMGDATA", imgData)
         dispatch(addRegImg(imgData))
     }
-
-
-    // if (otherUrl2.length > 0) {
-
-
-    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(
-    //             { url: otherUrl2, preview: false }
-    //         )
-    //     })
-    //     if (newImg.ok) {
-    //         let imgData = await newImg.json()
-    //         dispatch(addRegImg(imgData))
-    //     }
-
-    // }
-    // if (otherUrl3.length > 0) {
-
-
-    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(
-    //             { url: otherUrl3, preview: false }
-    //         )
-    //     })
-    //     if (newImg.ok) {
-    //         let imgData = await newImg.json()
-    //         dispatch(addRegImg(imgData))
-    //     }
-
-    // }
-    // if (otherUrl4.length > 0) {
-
-
-    //     let newImg = await csrfFetch(`/api/spots/${spotId}/images`, {
-    //         method: 'POST',
-    //         body: JSON.stringify(
-    //             { url: otherUrl4, preview: false }
-    //         )
-    //     })
-    //     if (newImg.ok) {
-    //         let imgData = await newImg.json()
-    //         dispatch(addRegImg(imgData))
-    //     }
-
-    // }
 
 }
 
