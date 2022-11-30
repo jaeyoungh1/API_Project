@@ -54,4 +54,4 @@ In addition, adding bookings feature so that users are able to book spots they d
 After cloning or forking the repo, you will have to npm install, as well as create your own .env file with the port, server, and JWT info. Running "npm run db:setup" will populate the database with the seed data already present in the backend folder. Then, this site can be started on the local server by running "npm start" in the backend and the frontend folders respectively. 
 
 ## Contact Info
-Contact me at jaeyoung1997@gmail.com or through my [LinkedIn](https://www.linkedin.com/in/jaeyoung-hwang-71654490/)
+Contact me at jyng.hwng.dev@gmail.com or through my [LinkedIn](https://www.linkedin.com/in/jae-hwang-71654490/)
