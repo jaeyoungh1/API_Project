@@ -27,23 +27,30 @@ select {
 .session {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 100%;
     margin: auto;
     margin-top: 40px;
-    /* margin-left: 80px;
-    margin-right: 100px; */
+    /* padding-left: 80px;
+    padding-right: 80px; */
 }
 
 .sessionlinks {
-    padding-right: 10px;
+    /* padding-right: 10px; */
 }
 
 .sessionlinks span {
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 ul {
-    list-style: none
+    list-style: none;
+}
+
+.home {
+    margin: 0px;
+    padding: 0px;
+    padding-left: 70px;
+        padding-right: 75px;
 }
 
 
