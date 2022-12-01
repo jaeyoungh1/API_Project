@@ -89,6 +89,7 @@ export const SpotShowcase = () => {
 
     const onSubmit = async e => {
         e.preventDefault()
+        if (!currentUser) return
 
         if (currentUser && currentUserId === spotUserId) {
             setBookingError(true)
@@ -209,7 +210,7 @@ export const SpotShowcase = () => {
                                     </select>
                                 </div>
                             </div>
-                            <button className='submit-booking' type='submit'>Reserve</button>
+                            <button className={currentUser ? 'submit-booking': 'cant-submit-booking'} type='submit'>{currentUser ? "Reserve": "Please Log In To Reserve"}</button>
                         </form>
                         {/* {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div> End Date cannot be on or before Start Date </div>)} */}
                         <div className='wontbecharged'>
