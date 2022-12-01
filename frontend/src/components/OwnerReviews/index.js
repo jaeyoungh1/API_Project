@@ -11,7 +11,7 @@ export const OwnerReviews = () => {
     const dispatch = useDispatch()
     const [spotsLoaded, setSpotsLoaded] = useState(false)
     const [seeUrl, setSeeUrl] = useState('')
-    const [imgUrl, setImgUrl] = useState('')
+    const [imgUrl, setImgUrl] = useState(null)
     const [deletePhoto, setDeletePhoto] = useState('')
 
     const currentUser = useSelector(state => state.session.user)
@@ -42,7 +42,7 @@ export const OwnerReviews = () => {
         const img = {
             url: imgUrl
         }
-        console.log(img, seeUrl)
+        // console.log(img, seeUrl)
         await dispatch(addImage(+seeUrl, img))
         dispatch(getOwnerReviews())
     }
@@ -71,7 +71,7 @@ export const OwnerReviews = () => {
                     </span>
                     {seeUrl === review.id && <form onSubmit={addReviewImg}>
                         <label>Add Review Image Url</label>
-                        <input type='text' placeholder='https://...' value={imgUrl} onChange={e => setImgUrl(e.target.value)} />
+                        <input type='file' onChange={e => setImgUrl(e.target.files[0])} />
                         <button className='manage-reviews-button' type='submit'>Add Photo</button>
                     </form>}
 
