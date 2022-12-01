@@ -1,13 +1,14 @@
 .one-spot-page {
     display: flex;
-    justify-content: center;
+    /* width: 100%;
+    justify-content: center; */
 }
 
 .one-spot-wrapper {
     display: flex;
     flex-direction: column;
-    margin-left: 120px;
-    margin-right: 120px;
+    padding-left: 120px;
+    padding-right: 120px;
     max-width: 1400px;
     min-width: 1100px;
 }
@@ -236,6 +237,7 @@ hr {
 #single-review-date {
     font-size: 15px;
     font-style: normal;
+    margin-top: 5px;
 }
 
 .single-review-image {

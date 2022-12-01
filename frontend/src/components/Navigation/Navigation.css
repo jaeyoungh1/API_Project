@@ -17,11 +17,15 @@ select {
 }
 
 .spot-details {
-    width: 100%;
-    /* margin-left: 120px;
-        margin-right: 120px;
-        max-width: 1400px;
-        min-width: 1100px; */
+    /* width: 100%; */
+    /* padding-right: 20%;
+    padding-left: 20%; */
+    padding: 0px;
+    padding-left:110px;
+    padding-right: 105px;
+    margin: 0px;
+    /* max-width: 1400px; */
+    min-width: 1100px;
 }
 
 .session {
@@ -34,13 +38,6 @@ select {
     padding-right: 80px; */
 }
 
-.sessionlinks {
-    /* padding-right: 10px; */
-}
-
-.sessionlinks span {
-    /* padding: 20px; */
-}
 
 ul {
     list-style: none;
@@ -50,7 +47,7 @@ ul {
     margin: 0px;
     padding: 0px;
     padding-left: 70px;
-        padding-right: 75px;
+    padding-right: 75px;
 }
 
 
