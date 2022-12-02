@@ -9,11 +9,14 @@ import './Navigation.css'
 
 export const Navigation = () => {
     const url = useLocation().pathname
-    const [page, setPage] = useState('')
+    const [page, setPage] = useState('home')
     // console.log("URL", url)
     useEffect(() => {
         if (url.includes('spots')) {
             setPage('spot-details')
+        }
+        else {
+            setPage('home')
         }
     }, [url])
     // console.log("PAGE", page)

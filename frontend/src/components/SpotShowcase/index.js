@@ -18,6 +18,7 @@ export const SpotShowcase = () => {
     const [bookingEnd, setBookingEnd] = useState('')
     const [bookingError, setBookingError] = useState(false)
     const [showBookings, setShowBookings] = useState(false)
+    const [submit, setSubmit] = useState(false)
 
     const currentUser = useSelector(state => state.session.user)
 
@@ -89,6 +90,7 @@ export const SpotShowcase = () => {
 
     const onSubmit = async e => {
         e.preventDefault()
+        setSubmit(true)
         if (!currentUser) return
 
         if (currentUser && currentUserId === spotUserId) {
@@ -108,6 +110,7 @@ export const SpotShowcase = () => {
             if (err) {
                 let errMsgs = err.errors
                 let errMsgsArr = Object.values(errMsgs)
+                console.log("errMsgsArr", errMsgsArr, typeof(errMsgsArr))
                 setErrors(errMsgsArr)
             }
         }
@@ -118,6 +121,8 @@ export const SpotShowcase = () => {
             return history.push(`/my-bookings`)
         }
     }
+
+    console.log("ERRORS", errors[0], typeof(errors[0]))
 
     return (
         <div className='one-spot-page'>
@@ -157,11 +162,12 @@ export const SpotShowcase = () => {
 
                         <div className='checkout-errors'>
                             {bookingError && <div className='checkout-error'>You may not reserve a spot you're hosting</div>}
+                            {submit && (!bookingEnd || !bookingStart)  && (<div className='checkout-error'> Please include dates </div>)}
                             {bookingEnd && bookingStart && (new Date(bookingEnd).getTime() <= new Date(bookingStart).getTime()) && (<div className='checkout-error'> Checkout must occur after Check-In </div>)}
                             {(new Date(bookingEnd).getTime() > new Date(bookingStart).getTime()) && errors.length > 0 && (
                                 // {console.log(errors.filter(error=> error.includes("conflicts"))}
                                 <div className='create-booking-errorlist' key={errors}>
-                                    {errors.filter(error => error.includes("conflict")) &&
+                                    {errors[0].includes("conflict") &&
                                         <div className='checkout-error'> Your requested dates conflict with an existing reservation</div>
                                     }
                                 </div>
