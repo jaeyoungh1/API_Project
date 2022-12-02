@@ -137,56 +137,91 @@ export const createOneSpot = (spot) => async dispatch => {
 
         const data = await response.json();
         dispatch(createASpot(data));
+
+
+        // adding prev image to new spot
+        const formData = new FormData();
+        formData.append("preview", true)
+        formData.append('image', url)
+
+        console.log("URL", url)
+            
         const imgResponse = await csrfFetch(`/api/spots/${data.id}/images`, {
             method: 'POST',
-            body: JSON.stringify(
-                { url, preview: true }
-            )
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formData,
         });
         if (imgResponse.ok) {
             let imgData = await imgResponse.json()
             dispatch(addPrevImg(imgData))
-        }
+        } else console.log(imgResponse)
+
+        console.log("OTHERURL", otherUrl1)
+
+        //adding other images to new spot
+        const formDataOther1 = new FormData();
+        formDataOther1.append("preview", false)
+        formDataOther1.append('image', url)
+
         const otherImgResponse1 = await csrfFetch(`/api/spots/${data.id}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl1, preview: false }
-            )
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formDataOther1,
         });
         if (otherImgResponse1.ok) {
             let imgData = await otherImgResponse1.json()
             dispatch(addRegImg(imgData))
         }
+        const formDataOther2 = new FormData();
+        formDataOther2.append("preview", false)
+        formDataOther2.append('image', url)
+
         const otherImgResponse2 = await csrfFetch(`/api/spots/${data.id}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl2, preview: false }
-            )
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formDataOther2,
         });
         if (otherImgResponse2.ok) {
             let imgData = await otherImgResponse2.json()
             dispatch(addRegImg(imgData))
         }
+        const formDataOther3 = new FormData();
+        formDataOther3.append("preview", false)
+        formDataOther3.append('image', url)
+
         const otherImgResponse3 = await csrfFetch(`/api/spots/${data.id}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl3, preview: false }
-            )
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formDataOther3,
         });
         if (otherImgResponse3.ok) {
             let imgData = await otherImgResponse3.json()
             dispatch(addRegImg(imgData))
         }
+        const formDataOther4 = new FormData();
+        formDataOther4.append("preview", false)
+        formDataOther4.append('image', url)
+
         const otherImgResponse4 = await csrfFetch(`/api/spots/${data.id}/images`, {
-            method: 'POST',
-            body: JSON.stringify(
-                { url: otherUrl4, preview: false }
-            )
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+            body: formDataOther4,
         });
         if (otherImgResponse4.ok) {
             let imgData = await otherImgResponse4.json()
             dispatch(addRegImg(imgData))
         }
+
 
         return data;
     }

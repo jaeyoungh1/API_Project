@@ -90,7 +90,7 @@ export const EditSpotImages = () => {
                 otherUrl1
             }
 
-            console.log('spotid submission', spotId, submission)
+            // console.log('spotid submission', spotId, submission)
 
             let createdSpot = await dispatch(addSpotImg(spotId, submission))
 

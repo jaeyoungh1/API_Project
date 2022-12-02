@@ -3,6 +3,8 @@ const router = express.Router();
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+let { singleMulterUpload, singlePublicFileUpload, multipleMulterUpload, multiplePublicFileUpload } = require('../../awsS3')
+
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 const { User, Spot, Review, Booking, SpotImage, ReviewImage, sequelize } = require('../../db/models');
@@ -14,7 +16,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
     let currentUserId = currentUser.id
 
     const reviews = await Review.findAll({
-        where: {userId: currentUserId},
+        where: { userId: currentUserId },
         include: [
             {
                 model: User,
@@ -22,7 +24,7 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
             },
             {
                 model: Spot,
-                attributes: {exclude: ['updatedAt', 'createdAt', 'description','avgRating']}
+                attributes: { exclude: ['updatedAt', 'createdAt', 'description', 'avgRating'] }
             },
             {
                 model: ReviewImage,
@@ -58,51 +60,63 @@ router.get('/current', requireAuth, restoreUser, async (req, res, next) => {
 })
 
 //adds an image to a user's review
-router.post('/:reviewId/images', requireAuth, restoreUser, async (req, res, next) => {
-    const { user } = req;
-    let currentUser = user.toSafeObject()
-    let currentUserId = currentUser.id
+router.post('/:reviewId/images', requireAuth,
+    restoreUser,
+    singleMulterUpload("image"),
+    async (req, res, next) => {
+        const { user } = req;
+        let currentUser = user.toSafeObject()
+        let currentUserId = currentUser.id
 
-    const review = await Review.findByPk(req.params.reviewId)
+        const review = await Review.findByPk(req.params.reviewId)
 
-    if (!review) {
-        res.status(404)
-        return res.json({
-            "message": "Review couldn't be found",
-            "statusCode": res.statusCode
+        if (!review) {
+            res.status(404)
+            return res.json({
+                "message": "Review couldn't be found",
+                "statusCode": res.statusCode
+            })
+        }
+
+        if (currentUserId !== review.userId) {
+            res.status(403)
+            return res.json({
+                "message": "Forbidden",
+                "statusCode": 403
+            })
+        }
+
+        let allImages = await ReviewImage.findAll({
+            where: { reviewId: req.params.reviewId }
         })
-    }
+        if (allImages.length > 10) {
+            res.status(403)
+            return res.json({
+                "message": "Maximum number of images for this resource was reached",
+                "statusCode": res.statusCode
+            })
+        }
 
-    if (currentUserId !== review.userId) {
-        res.status(403)
-        return res.json({
-            "message": "Forbidden",
-            "statusCode": 403
-        })    }
+        try {
+            const tryUrl = await singlePublicFileUpload(req.file);
+            console.log(tryUrl)
+        } catch (err) {
+            console.log('ERROR:', err)
+        }
 
-    let allImages = await ReviewImage.findAll({
-        where: {reviewId: req.params.reviewId}
-    })
-    if (allImages.length > 10) {
-        res.status(403)
-        return res.json({
-            "message": "Maximum number of images for this resource was reached",
-            "statusCode": res.statusCode
+        const url = await singlePublicFileUpload(req.file);
+        console.log("URL BACKEND", url)
+
+        const newImage = await review.createReviewImage({
+            url: url
         })
-    }
 
-    const {url} = req.body
-
-    const newImage = await review.createReviewImage({
-        url: url
+        const result = await ReviewImage.findOne({
+            where: { id: newImage.id },
+            attributes: ['id', 'url']
+        })
+        return res.json(result)
     })
-
-    const result = await ReviewImage.findOne({
-        where: {id: newImage.id},
-        attributes: ['id', 'url']
-    })
-    return res.json(result)
-})
 
 const validateReviewBody = [
     check('review')
@@ -135,7 +149,8 @@ router.put('/:reviewId', requireAuth, restoreUser, validateReviewBody, async (re
         return res.json({
             "message": "Forbidden",
             "statusCode": 403
-        })    }
+        })
+    }
 
     const { review, stars } = req.body
 
@@ -169,7 +184,8 @@ router.delete('/:reviewId', requireAuth, restoreUser, async (req, res, next) => 
         return res.json({
             "message": "Forbidden",
             "statusCode": 403
-        })    }
+        })
+    }
 
     await currentReview.destroy()
 

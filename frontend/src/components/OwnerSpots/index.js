@@ -30,13 +30,10 @@ export const OwnerSpots = () => {
                 </NavLink>
                 <div className='owner-actions'>
                     <NavLink to={`${spot.id}/edit-spot`}> <button className='owner-actions-button'>Edit</button> </NavLink>
+                    <NavLink to={`${spot.id}/edit-spot-images`}> <button className='owner-actions-button'>Manage Photos</button> </NavLink>
                     <button className='owner-actions-button' onClick={() => deleteSpot(spot.id)}>Delete</button>
                 </div>
-                <div className='owner-actions'>
-                    <NavLink to={`${spot.id}/edit-spot-images`}> <button className='owner-actions-button'>Manage Photos</button> </NavLink>
-                </div>
             </div>
-
         )
     })
 

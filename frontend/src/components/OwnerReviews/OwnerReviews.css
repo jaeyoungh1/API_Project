@@ -61,7 +61,7 @@
     color: grey;
     font-style: italic;
     font-size: 10px;
-    /* margin-bottom: 40px; */
+    margin: 10px 0;
 }
 
 .review-body {
