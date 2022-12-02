@@ -15,6 +15,9 @@ export const Navigation = () => {
         if (url.includes('spots')) {
             setPage('spot-details')
         }
+        else {
+            setPage('home')
+        }
     }, [url])
     // console.log("PAGE", page)
 

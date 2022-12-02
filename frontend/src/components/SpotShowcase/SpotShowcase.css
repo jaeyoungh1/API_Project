@@ -1,7 +1,7 @@
 .one-spot-page {
     display: flex;
-    /* width: 100%;
-    justify-content: center; */
+    width: 100%;
+    justify-content: center;
 }
 
 .one-spot-wrapper {
@@ -10,7 +10,7 @@
     padding-left: 120px;
     padding-right: 120px;
     max-width: 1400px;
-    min-width: 1100px;
+    /* min-width: 1100px; */
 }
 
 hr {
@@ -44,6 +44,7 @@ hr {
     height: 43vh;
     max-height: 450px;
     min-height: 360px;
+    min-width: 600px;
 }
 
 .one-spot-pics-not-preview {

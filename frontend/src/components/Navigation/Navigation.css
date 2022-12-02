@@ -17,15 +17,34 @@ select {
 }
 
 .spot-details {
-    /* width: 100%; */
-    /* padding-right: 20%;
-    padding-left: 20%; */
     padding: 0px;
-    padding-left:110px;
+    padding-left: 110px;
     padding-right: 105px;
     margin: 0px;
-    /* max-width: 1400px; */
-    min-width: 1100px;
+    /* min-width: 1100px; */
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 1200px) {
+    .spot-details {
+        padding: 0px;
+        padding-left: 105px;
+        padding-right: 105px;
+        margin: 0px;
+        min-width: 0px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .one-spot-wrapper {
+        display: flex;
+        flex-direction: column;
+        padding-left: 120px;
+        padding-right: 120px;
+        width: 100%;
+
+    }
 }
 
 .session {
@@ -34,6 +53,7 @@ select {
     width: 100%;
     margin: auto;
     margin-top: 40px;
+    /* max-width: 1400px; */
     /* padding-left: 80px;
     padding-right: 80px; */
 }
