@@ -57,7 +57,7 @@
 .single-booking-dates {
     font-size: 18px;
     font-weight: 300;
-    margin-top: -12px;
+    /* margin-top: -12px; */
 }
 .booking-spotname {
     color: rgb(220, 28, 114);
