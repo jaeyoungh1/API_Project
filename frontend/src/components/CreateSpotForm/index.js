@@ -19,11 +19,13 @@ export const CreateASpot = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
-    const [url, setUrl] = useState('')
-    const [otherUrl1, setOtherUrl1] = useState('')
-    const [otherUrl2, setOtherUrl2] = useState('')
-    const [otherUrl3, setOtherUrl3] = useState('')
-    const [otherUrl4, setOtherUrl4] = useState('')
+    const [url, setUrl] = useState(null)
+    const [otherUrl1, setOtherUrl1] = useState(null)
+    const [otherUrl2, setOtherUrl2] = useState(null)
+    const [otherUrl3, setOtherUrl3] = useState(null)
+    const [otherUrl4, setOtherUrl4] = useState(null)
+    const [loading, setLoading] = useState(false)
+
 
     const [errors, setErrors] = useState([])
 
@@ -35,6 +37,7 @@ export const CreateASpot = () => {
 
     const onSubmit = async e => {
         e.preventDefault()
+        setLoading(true)
 
         const submission = {
             address,
@@ -57,6 +60,7 @@ export const CreateASpot = () => {
             createdSpot = await dispatch(createOneSpot(submission))
         } catch (err) {
             if (err) {
+                setLoading(false)
                 let errMsgs = err.errors
                 let errMsgsArr = Object.values(errMsgs)
                 setErrors(errMsgsArr)
@@ -192,56 +196,54 @@ export const CreateASpot = () => {
                             </input>
                         </div>
                         <span className='create-spot-form-input-break'></span>
-                        <label className='create-spot-input-title'>Preview Image URL</label>
+                        <label className='create-spot-input-title'>Preview Image</label>
                         <div className='create-spot-input'>
                             <input
                                 // required
-                                type='text'
-                                value={url}
-                                onChange={e => setUrl(e.target.value)}>
+                                type='file'
+                                // value={url}
+                                onChange={e => setUrl(e.target.files[0])}>
                             </input>
                         </div>
                         <span className='create-spot-form-input-break'></span>
-                        <label className='create-spot-input-title'>More Image URLs</label>
+                        <label className='create-spot-input-title'>Additional Images </label>
                         <div className='create-spot-input'>
                             <input
                                 // required
-                                type='text'
-                                value={otherUrl1}
-                                placeholder='...'
-                                onChange={e => setOtherUrl1(e.target.value)}>
+                                type='file'
+                                
+                                // value={otherUrl1}
+                                // placeholder='...'
+                                onChange={e => setOtherUrl1(e.target.files[0])}>
                             </input>
                         </div>
                         <div className='create-spot-input'>
                             <input
                                 // required
-                                type='text'
-                                value={otherUrl2}
+                                type='file'
                                 placeholder='...'
-                                onChange={e => setOtherUrl2(e.target.value)}>
+                                onChange={e => setOtherUrl2(e.target.files[0])}>
                             </input>
                         </div>
                         <div className='create-spot-input'>
                             <input
                                 // required
-                                type='text'
+                                type='file'
                                 placeholder='...'
-                                value={otherUrl3}
-                                onChange={e => setOtherUrl3(e.target.value)}>
+                                onChange={e => setOtherUrl3(e.target.files[0])}>
                             </input>
                         </div>
                         <div className='create-spot-input'>
                             <input
                                 // required
-                                type='text'
-                                value={otherUrl4}
+                                type='file'
                                 placeholder='...'
-                                onChange={e => setOtherUrl4(e.target.value)}>
+                                onChange={e => setOtherUrl4(e.target.files[0])}>
                             </input>
                         </div>
                 </div>
                         <div id='create-spot-button-wrapper' n>
-                            <button id='create-spot-button' type='submit'>Create New Spot</button>
+                            <button id='create-spot-button' type='submit'>{loading ? "Loading...": "Create New Spot"}</button>
                         </div>
                     </form>
             </div>

@@ -34,7 +34,6 @@ export const OwnerSpots = () => {
                     <button className='owner-actions-button' onClick={() => deleteSpot(spot.id)}>Delete</button>
                 </div>
             </div>
-
         )
     })
 

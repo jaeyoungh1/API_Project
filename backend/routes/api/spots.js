@@ -1,5 +1,5 @@
 // let  singlePublicFileUpload = require('../../awsS3')
-let { singleMulterUpload, singlePublicFileUpload } = require('../../awsS3')
+let { singleMulterUpload, singlePublicFileUpload, multipleMulterUpload, multiplePublicFileUpload } = require('../../awsS3')
 'use strict'; //delete later if needed
 
 const express = require('express')
@@ -334,6 +334,7 @@ const validateSpotBody = [
 router.post('/',
     requireAuth,
     validateSpotBody,
+
     async (req, res, _next) => {
         const { user } = req;
         let currentUser = user.toSafeObject()
@@ -408,8 +409,10 @@ router.put('/:spotId/',
 //add image to spot based on spotid
 router.post('/:spotId/images',
     singleMulterUpload("image"),
+    // multipleMulterUpload('images'),
     requireAuth, async (req, res, next) => {
 
+        // console.log("BEING HIT")
         const spot = await Spot.findByPk(req.params.spotId)
         
 
@@ -436,16 +439,17 @@ router.post('/:spotId/images',
         // console.log('>>>>> REQBODY', req.body, preview)
         // console.log('>>>>> REQBODY', req.file)
         // console.log('>>>>> REQFILE', await singlePublicFileUpload(req.file))
+
+        // console.log("REQFILE", req.file)
         
         try {
             const tryUrl = await singlePublicFileUpload(req.file);
             console.log(tryUrl)
         } catch(err) {
-            console.log('I\'M THE ERROR', err)
-            console.log("I shouldnt be hit at all my dude")
+            console.log('ERROR:', err)
+            // console.log("I shouldnt be hit at all my dude")
         }
 
-        // console.log("HI I'M HERE!! I'M HERE!!!!")
         const url = await singlePublicFileUpload(req.file);
         // console.log(">>>>> INSIDE STORE URL", url)
 

@@ -123,7 +123,7 @@ export const createOneReview = (spotId, reviewData) => async dispatch => {
     }
     catch (error) {
         let errorJSON = await error.json()
-        throw errorJSON 
+        throw errorJSON
     }
 
 }
@@ -168,19 +168,26 @@ export const deleteOneReview = (reviewId) => async dispatch => {
 
 
 export const addImage = (reviewId, img) => async dispatch => {
-    console.log("INSIDE STORE", addImage)
+    const formData = new FormData();
+    formData.append("image", img);
+
+    // console.log("IMG", img)
+
     const response = await csrfFetch(`/api/reviews/${reviewId}/images`, {
-        method: 'POST',
-        body: JSON.stringify(img)
+        method: "POST",
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+        body: formData,
     })
     if (response.ok) {
         let data = await response.json()
         dispatch(addReviewImage(data))
         return data
-    }
+    } else console.log(response)
 }
 export const deleteImage = (imageId) => async dispatch => {
-    const response = await csrfFetch(`/api/review-images/${imageId}`,{
+    const response = await csrfFetch(`/api/review-images/${imageId}`, {
         method: 'DELETE'
     })
     if (response.ok) {
@@ -236,7 +243,7 @@ export default function reviewsReducer(state = initialState, action) {
             let newArr = state.user.ReviewImages
             let obj = newArr.filter(obj => obj.id === action.id)
             newArr.slice((newArr.indexOf(obj)), 1)
-            newState = {...state, user: {...state.user, ReviewImages: newArr}}
+            newState = { ...state, user: { ...state.user, ReviewImages: newArr } }
             return newState
         case UPDATE_REVIEW:
             reviewData[action.review.id] = action.review;
@@ -248,7 +255,7 @@ export default function reviewsReducer(state = initialState, action) {
                 }
             }
             return newState;
-            
+
         case REMOVE_REVIEW:
             let newAllReviews = {}
             let stateArr = Object.values(state.user.ReviewData)

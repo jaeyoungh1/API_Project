@@ -63,10 +63,10 @@ export const SpotShowcase = () => {
     let otherImg = []
     if (spotImgArr) {
         for (let img of spotImgArr) {
-            if (img.preview === true)
-                prevImg = img.url
+            if (img?.preview === true)
+                prevImg = img?.url
             else {
-                otherImg.push(img.url)
+                otherImg.push(img?.url)
             }
         }
     }

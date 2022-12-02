@@ -39,11 +39,11 @@ export const OwnerReviews = () => {
 
     async function addReviewImg(e) {
         e.preventDefault()
-        const img = {
-            url: imgUrl
-        }
+        // const img = {
+        //     url: imgUrl
+        // }
         // console.log(img, seeUrl)
-        await dispatch(addImage(+seeUrl, img))
+        await dispatch(addImage(+seeUrl, imgUrl))
         dispatch(getOwnerReviews())
     }
     if (!currentUser) {
